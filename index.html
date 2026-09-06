@@ -1,8 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
 <title>Введение в технологии ИИ — практические занятия</title>
 <style>
 :root{--ink:#10264b;--muted:#617694;--blue:#0a84ff;--indigo:#5e5ce6;}
@@ -61,34 +62,30 @@ h1{font-size:clamp(38px,5vw,58px);line-height:1;letter-spacing:-.05em;margin:14p
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div class="logo">ИИ</div>
-    <div><strong>Введение в технологии ИИ</strong><span>Практические занятия</span></div>
-  </div>
-
-  <section class="hero">
-    <div class="eyebrow">Практические занятия</div>
-    <h1>Выберите тему занятия</h1>
-    <p>Выберите нужную практическую работу. Для активной темы потребуется код преподавателя.</p>
-  </section>
-
-  <input class="search" id="search" placeholder="Найти практическое занятие…">
-  <main class="grid" id="topics"></main>
+<div class="top">
+<div class="logo">ИИ</div>
+<div><strong>Введение в технологии ИИ</strong><span>Практические занятия</span></div>
 </div>
-
+<section class="hero">
+<div class="eyebrow">Практические занятия</div>
+<h1>Выберите тему занятия</h1>
+<p>Выберите нужную практическую работу. Для активной темы потребуется код преподавателя.</p>
+</section>
+<input class="search" id="search" placeholder="Найти практическое занятие…"/>
+<main class="grid" id="topics"></main>
+</div>
 <div class="modal" id="modal">
-  <div class="panel">
-    <h3 id="mtitle">Код доступа</h3>
-    <p>Введите код, который сообщил преподаватель.</p>
-    <input class="code" id="code" inputmode="numeric" autocomplete="off" placeholder="КОД">
-    <div class="err" id="err"></div>
-    <div class="actions">
-      <button class="btn cancel" id="cancel">Отмена</button>
-      <button class="btn unlock" id="unlock">Разблокировать</button>
-    </div>
-  </div>
+<div class="panel">
+<h3 id="mtitle">Код доступа</h3>
+<p>Введите код, который сообщил преподаватель.</p>
+<input autocomplete="off" class="code" id="code" inputmode="numeric" placeholder="КОД"/>
+<div class="err" id="err"></div>
+<div class="actions">
+<button class="btn cancel" id="cancel">Отмена</button>
+<button class="btn unlock" id="unlock">Разблокировать</button>
 </div>
-
+</div>
+</div>
 <script>
 const SUPABASE_URL="https://pcszxhhbokpmllocwqeu.supabase.co";
 const SUPABASE_KEY="sb_publishable_piAWbORLqmiHYI5mTT2XYw_Yqo2jmVe";
@@ -171,12 +168,22 @@ async function unlock(){
       $('#err').classList.add('show');
       return;
     }
+    // Каждый новый ввод правильного кода = НОВАЯ ПОПЫТКА.
+    // Удаляем сохранённую старую работу ещё до перехода в контрольную.
+    try{
+      if(selected.exam_code==='lifecycle-04'){
+        localStorage.removeItem('ai_lifecycle_exam_supabase_v1');
+      }
+    }catch(e){}
+
     // Разрешение для страницы экзамена.
     sessionStorage.setItem(`ai_exam_access_${selected.exam_code}`,JSON.stringify({
       token:result.token||'ok',
       examCode:selected.exam_code,
-      unlockedAt:Date.now()
+      unlockedAt:Date.now(),
+      freshStart:true
     }));
+
     location.href=selected.path;
   }catch(e){
     $('#err').textContent='Не удалось проверить код. Проверьте интернет.';
