@@ -1073,6 +1073,9 @@ main{margin-top:18px;}
   display:inline-block;margin-top:17px;padding:12px 16px;border-radius:14px;
   background:linear-gradient(135deg,#0677ff,#4cc9ff);color:white;text-decoration:none;font-weight:900
 }
+
+#accessGate{display:none!important}
+#accessGate.blocked{display:flex!important}
 </style>
 </head>
 <body>
@@ -1543,30 +1546,39 @@ main{margin-top:18px;}
 
 
   function validateCourseAccess(){
-    const key=`ai_exam_access_${EXAM_CODE}`;
-    let saved=null;
+    const params=new URLSearchParams(location.search);
+    const token=String(params.get('access')||'');
+    const accessKey=`ai_course_access_${EXAM_CODE}`;
 
+    let saved=null;
     try{
-      saved=JSON.parse(sessionStorage.getItem(key)||'null');
+      saved=JSON.parse(localStorage.getItem(accessKey)||'null');
     }catch(e){}
 
-    const unlockedAt=Number(saved?.unlockedAt||0);
-    const age=Date.now()-unlockedAt;
     const valid=
+      token.length>10 &&
       saved &&
       saved.examCode===EXAM_CODE &&
-      saved.token &&
-      unlockedAt>0 &&
-      age>=0 &&
-      age<(3*60*60*1000);
+      saved.token===token;
 
     if(valid){
-      $('#accessGate')?.classList.add('hidden');
+      $('#accessGate')?.classList.remove('blocked');
+
+      // fresh=1 бывает только при новом входе после правильного кода.
+      // Тогда удаляем старую попытку один раз.
+      if(params.get('fresh')==='1'){
+        try{localStorage.removeItem(SESSION_KEY)}catch(e){}
+
+        // Убираем fresh из адреса, но оставляем access.
+        params.delete('fresh');
+        const qs=params.toString();
+        history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
+      }
+
       return true;
     }
 
-    try{sessionStorage.removeItem(key)}catch(e){}
-    denyCourseAccess('Сначала откройте тему на главной странице и введите код преподавателя.');
+    denyCourseAccess('Сначала вернитесь к списку тем и введите код преподавателя.');
     return false;
   }
 
@@ -1577,6 +1589,7 @@ main{margin-top:18px;}
     if(title)title.textContent='Тема заблокирована';
     if(text)text.textContent=message;
     if(back)back.style.display='inline-block';
+    $('#accessGate')?.classList.add('blocked');
   }
 
   function makeSessionId(){
@@ -1843,71 +1856,20 @@ main{margin-top:18px;}
   document.addEventListener('copy',e=>{if(!state.locked&&!editable(e.target)){e.preventDefault();toast('Копирование текста задания отключено.');}});document.addEventListener('cut',e=>{if(!state.locked&&!editable(e.target))e.preventDefault();});document.addEventListener('contextmenu',e=>{if(!state.locked&&!editable(e.target)){e.preventDefault();toast('Контекстное меню отключено.');}});
   document.addEventListener('keydown',e=>{if(state.locked||editable(e.target))return;const key=String(e.key||'').toLowerCase(),mod=e.ctrlKey||e.metaKey;if((mod&&['c','x','a','s','p','u'].includes(key))||e.key==='F12'||(mod&&e.shiftKey&&['i','j','c'].includes(key))){e.preventDefault();toast('Это действие отключено во время работы.');}});window.addEventListener('beforeunload',e=>{if(state.started&&!state.locked){e.preventDefault();e.returnValue='';}});
 
-  validateCourseAccess();
+  const accessOk=validateCourseAccess();
 
-  // НОВАЯ ЛОГИКА СЕССИЙ:
-  // - если студент пришёл на страницу заново с каталога/по ссылке,
-  //   старая попытка полностью удаляется;
-  // - если он просто обновил страницу во время текущей работы,
-  //   таймер и ответы восстанавливаются.
-  try{
-    const navEntry=performance.getEntriesByType?.('navigation')?.[0];
-    const isReload=navEntry
-      ? navEntry.type==='reload'
-      : performance.navigation?.type===1;
+  if(accessOk){
+    try{
+      const params=new URLSearchParams(location.search);
+      const isFresh=params.get('fresh')==='1';
+      const saved=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');
 
-    const saved=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');
-
-    if(isReload && saved && saved.startAt && saved.endAt){
-      resumeSession(saved);
-    }else{
-      localStorage.removeItem(SESSION_KEY);
-
-      state.started=false;
-      state.locked=false;
-      state.startAt=null;
-      state.endAt=null;
-      state.solo=false;
-      state.surname1='';
-      state.surname2='';
-      state.group='';
-      state.variant='';
-      state.answers={};
-      state.sessionId='';
-      state.submitted=false;
-      state.elapsed=0;
-
-      document.body.classList.remove('exam-started','session-locked');
-      $('#sessionOverlay')?.classList.remove('hidden');
-      $('#finalOverlay')?.classList.remove('show');
-
-      const s1=$('#surname1');
-      const s2=$('#surname2');
-      const group=$('#groupName');
-      const variant=$('#variantNumber');
-      if(s1)s1.value='';
-      if(s2)s2.value='';
-      if(group)group.value='';
-      if(variant)variant.value='';
-
-      $('#surname2Field')?.classList.remove('hidden');
-      const soloBtn=$('#soloToggle');
-      if(soloBtn){
-        soloBtn.classList.remove('active');
-        soloBtn.textContent='Я выполняю один';
+      // После нового ввода кода старая попытка уже удалена validateCourseAccess().
+      // При обычном F5 текущая попытка восстанавливается.
+      if(!isFresh && saved && saved.startAt && saved.endAt){
+        resumeSession(saved);
       }
-
-      const studentNames=$('#studentNames');
-      if(studentNames)studentNames.textContent='Работа не начата';
-
-      const variantChip=$('#variantChip');
-      if(variantChip)variantChip.textContent='Вариант —';
-
-      applyTimerVisual(SESSION_MINUTES*60);
-    }
-  }catch(e){
-    // Если браузер не сообщил тип навигации — безопаснее начать новую попытку.
-    try{localStorage.removeItem(SESSION_KEY)}catch(_){}
+    }catch(e){}
   }
 
   updateProgress();

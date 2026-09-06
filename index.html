@@ -168,22 +168,12 @@ async function unlock(){
       $('#err').classList.add('show');
       return;
     }
-    // Каждый новый ввод правильного кода = НОВАЯ ПОПЫТКА.
-    // Удаляем сохранённую старую работу ещё до перехода в контрольную.
-    try{
-      if(selected.exam_code==='lifecycle-04'){
-        localStorage.removeItem('ai_lifecycle_exam_supabase_v1');
-      }
-    }catch(e){}
-
     // Разрешение для страницы экзамена.
     sessionStorage.setItem(`ai_exam_access_${selected.exam_code}`,JSON.stringify({
       token:result.token||'ok',
       examCode:selected.exam_code,
-      unlockedAt:Date.now(),
-      freshStart:true
+      unlockedAt:Date.now()
     }));
-
     location.href=selected.path;
   }catch(e){
     $('#err').textContent='Не удалось проверить код. Проверьте интернет.';
