@@ -1095,7 +1095,7 @@ main{margin-top:18px;}
 </div>
 <button class="start-exam" id="startExam" type="button">Начать работу · 45:00</button>
 <div class="exam-error" id="examError"></div>
-<div class="exam-note"><b>Вариант после старта фиксируется.</b> Обновление страницы не сбрасывает таймер. Правильность ответов во время прохождения не показывается. Копирование текста задания отключено.</div>
+<div class="exam-note"><b>Вариант после старта фиксируется.</b> Обновление страницы не сбрасывает таймер. Правильность ответов во время прохождения не показывается. Копирование текста задания отключено. В вопросах A/B/C можно отметить один или несколько вариантов. Количество правильных ответов не указывается.</div>
 </div>
 </div>
 <div class="shell">
@@ -1473,11 +1473,17 @@ main{margin-top:18px;}
   function gradeFromPct(pct){if(pct>=85)return 5;if(pct>=70)return 4;if(pct>=50)return 3;return 2;}
   function toast(message){const el=$('#toast');if(!el)return;el.textContent=message;el.style.background='#061f52';el.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>el.classList.remove('show'),1500);}
 
+  function normalizeMcqAnswer(ans){
+    if(Array.isArray(ans))return [...new Set(ans.map(String))];
+    if(typeof ans==='string' && ans!=='')return [ans];
+    return [];
+  }
+
   function isTaskComplete(task){
     const id=task.dataset.task, ans=state.answers[id];
     if(!ans)return false;
     const type=task.dataset.type||'mcq';
-    if(type==='mcq'||task.classList.contains('mcq'))return typeof ans==='string';
+    if(type==='mcq'||task.classList.contains('mcq'))return normalizeMcqAnswer(ans).length>0;
     if(type==='sequence')return Object.keys(ans.slots||{}).length===$$('.exam-slot',task).length;
     if(type==='classify')return Object.keys(ans.placements||{}).length===$$('.classify-card',task).length;
     if(type==='match')return Object.keys(ans.pairs||{}).length===$$('.match-left',task).length;
@@ -1551,7 +1557,10 @@ main{margin-top:18px;}
     });
   }
   function restoreAnswers(){
-    mcqTasks.forEach(task=>{const chosen=state.answers[task.dataset.task];$$('.option',task).forEach(btn=>btn.classList.toggle('selected-answer',btn.dataset.optionId===chosen));});
+    mcqTasks.forEach(task=>{
+      const chosen=normalizeMcqAnswer(state.answers[task.dataset.task]);
+      $$('.option',task).forEach(btn=>btn.classList.toggle('selected-answer',chosen.includes(btn.dataset.optionId)));
+    });
     $$('.sequence-task').forEach(renderSequence);$$('.classify-task').forEach(renderClassify);$$('.match-task').forEach(renderMatch);updateProgress();
   }
 
@@ -1689,12 +1698,14 @@ main{margin-top:18px;}
 
     if(task.classList.contains('mcq')){
       if(correct){
-        const btn=Array.from(task.querySelectorAll('.option')).find(x=>x.dataset.correct==='true');
-        return detailOptionText(btn);
+        const buttons=Array.from(task.querySelectorAll('.option')).filter(x=>x.dataset.correct==='true');
+        return buttons.map(detailOptionText).join(' + ') || '—';
       }
-      if(!ans)return 'Нет ответа';
-      const btn=Array.from(task.querySelectorAll('.option')).find(x=>x.dataset.optionId===ans);
-      return detailOptionText(btn);
+      const selected=normalizeMcqAnswer(ans);
+      if(!selected.length)return 'Нет ответа';
+      const buttons=Array.from(task.querySelectorAll('.option'))
+        .filter(x=>selected.includes(x.dataset.optionId));
+      return buttons.map(detailOptionText).join(' + ');
     }
 
     if(type==='sequence'){
@@ -1905,7 +1916,14 @@ main{margin-top:18px;}
 
   function isTaskCorrect(task){
     const id=task.dataset.task,ans=state.answers[id],type=task.dataset.type||'mcq';if(!ans)return false;
-    if(task.classList.contains('mcq')){const btn=$$('.option',task).find(x=>x.dataset.optionId===ans);return btn?.dataset.correct==='true';}
+    if(task.classList.contains('mcq')){
+      const selected=normalizeMcqAnswer(ans).sort();
+      const correct=$$('.option',task)
+        .filter(x=>x.dataset.correct==='true')
+        .map(x=>x.dataset.optionId)
+        .sort();
+      return selected.length===correct.length && selected.every((id,i)=>id===correct[i]);
+    }
     if(type==='sequence')return $$('.exam-slot',task).every(slot=>(ans.slots||{})[slot.dataset.slotId]===slot.dataset.accept);
     if(type==='classify')return $$('.classify-card',task).every(card=>(ans.placements||{})[card.dataset.cardId]===card.dataset.correctZone);
     if(type==='match')return $$('.match-left',task).every(left=>(ans.pairs||{})[left.dataset.leftId]===left.dataset.correctRight);
@@ -1991,7 +2009,30 @@ main{margin-top:18px;}
   }
 
   // MCQ
-  mcqTasks.forEach(task=>$$('.option',task).forEach(btn=>btn.addEventListener('click',()=>{if(!state.started||state.locked)return;$$('.option',task).forEach(x=>x.classList.remove('selected-answer'));btn.classList.add('selected-answer');state.answers[task.dataset.task]=btn.dataset.optionId;persistSession();updateProgress();})));
+  mcqTasks.forEach(task=>$$('.option',task).forEach(btn=>btn.addEventListener('click',()=>{
+    if(!state.started||state.locked)return;
+
+    const id=task.dataset.task;
+    let selected=normalizeMcqAnswer(state.answers[id]);
+    const optionId=btn.dataset.optionId;
+
+    if(selected.includes(optionId)){
+      selected=selected.filter(x=>x!==optionId);
+      btn.classList.remove('selected-answer');
+    }else{
+      selected.push(optionId);
+      btn.classList.add('selected-answer');
+    }
+
+    if(selected.length){
+      state.answers[id]=selected;
+    }else{
+      delete state.answers[id];
+    }
+
+    persistSession();
+    updateProgress();
+  })));
 
   // Последовательности: drag + click
   $$('.sequence-task').forEach(task=>{
