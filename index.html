@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Введение в технологии ИИ — практические занятия</title>
+<style>
+:root{--ink:#10264b;--muted:#617694;--blue:#0a84ff;--indigo:#5e5ce6;}
+*{box-sizing:border-box}
+body{
+  margin:0;min-height:100vh;color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(900px 500px at 5% -10%,rgba(90,200,250,.35),transparent 55%),
+    radial-gradient(800px 500px at 95% 0%,rgba(94,92,230,.18),transparent 52%),
+    linear-gradient(180deg,#f6f9ff,#edf3fb 50%,#f8fbff);
+}
+.wrap{width:min(1220px,calc(100% - 28px));margin:auto;padding:20px 0 70px}
+.top{
+  padding:14px 16px;border:1px solid rgba(255,255,255,.72);border-radius:22px;
+  background:rgba(255,255,255,.55);backdrop-filter:blur(22px);
+  box-shadow:0 10px 30px rgba(40,65,100,.08);
+  display:flex;gap:12px;align-items:center;
+}
+.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:white;font-weight:950;
+background:linear-gradient(135deg,#0a84ff,#5ac8fa 60%,#5e5ce6)}
+.top strong{display:block} .top span{font-size:11px;color:var(--muted)}
+.hero{
+  margin-top:18px;padding:38px;border-radius:32px;border:1px solid rgba(255,255,255,.72);
+  background:rgba(255,255,255,.56);backdrop-filter:blur(26px);
+  box-shadow:0 22px 60px rgba(36,56,94,.12)
+}
+.eyebrow{font-size:11px;font-weight:900;color:var(--blue);letter-spacing:.08em;text-transform:uppercase}
+h1{font-size:clamp(38px,5vw,58px);line-height:1;letter-spacing:-.05em;margin:14px 0}
+.hero p{margin:0;max-width:780px;line-height:1.65;color:var(--muted)}
+.search{width:100%;margin:20px 0 14px;padding:14px 16px;border-radius:18px;border:1px solid #bad0ea;background:rgba(255,255,255,.78);font:inherit;outline:none}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.card{padding:24px;border-radius:26px;border:1px solid rgba(255,255,255,.72);background:rgba(255,255,255,.62);box-shadow:0 13px 35px rgba(47,71,112,.09)}
+.card-top{display:flex;justify-content:space-between;gap:12px}
+.num{font-size:12px;font-weight:900;color:var(--blue);text-transform:uppercase}
+.badge{padding:7px 10px;border-radius:999px;font-size:10px;font-weight:900;background:#eef4ff;color:#5e7391}
+.badge.active{background:#e9fff0;color:#1c7c41}
+.card h2{font-size:22px;line-height:1.23;letter-spacing:-.025em;margin:14px 0 10px}
+.card p{margin:0;color:var(--muted);line-height:1.55;min-height:65px}
+.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.meta span{padding:7px 9px;border-radius:10px;background:#f3f7fd;font-size:11px;font-weight:800;color:#58708f}
+.open{width:100%;margin-top:17px;border:0;border-radius:16px;padding:13px 15px;color:white;font-weight:900;cursor:pointer;background:linear-gradient(135deg,#0677ff,#4cc9ff 62%,#6d5efc)}
+.open:disabled{background:#dfe8f4;color:#7990ac;cursor:default}
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(12,30,63,.28);backdrop-filter:blur(18px)}
+.modal.show{display:flex}
+.panel{width:min(460px,100%);padding:27px;border-radius:28px;background:rgba(255,255,255,.95);box-shadow:0 30px 80px rgba(20,43,83,.24)}
+.panel h3{margin:0 0 8px;font-size:24px} .panel p{margin:0;color:var(--muted);font-size:13px}
+.code{width:100%;margin-top:17px;padding:15px;border-radius:16px;border:1px solid #bacce5;text-align:center;font-size:18px;font-weight:900;letter-spacing:.15em}
+.actions{display:grid;grid-template-columns:1fr 1.3fr;gap:9px;margin-top:12px}
+.btn{border:0;border-radius:14px;padding:12px;font-weight:900;cursor:pointer}
+.cancel{background:#edf3fb;color:#4e6688} .unlock{background:#0a84ff;color:white}
+.err{display:none;margin-top:10px;padding:10px;border-radius:12px;background:#fff0f0;color:#a32923;font-size:12px;font-weight:800}
+.err.show{display:block}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.hero{padding:28px 22px}.card p{min-height:0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="logo">ИИ</div>
+    <div><strong>Введение в технологии ИИ</strong><span>Практические занятия</span></div>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">Практические занятия</div>
+    <h1>Выберите тему занятия</h1>
+    <p>Выберите нужную практическую работу. Для активной темы потребуется код преподавателя.</p>
+  </section>
+
+  <input class="search" id="search" placeholder="Найти практическое занятие…">
+  <main class="grid" id="topics"></main>
+</div>
+
+<div class="modal" id="modal">
+  <div class="panel">
+    <h3 id="mtitle">Код доступа</h3>
+    <p>Введите код, который сообщил преподаватель.</p>
+    <input class="code" id="code" inputmode="numeric" autocomplete="off" placeholder="КОД">
+    <div class="err" id="err"></div>
+    <div class="actions">
+      <button class="btn cancel" id="cancel">Отмена</button>
+      <button class="btn unlock" id="unlock">Разблокировать</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL="https://pcszxhhbokpmllocwqeu.supabase.co";
+const SUPABASE_KEY="sb_publishable_piAWbORLqmiHYI5mTT2XYw_Yqo2jmVe";
+
+const TOPICS=[
+  {
+    exam_code:'lifecycle-04',
+    exam_number:4,
+    title:'Жизненный цикл разработки и внедрения ИИ-решений',
+    description:'Обзор этапов создания ИИ-продукта: от постановки бизнес-задачи и сбора данных до эксплуатации и мониторинга.',
+    duration_minutes:45,variants_count:30,active:true,path:'exams/lifecycle-04/'
+  },
+  {
+    exam_code:'computer-vision-05',
+    exam_number:5,
+    title:'Технологии компьютерного зрения в городской инфраструктуре и ритейле',
+    description:'Изучение работы систем видеоаналитики, распознавания лиц и автоматизации торговых залов.',
+    duration_minutes:45,variants_count:30,active:false,path:'exams/computer-vision-05/'
+  },
+  {
+    exam_code:'medicine-transport-06',
+    exam_number:6,
+    title:'Искусственный интеллект в медицине и транспортных системах',
+    description:'Анализ систем диагностики заболеваний и алгоритмов управления беспилотным транспортом.',
+    duration_minutes:45,variants_count:30,active:false,path:'exams/medicine-transport-06/'
+  },
+  {
+    exam_code:'robotics-production-07',
+    exam_number:7,
+    title:'Робототехника и производственные интеллектуальные системы',
+    description:'Ознакомление с принципами работы автономных роботов и ИИ для оптимизации заводских конвейеров.',
+    duration_minutes:45,variants_count:30,active:false,path:'exams/robotics-production-07/'
+  }
+];
+
+let selected=null;
+const $=s=>document.querySelector(s);
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+function render(q=''){
+  q=q.trim().toLowerCase();
+  const list=TOPICS.filter(t=>!q||String(t.exam_number).includes(q)||t.title.toLowerCase().includes(q)||t.description.toLowerCase().includes(q));
+  $('#topics').innerHTML=list.map(t=>`
+    <article class="card">
+      <div class="card-top">
+        <div class="num">Практическое занятие №${t.exam_number}</div>
+        <div class="badge ${t.active?'active':''}">${t.active?'🔒 Требуется код':'Скоро'}</div>
+      </div>
+      <h2>${esc(t.title)}</h2>
+      <p>${esc(t.description)}</p>
+      <div class="meta"><span>${t.duration_minutes} минут</span><span>${t.variants_count} вариантов</span></div>
+      <button class="open" data-code="${t.exam_code}" ${t.active?'':'disabled'}>${t.active?'Открыть занятие':'Задание готовится'}</button>
+    </article>`).join('');
+  document.querySelectorAll('.open:not(:disabled)').forEach(b=>b.onclick=()=>openModal(b.dataset.code));
+}
+
+function openModal(code){
+  selected=TOPICS.find(t=>t.exam_code===code);
+  $('#mtitle').textContent=`Практическое занятие №${selected.exam_number}`;
+  $('#code').value='';
+  $('#err').classList.remove('show');
+  $('#modal').classList.add('show');
+  setTimeout(()=>$('#code').focus(),50);
+}
+
+async function unlock(){
+  const code=$('#code').value.trim();
+  if(!code){$('#err').textContent='Введите код доступа.';$('#err').classList.add('show');return}
+  const btn=$('#unlock'); btn.disabled=true; btn.textContent='Проверяем…';
+  try{
+    const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/unlock_exam`,{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_exam_code:selected.exam_code,p_access_code:code})
+    });
+    const result=await r.json();
+    if(!r.ok||!result?.ok){
+      $('#err').textContent=result?.error||'Неверный код.';
+      $('#err').classList.add('show');
+      return;
+    }
+    // Разрешение для страницы экзамена.
+    sessionStorage.setItem(`ai_exam_access_${selected.exam_code}`,JSON.stringify({
+      token:result.token||'ok',
+      examCode:selected.exam_code,
+      unlockedAt:Date.now()
+    }));
+    location.href=selected.path;
+  }catch(e){
+    $('#err').textContent='Не удалось проверить код. Проверьте интернет.';
+    $('#err').classList.add('show');
+  }finally{
+    btn.disabled=false;btn.textContent='Разблокировать';
+  }
+}
+
+$('#search').addEventListener('input',e=>render(e.target.value));
+$('#cancel').onclick=()=>$('#modal').classList.remove('show');
+$('#unlock').onclick=unlock;
+$('#code').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
+render();
+</script>
+</body>
+</html>
