@@ -1817,11 +1817,25 @@ main{margin-top:18px;}
       // 409 означает, что session_id уже есть: предыдущая отправка дошла,
       // а браузер попытался повторить её. Для студента это успех.
       if(response.ok || response.status===409){
-        await submitAnswerDetailsToSupabase();
-
         state.submitted=true;
         persistSession({submitted:true});
-        setSubmitStatus('✓ Результат и подробный разбор отправлены преподавателю.','success');
+
+        // Главный результат уже сохранён. Подробный разбор отправляем отдельно,
+        // но его временная ошибка больше не помечает всю работу как несданную.
+        let detailsOk=true;
+        try{
+          await submitAnswerDetailsToSupabase();
+        }catch(detailsErr){
+          detailsOk=false;
+          console.warn('Подробный разбор не отправлен:',detailsErr);
+        }
+
+        if(detailsOk){
+          setSubmitStatus('✓ Результат и подробный разбор отправлены преподавателю.','success');
+        }else{
+          setSubmitStatus('✓ Оценка отправлена. Подробный разбор ошибок временно не отправился.','success');
+        }
+
         if(retry)retry.style.display='none';
         return true;
       }
