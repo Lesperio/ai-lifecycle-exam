@@ -1338,7 +1338,7 @@ main{margin-top:18px;}
 </div>
 <p style="margin-top:18px;font-size:12px">Показывается только общий результат. Правильные ответы по отдельным заданиям не раскрываются.</p>
 <div class="submit-status" id="submitStatus">Результат ещё не отправлен преподавателю.</div><button class="retry-submit-btn" id="retrySubmit" style="display:none" type="button">Повторить отправку</button><div class="final-buttons">
-<button class="final-close-btn" id="closeFinal" type="button">Закрыть</button>
+<button class="final-close-btn" id="closeFinal" type="button">Закрыть и к темам</button>
 <button class="final-restart-btn" id="restartFinal" type="button">Начать заново</button>
 <button class="final-restart-btn" id="backToTopics" type="button">К темам</button></div>
 </div>
@@ -2013,7 +2013,10 @@ main{margin-top:18px;}
     try{localStorage.removeItem(SESSION_KEY);}catch(e){}
     location.href='/ai-lifecycle-exam/';
   });
-  $('#closeFinal')?.addEventListener('click',()=>$('#finalOverlay')?.classList.remove('show'));
+  $('#closeFinal')?.addEventListener('click',()=>{
+    try{localStorage.removeItem(SESSION_KEY);}catch(e){}
+    location.href='/ai-lifecycle-exam/';
+  });
   $('#restartFinal')?.addEventListener('click',()=>{
     clearInterval(timerHandle);try{localStorage.removeItem(SESSION_KEY);}catch(e){}state.started=false;state.locked=false;state.startAt=null;state.endAt=null;state.solo=false;state.surname1='';state.surname2='';state.group='';state.variant='';state.answers={};state.sessionId='';state.submitted=false;state.elapsed=0;document.body.classList.remove('exam-started','session-locked');$('#finalOverlay')?.classList.remove('show');$('#sessionOverlay')?.classList.remove('hidden');
     const s1=$('#surname1'),s2=$('#surname2'),group=$('#groupName'),variant=$('#variantNumber');if(s1)s1.value='';if(s2)s2.value='';if(group)group.value='';if(variant)variant.value='';$('#surname2Field')?.classList.remove('hidden');const soloBtn=$('#soloToggle');if(soloBtn){soloBtn.classList.remove('active');soloBtn.textContent='Я выполняю один';}
