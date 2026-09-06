@@ -1542,44 +1542,32 @@ main{margin-top:18px;}
   const EXAM_TITLE="\u0416\u0438\u0437\u043d\u0435\u043d\u043d\u044b\u0439 \u0446\u0438\u043a\u043b \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u0438 \u0432\u043d\u0435\u0434\u0440\u0435\u043d\u0438\u044f \u0418\u0418-\u0440\u0435\u0448\u0435\u043d\u0438\u0439";
 
 
-  async function validateCourseAccess(){
+  function validateCourseAccess(){
     const key=`ai_exam_access_${EXAM_CODE}`;
     let saved=null;
-    try{saved=JSON.parse(sessionStorage.getItem(key)||'null')}catch(e){}
-
-    if(!saved?.token){
-      denyCourseAccess('Сначала разблокируйте эту тему кодом преподавателя.');
-      return false;
-    }
 
     try{
-      const response=await fetch(`${SUPABASE_URL}/rest/v1/rpc/validate_exam_token`,{
-        method:'POST',
-        headers:{
-          'apikey':SUPABASE_PUBLISHABLE_KEY,
-          'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-          p_exam_code:EXAM_CODE,
-          p_token:saved.token
-        })
-      });
+      saved=JSON.parse(sessionStorage.getItem(key)||'null');
+    }catch(e){}
 
-      if(!response.ok)throw new Error('validate failed');
-      const ok=await response.json();
+    const unlockedAt=Number(saved?.unlockedAt||0);
+    const age=Date.now()-unlockedAt;
+    const valid=
+      saved &&
+      saved.examCode===EXAM_CODE &&
+      saved.token &&
+      unlockedAt>0 &&
+      age>=0 &&
+      age<(3*60*60*1000);
 
-      if(ok===true){
-        $('#accessGate')?.classList.add('hidden');
-        return true;
-      }
-
-      try{sessionStorage.removeItem(key)}catch(e){}
-      denyCourseAccess('Срок доступа истёк или тема не была разблокирована.');
-      return false;
-    }catch(e){
-      denyCourseAccess('Не удалось проверить доступ. Проверьте интернет и вернитесь к списку тем.');
-      return false;
+    if(valid){
+      $('#accessGate')?.classList.add('hidden');
+      return true;
     }
+
+    try{sessionStorage.removeItem(key)}catch(e){}
+    denyCourseAccess('Сначала откройте тему на главной странице и введите код преподавателя.');
+    return false;
   }
 
   function denyCourseAccess(message){
