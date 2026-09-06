@@ -96,28 +96,28 @@ const TOPICS=[
     exam_number:4,
     title:'Жизненный цикл разработки и внедрения ИИ-решений',
     description:'Обзор этапов создания ИИ-продукта: от постановки бизнес-задачи и сбора данных до эксплуатации и мониторинга.',
-    duration_minutes:45,variants_count:30,active:true,path:'lifecycle-04/'
+    duration_minutes:45,variants_count:30,active:true,path:'/ai-lifecycle-exam/lifecycle-04/'
   },
   {
     exam_code:'computer-vision-05',
     exam_number:5,
     title:'Технологии компьютерного зрения в городской инфраструктуре и ритейле',
     description:'Изучение работы систем видеоаналитики, распознавания лиц и автоматизации торговых залов.',
-    duration_minutes:45,variants_count:30,active:true,path:'computer-vision-05/'
+    duration_minutes:45,variants_count:30,active:true,path:'/ai-lifecycle-exam/computer-vision-05/'
   },
   {
     exam_code:'medicine-transport-06',
     exam_number:6,
     title:'Искусственный интеллект в медицине и транспортных системах',
     description:'Анализ систем диагностики заболеваний и алгоритмов управления беспилотным транспортом.',
-    duration_minutes:45,variants_count:30,active:false,path:'medicine-transport-06/'
+    duration_minutes:45,variants_count:30,active:false,path:'/ai-lifecycle-exam/medicine-transport-06/'
   },
   {
     exam_code:'robotics-production-07',
     exam_number:7,
     title:'Робототехника и производственные интеллектуальные системы',
     description:'Ознакомление с принципами работы автономных роботов и ИИ для оптимизации заводских конвейеров.',
-    duration_minutes:45,variants_count:30,active:false,path:'robotics-production-07/'
+    duration_minutes:45,variants_count:30,active:false,path:'/ai-lifecycle-exam/robotics-production-07/'
   }
 ];
 
@@ -174,7 +174,7 @@ async function unlock(){
       examCode:selected.exam_code,
       unlockedAt:Date.now()
     }));
-    location.href=selected.path;
+    window.location.assign(selected.path);
   }catch(e){
     $('#err').textContent='Не удалось проверить код. Проверьте интернет.';
     $('#err').classList.add('show');
