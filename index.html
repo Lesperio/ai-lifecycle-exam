@@ -94,8 +94,8 @@ const TOPICS=[
   {
     exam_code:'lifecycle-04',
     exam_number:4,
-    title:'Жизненный цикл разработки и внедрения ИИ-решений',
-    description:'Обзор этапов создания ИИ-продукта: от постановки бизнес-задачи и сбора данных до эксплуатации и мониторинга.',
+    title:'Специфика применения ИИ в финтехе и банковском секторе',
+    description:'Разбор кейсов по кредитному скорингу, антифрод-системам и алгоритмической торговле.',
     duration_minutes:45,variants_count:30,active:true,path:'/ai-lifecycle-exam/lifecycle-04/'
   },
   {
@@ -154,68 +154,32 @@ function openModal(code){
 
 async function unlock(){
   const code=$('#code').value.trim();
-  if(!code){
-    $('#err').textContent='Введите код доступа.';
-    $('#err').classList.add('show');
-    return;
-  }
-
-  const btn=$('#unlock');
-  btn.disabled=true;
-  btn.textContent='Проверяем…';
-  $('#err').classList.remove('show');
-
+  if(!code){$('#err').textContent='Введите код доступа.';$('#err').classList.add('show');return}
+  const btn=$('#unlock'); btn.disabled=true; btn.textContent='Проверяем…';
   try{
     const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/unlock_exam`,{
       method:'POST',
-      headers:{
-        'apikey':SUPABASE_KEY,
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify({
-        p_exam_code:selected.exam_code,
-        p_access_code:code
-      })
+      headers:{'apikey':SUPABASE_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_exam_code:selected.exam_code,p_access_code:code})
     });
-
-    const raw=await r.text();
-    let result=null;
-    try{result=JSON.parse(raw)}catch(e){}
-
-    if(!r.ok || !result?.ok){
-      const msg=result?.error || (raw ? `Ошибка ${r.status}: ${raw.slice(0,160)}` : `Ошибка ${r.status}`);
-      $('#err').textContent=msg;
+    const result=await r.json();
+    if(!r.ok||!result?.ok){
+      $('#err').textContent=result?.error||'Неверный код.';
       $('#err').classList.add('show');
       return;
     }
-
-    // Один единый способ хранения допуска: sessionStorage.
-    // Он действует в этой вкладке и переживает переход на страницу практической.
-    const accessKey=`ai_exam_access_${selected.exam_code}`;
-    sessionStorage.setItem(accessKey,JSON.stringify({
-      token:String(result.token||'ok'),
+    // Разрешение для страницы экзамена.
+    sessionStorage.setItem(`ai_exam_access_${selected.exam_code}`,JSON.stringify({
+      token:result.token||'ok',
       examCode:selected.exam_code,
       unlockedAt:Date.now()
     }));
-
-    // Каждый новый правильный ввод кода = новая попытка.
-    try{
-      if(selected.exam_code==='lifecycle-04'){
-        localStorage.removeItem('ai_lifecycle_exam_supabase_v1');
-      }
-      if(selected.exam_code==='computer-vision-05'){
-        localStorage.removeItem('ai_cv05_varied_structure_v2');
-        localStorage.removeItem('ai_cv05_exam_supabase_v1');
-      }
-    }catch(e){}
-
     window.location.assign(selected.path);
   }catch(e){
-    $('#err').textContent='Не удалось связаться с сервером. Проверьте интернет и повторите.';
+    $('#err').textContent='Не удалось проверить код. Проверьте интернет.';
     $('#err').classList.add('show');
   }finally{
-    btn.disabled=false;
-    btn.textContent='Разблокировать';
+    btn.disabled=false;btn.textContent='Разблокировать';
   }
 }
 

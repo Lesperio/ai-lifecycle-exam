@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Контрольная — Жизненный цикл ИИ — 30 вариантов</title>
+<title>Контрольная — ИИ в финтехе и банковском секторе — ПЗ №4</title>
 <style>
 :root{
   --bg:#eef3fb;
@@ -1083,7 +1083,7 @@ main{margin-top:18px;}
 <div class="session-panel">
 <div class="session-badge">Контрольная работа · 30 вариантов · 45 минут</div>
 <h2>Перед началом работы</h2>
-<p>Укажите фамилию или две фамилии, выберите группу и номер варианта. Если выполняете работу один, нажмите «Я выполняю один». После нажатия «Начать работу» задания выбранного варианта будут сформированы автоматически.</p>
+<p>Укажите фамилию или две фамилии, выберите группу и вариант. В разных вариантах отличается не только порядок, но и количество и типы заданий. После старта выбранный набор фиксируется.</p>
 <div class="session-grid">
 <div class="session-field"><label for="surname1">Фамилия студента 1</label><input autocomplete="off" id="surname1" maxlength="40" placeholder="Например: Иванов"/></div>
 <div class="session-field" id="surname2Field"><label for="surname2">Фамилия студента 2</label><input autocomplete="off" id="surname2" maxlength="40" placeholder="Например: Петров"/></div>
@@ -1093,7 +1093,7 @@ main{margin-top:18px;}
 <div><strong>Работаешь без напарника?</strong><span>Тогда будет сохранена только одна фамилия.</span></div>
 <button class="solo-toggle" id="soloToggle" type="button">Я выполняю один</button>
 </div>
-<button class="start-exam" id="startExam" type="button">Начать работу · 45:00 · 22 задания</button>
+<button class="start-exam" id="startExam" type="button">Начать работу · 45:00</button>
 <div class="exam-error" id="examError"></div>
 <div class="exam-note"><b>Вариант после старта фиксируется.</b> Обновление страницы не сбрасывает таймер. Правильность ответов во время прохождения не показывается. Копирование текста задания отключено. В вопросах A/B/C можно отметить один или несколько вариантов. Количество правильных ответов не указывается.</div>
 </div>
@@ -1106,7 +1106,7 @@ main{margin-top:18px;}
 <path d="M12 3a9 9 0 1 0 9 9"></path><path d="M12 7v5l3 2"></path><path d="M17 3h4v4"></path><path d="M21 3l-5 5"></path>
 </svg>
 </div>
-<div><strong>Введение в технологии ИИ</strong><span>Жизненный цикл ИИ-решения</span></div>
+<div><strong>Введение в технологии ИИ</strong><span>Финтех и банковский сектор · ПЗ №4</span></div>
 </div>
 <div class="session-meta">
 <div class="student-chip" id="studentNames">Работа не начата</div><div class="student-chip variant-fixed-chip" id="variantChip">Вариант —</div>
@@ -1115,212 +1115,124 @@ main{margin-top:18px;}
 </div>
 </header>
 <main>
-<section class="lesson question-section variant-question-section" data-task-section="cycle_start"><div class="task mcq" data-answer="0" data-base-title="Команда хочет «сделать нейросеть для колледжа». Что нужно сделать первым?" data-points="1" data-task="cycle_start">
-<h3>1. Команда хочет «сделать нейросеть для колледжа». Что нужно сделать первым?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Сформулировать конкретную бизнес-проблему, пользователя и измеримый результат.</span></button>
-<button class="option"><span class="mark">B</span><span>Сразу выбрать самую большую нейросеть.</span></button>
-<button class="option"><span class="mark">C</span><span>Сначала купить мощный сервер, а задачу придумать потом.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="cycle_loop"><div class="task interactive-task sequence-task" data-base-title="Расставь этапы жизненного цикла ИИ-решения в правильном порядке" data-points="1" data-task="cycle_loop" data-type="sequence">
-<h3>2. Расставь этапы жизненного цикла ИИ-решения в правильном порядке</h3>
-<p class="task-hint">Перетащи карточки в шаги 1–6. Можно также нажать карточку, а затем нужный шаг. Правильность не показывается.</p>
-<div class="exam-bank sequence-bank" data-bank="cycle_loop">
-<button class="exam-card sequence-card" data-card-id="problem" draggable="true" type="button">Постановка бизнес-задачи</button>
-<button class="exam-card sequence-card" data-card-id="data" draggable="true" type="button">Сбор и подготовка данных</button>
-<button class="exam-card sequence-card" data-card-id="dev" draggable="true" type="button">Разработка и обучение модели</button>
-<button class="exam-card sequence-card" data-card-id="eval" draggable="true" type="button">Оценка на независимых данных</button>
-<button class="exam-card sequence-card" data-card-id="deploy" draggable="true" type="button">Внедрение в реальный процесс</button>
-<button class="exam-card sequence-card" data-card-id="monitor" draggable="true" type="button">Мониторинг и улучшение</button>
-</div>
-<div class="exam-sequence-slots">
-<div class="exam-slot" data-accept="problem" data-slot-id="1"><strong>Шаг 1</strong><span>Помести этап сюда</span></div>
-<div class="exam-slot" data-accept="data" data-slot-id="2"><strong>Шаг 2</strong><span>Помести этап сюда</span></div>
-<div class="exam-slot" data-accept="dev" data-slot-id="3"><strong>Шаг 3</strong><span>Помести этап сюда</span></div>
-<div class="exam-slot" data-accept="eval" data-slot-id="4"><strong>Шаг 4</strong><span>Помести этап сюда</span></div>
-<div class="exam-slot" data-accept="deploy" data-slot-id="5"><strong>Шаг 5</strong><span>Помести этап сюда</span></div>
-<div class="exam-slot" data-accept="monitor" data-slot-id="6"><strong>Шаг 6</strong><span>Помести этап сюда</span></div>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="business_good_problem"><div class="task mcq" data-answer="1" data-base-title="Какая формулировка бизнес-задачи лучше?" data-points="1" data-task="business_good_problem">
-<h3>3. Какая формулировка бизнес-задачи лучше?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Сделать модную нейросеть для магазина.</span></button>
-<button class="option"><span class="mark">B</span><span>Предсказывать товары с высоким риском дефицита, чтобы закупщик мог пополнять их заранее и снизить число ситуаций «нет в наличии».</span></button>
-<button class="option"><span class="mark">C</span><span>Использовать как можно больше данных и получить 99% чего-нибудь.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="data_more_not_better"><div class="task interactive-task classify-task" data-base-title="Прогноз опоздания доставки: распредели признаки по двум категориям" data-points="1" data-task="data_more_not_better" data-type="classify">
-<h3>4. Прогноз опоздания доставки: распредели признаки по двум категориям</h3>
-<p class="task-hint">Прогноз строится в момент назначения курьера. Перетащи каждый признак в подходящую область.</p>
-<div class="exam-bank classify-bank" data-bank="data_more_not_better">
-<button class="exam-card classify-card" data-card-id="distance" data-correct-zone="use" draggable="true" type="button">Расстояние до клиента</button>
-<button class="exam-card classify-card" data-card-id="traffic" data-correct-zone="use" draggable="true" type="button">Пробки в районе на момент назначения</button>
-<button class="exam-card classify-card" data-card-id="courier_history" data-correct-zone="use" draggable="true" type="button">Средняя скорость курьера за прошлые недели</button>
-<button class="exam-card classify-card" data-card-id="actual_time" data-correct-zone="bad" draggable="true" type="button">Фактическое время доставки этого заказа</button>
-<button class="exam-card classify-card" data-card-id="rating" data-correct-zone="bad" draggable="true" type="button">Оценка клиента после доставки</button>
-<button class="exam-card classify-card" data-card-id="final_status" data-correct-zone="bad" draggable="true" type="button">Итоговый статус «опоздал / не опоздал»</button>
-</div>
-<div class="classify-zones">
-<div class="exam-zone" data-zone-id="use"><strong>Можно использовать</strong><span>Доступно в момент прогноза и может быть полезно</span><div class="zone-items"></div></div>
-<div class="exam-zone" data-zone-id="bad"><strong>Нельзя использовать</strong><span>Информация появляется после события или создаёт утечку</span><div class="zone-items"></div></div>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="model_test_reason"><div class="task mcq" data-answer="2" data-base-title="Почему нельзя каждый день смотреть на test и под него улучшать модель?" data-points="1" data-task="model_test_reason">
-<h3>5. Почему нельзя каждый день смотреть на test и под него улучшать модель?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Test нужен только для хранения резервной копии.</span></button>
-<button class="option"><span class="mark">B</span><span>Потому что тестовый набор обязательно должен быть меньше 10 строк.</span></button>
-<button class="option"><span class="mark">C</span><span>Команда начнёт неявно подстраиваться под test, и он перестанет быть независимой проверкой качества.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="model_overfit"><div class="task mcq" data-answer="0" data-base-title="Модель показывает 99% на train и 72% на новых данных. Что это может означать?" data-points="1" data-task="model_overfit">
-<h3>6. Модель показывает 99% на train и 72% на новых данных. Что это может означать?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Возможное переобучение: модель хорошо запомнила обучающие данные, но хуже обобщает.</span></button>
-<button class="option"><span class="mark">B</span><span>Это всегда признак идеальной модели.</span></button>
-<button class="option"><span class="mark">C</span><span>Нужно удалить тестовые данные, чтобы разница исчезла.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="deploy_drift"><div class="task mcq" data-answer="1" data-base-title="Модель спроса обучали зимой. Летом поведение клиентов резко изменилось, и входные признаки стали распределяться иначе. Что это похоже?" data-points="1" data-task="deploy_drift">
-<h3>7. Модель спроса обучали зимой. Летом поведение клиентов резко изменилось, и входные признаки стали распределяться иначе. Что это похоже?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>На обычную компиляцию программы.</span></button>
-<button class="option"><span class="mark">B</span><span>На data drift — данные в эксплуатации изменились относительно обучающих.</span></button>
-<button class="option"><span class="mark">C</span><span>На гарантию, что модель стала точнее.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="deploy_bad_quality"><div class="task mcq" data-answer="2" data-base-title="После релиза бизнес-метрика ухудшилась, хотя API работает без ошибок. Что делать правильнее?" data-points="1" data-task="deploy_bad_quality">
-<h3>8. После релиза бизнес-метрика ухудшилась, хотя API работает без ошибок. Что делать правильнее?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Считать релиз успешным: сервер же отвечает 200 OK.</span></button>
-<button class="option"><span class="mark">B</span><span>Скрыть бизнес-дашборд и оставить всё как есть.</span></button>
-<button class="option"><span class="mark">C</span><span>Разобрать причины, при необходимости откатить/ограничить модель, проверить данные и качество, затем исправить и повторно запустить.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final1"><div class="task mcq" data-answer="0" data-base-title="Какая постановка задачи самая сильная?" data-points="1" data-task="final1">
-<h3>9. Какая постановка задачи самая сильная?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Прогнозировать количество порций по каждому блюду на следующий день, чтобы снизить списания и дефицит.</span></button>
-<button class="option"><span class="mark">B</span><span>Сделать нейросеть, потому что нейросети сейчас популярны.</span></button>
-<button class="option"><span class="mark">C</span><span>Предсказывать всё, что можно, а пользу определить после запуска.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final2"><div class="task mcq" data-answer="1" data-base-title="Какой набор данных выглядит наиболее полезным?" data-points="1" data-task="final2">
-<h3>10. Какой набор данных выглядит наиболее полезным?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Только имена студентов.</span></button>
-<button class="option"><span class="mark">B</span><span>История продаж по блюдам, день недели, расписание занятий, праздники/мероприятия и прошлые остатки.</span></button>
-<button class="option"><span class="mark">C</span><span>Случайные фотографии коридоров без связи со спросом.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final3"><div class="task mcq" data-answer="2" data-base-title="Какой признак создаёт утечку, если прогноз строится вечером на завтра?" data-points="1" data-task="final3">
-<h3>11. Какой признак создаёт утечку, если прогноз строится вечером на завтра?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>День недели завтрашнего дня.</span></button>
-<button class="option"><span class="mark">B</span><span>Количество продаж этого блюда в прошлые вторники.</span></button>
-<button class="option"><span class="mark">C</span><span>Фактическое количество порций, которое будет продано завтра.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final4"><div class="task mcq" data-answer="1" data-base-title="Данные идут по датам. Как честнее разделить train и test?" data-points="1" data-task="final4">
-<h3>12. Данные идут по датам. Как честнее разделить train и test?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Перемешать будущее и прошлое так, чтобы завтрашние дни могли попасть в train для вчерашних.</span></button>
-<button class="option"><span class="mark">B</span><span>Обучаться на более раннем периоде, а проверять на более позднем, имитируя реальный прогноз будущего.</span></button>
-<button class="option"><span class="mark">C</span><span>Обучить и проверить на одних и тех же днях.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final5"><div class="task interactive-task match-task" data-base-title="Соедини бизнес-цель с метрикой, которая лучше всего показывает результат" data-points="1" data-task="final5" data-type="match">
-<h3>13. Соедини бизнес-цель с метрикой, которая лучше всего показывает результат</h3>
-<p class="task-hint">Нажми цель слева, затем подходящую метрику справа. Чтобы изменить связь, выбери цель ещё раз.</p>
+<section class="lesson question-section variant-question-section" data-task-section="credit_scoring_goal"><div class="task mcq" data-base-title="Что является основной задачей кредитного скоринга?" data-points="1" data-task="credit_scoring_goal">
+<h3>Что является основной задачей кредитного скоринга?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Оценить вероятность того, что клиент сможет выполнять кредитные обязательства.</span></button><button class="option"><span class="mark">B</span><span>Определить дизайн банковской карты клиента.</span></button><button class="option"><span class="mark">C</span><span>Спрогнозировать курс всех валют на десять лет.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="scoring_features"><div class="task mcq" data-base-title="Какие данные могут использоваться как признаки в модели кредитного скоринга?" data-points="1" data-task="scoring_features">
+<h3>Какие данные могут использоваться как признаки в модели кредитного скоринга?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Доход и долговая нагрузка клиента.</span></button><button class="option" data-correct="true"><span class="mark">B</span><span>История своевременности платежей.</span></button><button class="option"><span class="mark">C</span><span>Любой случайный цвет интерфейса мобильного приложения.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_anomaly"><div class="task mcq" data-base-title="Какой пример больше похож на сигнал антифрод-системы?" data-points="1" data-task="fraud_anomaly">
+<h3>Какой пример больше похож на сигнал антифрод-системы?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Клиент совершает привычную покупку в обычном магазине рядом с домом.</span></button><button class="option" data-correct="true"><span class="mark">B</span><span>За короткое время карта используется в географически удалённых точках с нетипичными суммами.</span></button><button class="option"><span class="mark">C</span><span>Клиент открыл приложение банка и посмотрел баланс.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_false_positive"><div class="task mcq" data-base-title="Что такое false positive в антифрод-системе?" data-points="1" data-task="fraud_false_positive">
+<h3>Что такое false positive в антифрод-системе?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Система пропустила настоящую мошенническую транзакцию.</span></button><button class="option" data-correct="true"><span class="mark">B</span><span>Система ошибочно заблокировала легитимную операцию как подозрительную.</span></button><button class="option"><span class="mark">C</span><span>Банк не получил данные о курсе валют.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_false_negative"><div class="task mcq" data-base-title="Что такое false negative в антифрод-системе?" data-points="1" data-task="fraud_false_negative">
+<h3>Что такое false negative в антифрод-системе?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Мошенническая операция была ошибочно признана нормальной.</span></button><button class="option"><span class="mark">B</span><span>Легитимная операция была остановлена.</span></button><button class="option"><span class="mark">C</span><span>Клиент сам отменил перевод.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="scoring_bias"><div class="task mcq" data-base-title="Почему важно проверять модель кредитного скоринга на систематические смещения?" data-points="1" data-task="scoring_bias">
+<h3>Почему важно проверять модель кредитного скоринга на систематические смещения?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Чтобы убедиться, что ошибки модели не непропорционально затрагивают определённые группы клиентов.</span></button><button class="option"><span class="mark">B</span><span>Чтобы все клиенты автоматически получали одинаковый кредитный лимит.</span></button><button class="option"><span class="mark">C</span><span>Чтобы отказаться от тестирования модели после запуска.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="explainability_credit"><div class="task mcq" data-base-title="Почему объяснимость особенно важна в кредитном скоринге?" data-points="1" data-task="explainability_credit">
+<h3>Почему объяснимость особенно важна в кредитном скоринге?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Решение влияет на доступ клиента к финансовому продукту, поэтому причины отказа или одобрения должны быть контролируемыми и интерпретируемыми.</span></button><button class="option"><span class="mark">B</span><span>Потому что объяснимость автоматически повышает процентную ставку.</span></button><button class="option"><span class="mark">C</span><span>Потому что модель без объяснений не может выполнять арифметические операции.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_realtime"><div class="task mcq" data-base-title="Почему антифрод часто должен работать в реальном времени?" data-points="1" data-task="fraud_realtime">
+<h3>Почему антифрод часто должен работать в реальном времени?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Чтобы подозрительную операцию можно было остановить до её завершения или быстро запросить дополнительную проверку.</span></button><button class="option"><span class="mark">B</span><span>Чтобы клиент видел больше рекламы.</span></button><button class="option"><span class="mark">C</span><span>Чтобы банк мог не хранить историю операций.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="trading_latency"><div class="task mcq" data-base-title="Почему задержка обработки данных критична для некоторых алгоритмических торговых стратегий?" data-points="1" data-task="trading_latency">
+<h3>Почему задержка обработки данных критична для некоторых алгоритмических торговых стратегий?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Рыночная ситуация может измениться за время задержки, и решение станет неактуальным.</span></button><button class="option"><span class="mark">B</span><span>Задержка влияет только на цвет графика.</span></button><button class="option"><span class="mark">C</span><span>Чем выше задержка, тем гарантированнее прибыль.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="trading_risk"><div class="task mcq" data-base-title="Что обязательно должно сопровождать алгоритмическую торговлю?" data-points="1" data-task="trading_risk">
+<h3>Что обязательно должно сопровождать алгоритмическую торговлю?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Контроль рисков, лимиты и механизмы остановки стратегии.</span></button><button class="option"><span class="mark">B</span><span>Запрет на логирование операций.</span></button><button class="option"><span class="mark">C</span><span>Отключение мониторинга после запуска.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="train_test_time"><div class="task mcq" data-base-title="Почему при моделировании финансовых временных рядов нельзя случайно перемешивать будущие данные в обучающую выборку?" data-points="1" data-task="train_test_time">
+<h3>Почему при моделировании финансовых временных рядов нельзя случайно перемешивать будущие данные в обучающую выборку?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Это может привести к утечке будущей информации и завышенной оценке качества.</span></button><button class="option"><span class="mark">B</span><span>Это автоматически уменьшит размер файла модели.</span></button><button class="option"><span class="mark">C</span><span>Это нужно только для изменения интерфейса.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="concept_drift_finance"><div class="task mcq" data-base-title="Что означает concept drift для банковской модели?" data-points="1" data-task="concept_drift_finance">
+<h3>Что означает concept drift для банковской модели?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Связи между признаками и целевым событием меняются со временем, поэтому качество модели может снижаться.</span></button><button class="option"><span class="mark">B</span><span>Модель физически перемещается между серверами.</span></button><button class="option"><span class="mark">C</span><span>У клиента меняется пароль.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_rules_ml"><div class="task mcq" data-base-title="Почему в антифроде часто сочетают правила и машинное обучение?" data-points="1" data-task="fraud_rules_ml">
+<h3>Почему в антифроде часто сочетают правила и машинное обучение?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Правила хорошо отражают известные сценарии, а ML помогает выявлять сложные и меняющиеся паттерны.</span></button><button class="option"><span class="mark">B</span><span>Потому что машинное обучение не умеет работать с числами.</span></button><button class="option"><span class="mark">C</span><span>Чтобы каждую операцию обязательно проверял человек.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="aml_relation"><div class="task mcq" data-base-title="Какой пример ближе к задаче выявления подозрительной финансовой активности?" data-points="1" data-task="aml_relation">
+<h3>Какой пример ближе к задаче выявления подозрительной финансовой активности?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Анализ сети связанных переводов и нетипичных последовательностей операций.</span></button><button class="option"><span class="mark">B</span><span>Выбор темы оформления банковского приложения.</span></button><button class="option"><span class="mark">C</span><span>Измерение яркости экрана банкомата.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="customer_churn"><div class="task mcq" data-base-title="Как ИИ может использоваться для работы с оттоком клиентов банка?" data-points="1" data-task="customer_churn">
+<h3>Как ИИ может использоваться для работы с оттоком клиентов банка?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Оценивать вероятность ухода клиента и помогать выбирать персональное удерживающее предложение.</span></button><button class="option"><span class="mark">B</span><span>Автоматически удалять клиента из базы при снижении активности.</span></button><button class="option"><span class="mark">C</span><span>Гарантировать, что клиент никогда не сменит банк.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="scoring_target"><div class="task mcq" data-base-title="Какая целевая переменная наиболее логична для модели кредитного риска?" data-points="1" data-task="scoring_target">
+<h3>Какая целевая переменная наиболее логична для модели кредитного риска?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Факт дефолта или серьёзной просрочки в заданном горизонте.</span></button><button class="option"><span class="mark">B</span><span>Цвет банковской карты.</span></button><button class="option"><span class="mark">C</span><span>Количество букв в фамилии клиента.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_threshold"><div class="task mcq" data-base-title="Что обычно происходит, если слишком сильно снизить порог срабатывания антифрод-модели?" data-points="1" data-task="fraud_threshold">
+<h3>Что обычно происходит, если слишком сильно снизить порог срабатывания антифрод-модели?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Система начинает чаще помечать операции подозрительными, поэтому может вырасти число false positive.</span></button><button class="option"><span class="mark">B</span><span>Все мошеннические операции гарантированно исчезают.</span></button><button class="option"><span class="mark">C</span><span>Транзакции перестают содержать сумму.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="precision_recall_fraud"><div class="task mcq" data-base-title="Если для банка особенно опасно пропускать реальные мошеннические операции, какую характеристику важно контролировать?" data-points="1" data-task="precision_recall_fraud">
+<h3>Если для банка особенно опасно пропускать реальные мошеннические операции, какую характеристику важно контролировать?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Recall по мошенническому классу.</span></button><button class="option"><span class="mark">B</span><span>Размер логотипа приложения.</span></button><button class="option"><span class="mark">C</span><span>Количество экранов в мобильном банке.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="scoring_monitoring"><div class="task mcq" data-base-title="Что важно мониторить после запуска кредитной модели?" data-points="1" data-task="scoring_monitoring">
+<h3>Что важно мониторить после запуска кредитной модели?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Качество прогнозов, распределения признаков, долю одобрений и реальные дефолты.</span></button><button class="option"><span class="mark">B</span><span>Только название версии модели.</span></button><button class="option"><span class="mark">C</span><span>Только количество строк в исходном CSV.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="trading_backtest"><div class="task mcq" data-base-title="Что такое backtesting торговой стратегии?" data-points="1" data-task="trading_backtest">
+<h3>Что такое backtesting торговой стратегии?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Проверка логики стратегии на исторических данных с учётом выбранных допущений и ограничений.</span></button><button class="option"><span class="mark">B</span><span>Запуск стратегии только на будущих неизвестных данных без предварительной проверки.</span></button><button class="option"><span class="mark">C</span><span>Изменение шрифта торгового терминала.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="backtest_costs"><div class="task mcq" data-base-title="Что обязательно учитывать в реалистичном backtest алгоритмической стратегии?" data-points="1" data-task="backtest_costs">
+<h3>Что обязательно учитывать в реалистичном backtest алгоритмической стратегии?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Комиссии и торговые издержки.</span></button><button class="option" data-correct="true"><span class="mark">B</span><span>Проскальзывание и ограничения исполнения.</span></button><button class="option"><span class="mark">C</span><span>Только цвет свечей на графике.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_device"><div class="task mcq" data-base-title="Почему данные об устройстве и поведении сессии могут быть полезны антифроду?" data-points="1" data-task="fraud_device">
+<h3>Почему данные об устройстве и поведении сессии могут быть полезны антифроду?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Нетипичное устройство, география или паттерн действий могут усиливать подозрительность операции.</span></button><button class="option"><span class="mark">B</span><span>Они гарантированно доказывают мошенничество без других сигналов.</span></button><button class="option"><span class="mark">C</span><span>Они нужны только для изменения темы приложения.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="human_in_loop"><div class="task mcq" data-base-title="Когда human-in-the-loop особенно полезен в банковской ИИ-системе?" data-points="1" data-task="human_in_loop">
+<h3>Когда human-in-the-loop особенно полезен в банковской ИИ-системе?</h3>
+<div class="options"><button class="option" data-correct="true"><span class="mark">A</span><span>Для спорных или высокорисковых случаев, где автоматическое решение требует дополнительной проверки.</span></button><button class="option"><span class="mark">B</span><span>Чтобы человек вручную проверял абсолютно каждую операцию независимо от риска.</span></button><button class="option"><span class="mark">C</span><span>Чтобы отказаться от мониторинга модели.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="scoring_pipeline"><div class="task interactive-task sequence-task" data-base-title="Расставь этапы разработки модели кредитного скоринга" data-points="1" data-task="scoring_pipeline" data-type="sequence">
+<h3>Расставь этапы разработки модели кредитного скоринга</h3>
+<p class="task-hint">Поставь этапы от бизнес-задачи до мониторинга модели.</p>
+<div class="exam-bank sequence-bank" data-bank="scoring_pipeline"><button class="exam-card sequence-card" data-card-id="goal" draggable="true" type="button">Определить цель скоринга и критерий риска</button><button class="exam-card sequence-card" data-card-id="data" draggable="true" type="button">Подготовить исторические данные и признаки</button><button class="exam-card sequence-card" data-card-id="train" draggable="true" type="button">Обучить модель</button><button class="exam-card sequence-card" data-card-id="validate" draggable="true" type="button">Проверить качество, устойчивость и смещения</button><button class="exam-card sequence-card" data-card-id="deploy" draggable="true" type="button">Внедрить модель в кредитный процесс</button><button class="exam-card sequence-card" data-card-id="monitor" draggable="true" type="button">Мониторить качество и реальные дефолты</button></div>
+<div class="exam-sequence-slots five-slots"><div class="exam-slot" data-accept="goal" data-slot-id="1"><strong>Шаг 1</strong><span>Постановка задачи</span></div><div class="exam-slot" data-accept="data" data-slot-id="2"><strong>Шаг 2</strong><span>Данные</span></div><div class="exam-slot" data-accept="train" data-slot-id="3"><strong>Шаг 3</strong><span>Обучение</span></div><div class="exam-slot" data-accept="validate" data-slot-id="4"><strong>Шаг 4</strong><span>Проверка</span></div><div class="exam-slot" data-accept="deploy" data-slot-id="5"><strong>Шаг 5</strong><span>Внедрение</span></div><div class="exam-slot" data-accept="monitor" data-slot-id="6"><strong>Шаг 6</strong><span>Эксплуатация</span></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fraud_pipeline"><div class="task interactive-task sequence-task" data-base-title="Расставь этапы обработки транзакции антифрод-системой" data-points="1" data-task="fraud_pipeline" data-type="sequence">
+<h3>Расставь этапы обработки транзакции антифрод-системой</h3>
+<p class="task-hint">Поставь действия от получения операции до решения.</p>
+<div class="exam-bank sequence-bank" data-bank="fraud_pipeline"><button class="exam-card sequence-card" data-card-id="transaction" draggable="true" type="button">Получить данные новой операции</button><button class="exam-card sequence-card" data-card-id="features" draggable="true" type="button">Сформировать признаки риска</button><button class="exam-card sequence-card" data-card-id="score" draggable="true" type="button">Рассчитать риск моделью и правилами</button><button class="exam-card sequence-card" data-card-id="threshold" draggable="true" type="button">Сравнить риск с порогами</button><button class="exam-card sequence-card" data-card-id="action" draggable="true" type="button">Разрешить, запросить проверку или остановить операцию</button></div>
+<div class="exam-sequence-slots five-slots"><div class="exam-slot" data-accept="transaction" data-slot-id="1"><strong>Шаг 1</strong><span>Операция</span></div><div class="exam-slot" data-accept="features" data-slot-id="2"><strong>Шаг 2</strong><span>Признаки</span></div><div class="exam-slot" data-accept="score" data-slot-id="3"><strong>Шаг 3</strong><span>Оценка риска</span></div><div class="exam-slot" data-accept="threshold" data-slot-id="4"><strong>Шаг 4</strong><span>Порог</span></div><div class="exam-slot" data-accept="action" data-slot-id="5"><strong>Шаг 5</strong><span>Решение</span></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="trading_pipeline"><div class="task interactive-task sequence-task" data-base-title="Расставь этапы работы алгоритмической торговой стратегии" data-points="1" data-task="trading_pipeline" data-type="sequence">
+<h3>Расставь этапы работы алгоритмической торговой стратегии</h3>
+<p class="task-hint">Поставь этапы от рыночных данных до контроля результата.</p>
+<div class="exam-bank sequence-bank" data-bank="trading_pipeline"><button class="exam-card sequence-card" data-card-id="market" draggable="true" type="button">Получить рыночные данные</button><button class="exam-card sequence-card" data-card-id="signal" draggable="true" type="button">Рассчитать торговый сигнал</button><button class="exam-card sequence-card" data-card-id="risk" draggable="true" type="button">Проверить лимиты и риск</button><button class="exam-card sequence-card" data-card-id="order" draggable="true" type="button">Сформировать и отправить заявку</button><button class="exam-card sequence-card" data-card-id="monitor" draggable="true" type="button">Контролировать исполнение и состояние позиции</button></div>
+<div class="exam-sequence-slots five-slots"><div class="exam-slot" data-accept="market" data-slot-id="1"><strong>Шаг 1</strong><span>Данные</span></div><div class="exam-slot" data-accept="signal" data-slot-id="2"><strong>Шаг 2</strong><span>Сигнал</span></div><div class="exam-slot" data-accept="risk" data-slot-id="3"><strong>Шаг 3</strong><span>Риск</span></div><div class="exam-slot" data-accept="order" data-slot-id="4"><strong>Шаг 4</strong><span>Исполнение</span></div><div class="exam-slot" data-accept="monitor" data-slot-id="5"><strong>Шаг 5</strong><span>Контроль</span></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fintech_cases_classify"><div class="task interactive-task classify-task" data-base-title="Распредели кейсы по областям применения ИИ" data-points="1" data-task="fintech_cases_classify" data-type="classify">
+<h3>Распредели кейсы по областям применения ИИ</h3>
+<p class="task-hint">Перетащи каждый кейс в подходящую категорию.</p>
+<div class="exam-bank classify-bank" data-bank="fintech_cases_classify"><button class="exam-card classify-card" data-card-id="loan_default" data-correct-zone="scoring" draggable="true" type="button">Прогноз вероятности дефолта по кредиту</button><button class="exam-card classify-card" data-card-id="credit_limit" data-correct-zone="scoring" draggable="true" type="button">Расчёт риск-ориентированного кредитного лимита</button><button class="exam-card classify-card" data-card-id="card_fraud" data-correct-zone="fraud" draggable="true" type="button">Выявление подозрительной операции по карте</button><button class="exam-card classify-card" data-card-id="account_takeover" data-correct-zone="fraud" draggable="true" type="button">Выявление необычного входа и захвата аккаунта</button><button class="exam-card classify-card" data-card-id="market_signal" data-correct-zone="trading" draggable="true" type="button">Формирование торгового сигнала по рыночным данным</button><button class="exam-card classify-card" data-card-id="order_exec" data-correct-zone="trading" draggable="true" type="button">Оптимизация выставления биржевой заявки</button></div>
+<div class="classify-zones"><div class="exam-zone" data-zone-id="scoring"><strong>Кредитный скоринг</strong><span>Оценка кредитного риска</span><div class="zone-items"></div></div><div class="exam-zone" data-zone-id="fraud"><strong>Антифрод</strong><span>Поиск подозрительной активности</span><div class="zone-items"></div></div><div class="exam-zone" data-zone-id="trading"><strong>Алгоритмическая торговля</strong><span>Автоматизация торговых решений</span><div class="zone-items"></div></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="risk_data_classify"><div class="task interactive-task classify-task" data-base-title="Распредели признаки: полезный сигнал риска или явно нерелевантный признак" data-points="1" data-task="risk_data_classify" data-type="classify">
+<h3>Распредели признаки: полезный сигнал риска или явно нерелевантный признак</h3>
+<p class="task-hint">Оцени признаки в контексте кредитного скоринга.</p>
+<div class="exam-bank classify-bank" data-bank="risk_data_classify"><button class="exam-card classify-card" data-card-id="income" data-correct-zone="useful" draggable="true" type="button">Подтверждённый доход</button><button class="exam-card classify-card" data-card-id="debt_load" data-correct-zone="useful" draggable="true" type="button">Текущая долговая нагрузка</button><button class="exam-card classify-card" data-card-id="payment_history" data-correct-zone="useful" draggable="true" type="button">История просрочек</button><button class="exam-card classify-card" data-card-id="app_theme" data-correct-zone="irrelevant" draggable="true" type="button">Цвет темы мобильного приложения</button><button class="exam-card classify-card" data-card-id="avatar_color" data-correct-zone="irrelevant" draggable="true" type="button">Цвет аватара клиента</button><button class="exam-card classify-card" data-card-id="button_shape" data-correct-zone="irrelevant" draggable="true" type="button">Форма кнопки входа в приложение</button></div>
+<div class="classify-zones"><div class="exam-zone" data-zone-id="useful"><strong>Потенциально полезный признак</strong><span>Может быть связан с финансовым риском</span><div class="zone-items"></div></div><div class="exam-zone" data-zone-id="irrelevant"><strong>Явно нерелевантный признак</strong><span>Не должен определять кредитный риск</span><div class="zone-items"></div></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fintech_metrics_match"><div class="task interactive-task match-task" data-base-title="Соедини метрику с её смыслом" data-points="1" data-task="fintech_metrics_match" data-type="match">
+<h3>Соедини метрику с её смыслом</h3>
+<p class="task-hint">Выбери метрику слева и описание справа.</p>
 <div class="match-board">
-<div class="match-col match-left-col">
-<button class="match-card match-left" data-correct-right="late_metric" data-left-id="late" type="button">Снизить опоздания доставки</button>
-<button class="match-card match-left" data-correct-right="fraud_metric" data-left-id="fraud" type="button">Снизить потери от мошенничества</button>
-<button class="match-card match-left" data-correct-right="support_metric" data-left-id="support" type="button">Ускорить работу поддержки</button>
-<button class="match-card match-left" data-correct-right="stock_metric" data-left-id="stock" type="button">Снизить дефицит товара</button>
-</div>
-<div class="match-col match-right-col">
-<button class="match-card match-right" data-right-id="support_metric" type="button">Среднее время решения обращения</button>
-<button class="match-card match-right" data-right-id="stock_metric" type="button">Доля запросов, когда товара нет в наличии</button>
-<button class="match-card match-right" data-right-id="late_metric" type="button">Доля заказов, доставленных позже обещанного времени</button>
-<button class="match-card match-right" data-right-id="fraud_metric" type="button">Сумма подтверждённых мошеннических потерь</button>
-</div>
+<div class="match-col match-left-col"><button class="match-card match-left" data-correct-right="precision_desc" data-left-id="precision" type="button">Precision</button><button class="match-card match-left" data-correct-right="recall_desc" data-left-id="recall" type="button">Recall</button><button class="match-card match-left" data-correct-right="auc_desc" data-left-id="auc" type="button">ROC-AUC</button><button class="match-card match-left" data-correct-right="latency_desc" data-left-id="latency" type="button">Latency</button></div>
+<div class="match-col match-right-col"><button class="match-card match-right" data-right-id="recall_desc" type="button">Насколько полно система находит реальные целевые случаи</button><button class="match-card match-right" data-right-id="latency_desc" type="button">Сколько времени требуется системе для получения решения</button><button class="match-card match-right" data-right-id="auc_desc" type="button">Насколько модель в целом ранжирует положительные случаи выше отрицательных</button><button class="match-card match-right" data-right-id="precision_desc" type="button">Какая доля срабатываний действительно относится к целевому классу</button></div>
 </div>
 <div aria-live="polite" class="match-summary"></div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final6"><div class="task mcq" data-answer="2" data-base-title="Модель прошла тест. Как безопаснее внедрять?" data-points="1" data-task="final6">
-<h3>14. Модель прошла тест. Как безопаснее внедрять?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Сразу полностью заменить решение заведующей столовой без возможности вмешаться.</span></button>
-<button class="option"><span class="mark">B</span><span>Запустить без логов: если что-то сломается, разберёмся по памяти.</span></button>
-<button class="option"><span class="mark">C</span><span>Провести пилот, показать прогноз ответственному сотруднику, логировать решения и сравнить результат с текущим процессом.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final7"><div class="task mcq" data-answer="1" data-base-title="После изменения расписания пар структура посещаемости столовой изменилась. Что нужно проверить первым?" data-points="1" data-task="final7">
-<h3>15. После изменения расписания пар структура посещаемости столовой изменилась. Что нужно проверить первым?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Цвет кнопки в интерфейсе.</span></button>
-<button class="option"><span class="mark">B</span><span>Изменились ли входные данные и качество прогноза — возможен drift.</span></button>
-<button class="option"><span class="mark">C</span><span>Можно ли увеличить шрифт названия модели.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="final8"><div class="task interactive-task sequence-task" data-base-title="Мониторинг показал устойчивое ухудшение. Восстанови правильную последовательность действий команды" data-points="1" data-task="final8" data-type="sequence">
-<h3>16. Мониторинг показал устойчивое ухудшение. Восстанови правильную последовательность действий команды</h3>
-<p class="task-hint">Поставь действия в логичный порядок от обнаружения проблемы до нового стабильного запуска.</p>
-<div class="exam-bank sequence-bank" data-bank="final8">
-<button class="exam-card sequence-card" data-card-id="detect" draggable="true" type="button">Зафиксировать падение качества и определить масштаб проблемы</button>
-<button class="exam-card sequence-card" data-card-id="investigate" draggable="true" type="button">Проверить свежие данные, drift и причины ошибок</button>
-<button class="exam-card sequence-card" data-card-id="update" draggable="true" type="button">При необходимости обновить данные и модель</button>
-<button class="exam-card sequence-card" data-card-id="reeval" draggable="true" type="button">Повторно оценить новую версию на независимых данных</button>
-<button class="exam-card sequence-card" data-card-id="release" draggable="true" type="button">Безопасно развернуть новую версию и продолжить мониторинг</button>
-</div>
-<div class="exam-sequence-slots five-slots">
-<div class="exam-slot" data-accept="detect" data-slot-id="1"><strong>Шаг 1</strong><span>Первое действие</span></div>
-<div class="exam-slot" data-accept="investigate" data-slot-id="2"><strong>Шаг 2</strong><span>Разбор причины</span></div>
-<div class="exam-slot" data-accept="update" data-slot-id="3"><strong>Шаг 3</strong><span>Исправление</span></div>
-<div class="exam-slot" data-accept="reeval" data-slot-id="4"><strong>Шаг 4</strong><span>Проверка</span></div>
-<div class="exam-slot" data-accept="release" data-slot-id="5"><strong>Шаг 5</strong><span>Новый запуск</span></div>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="rescue_overfit"><div class="task mcq" data-answer="1" data-base-title="На обучающих данных ошибка всего 5%, а на новых тестовых — 32%. Что делать?" data-points="1" data-task="rescue_overfit">
-<h3>17. На обучающих данных ошибка всего 5%, а на новых тестовых — 32%. Что делать?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Запустить модель: на обучении она ведь почти идеальна.</span></button>
-<button class="option"><span class="mark">B</span><span>Проверить переобучение, изменить признаки/модель или регуляризацию и снова честно оценить на validation/test.</span></button>
-<button class="option"><span class="mark">C</span><span>Удалить тестовую выборку, чтобы плохой результат больше не мешал.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="rescue_missing"><div class="task mcq" data-answer="0" data-base-title="В части дней отсутствуют данные о посещаемости студентов. Какое действие правильнее?" data-points="1" data-task="rescue_missing">
-<h3>18. В части дней отсутствуют данные о посещаемости студентов. Какое действие правильнее?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Выяснить причину пропусков, оценить их долю и корректно обработать данные до обучения.</span></button>
-<button class="option"><span class="mark">B</span><span>Во все пропуски записать случайные числа от 1 до 100.</span></button>
-<button class="option"><span class="mark">C</span><span>Не проверять данные: модель сама поймёт, что там должно было быть.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="rescue_pilot"><div class="task mcq" data-answer="2" data-base-title="Модель прошла тесты, но ещё ни разу не использовалась в реальной столовой. Как запускать?" data-points="1" data-task="rescue_pilot">
-<h3>19. Модель прошла тесты, но ещё ни разу не использовалась в реальной столовой. Как запускать?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Сразу передать модели управление всей закупкой и убрать ручное решение.</span></button>
-<button class="option"><span class="mark">B</span><span>Сначала удалить логи, чтобы система работала быстрее.</span></button>
-<button class="option"><span class="mark">C</span><span>Запустить пилот на ограниченном участке процесса, оставить возможность вмешательства и сравнивать результат с текущим способом работы.</span></button>
-</div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="rescue_drift"><div class="task interactive-task match-task" data-base-title="Соедини симптом проекта с наиболее подходящей проблемой" data-points="1" data-task="rescue_drift" data-type="match">
-<h3>20. Соедини симптом проекта с наиболее подходящей проблемой</h3>
-<p class="task-hint">Выбери ситуацию слева и соответствующую проблему справа. Правильность связей скрыта.</p>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="bank_problem_solution_match"><div class="task interactive-task match-task" data-base-title="Соедини бизнес-задачу банка с подходящим ИИ-решением" data-points="1" data-task="bank_problem_solution_match" data-type="match">
+<h3>Соедини бизнес-задачу банка с подходящим ИИ-решением</h3>
+<p class="task-hint">Выбери задачу слева и решение справа.</p>
 <div class="match-board">
-<div class="match-col match-left-col">
-<button class="match-card match-left" data-correct-right="overfit" data-left-id="sym_overfit" type="button">99% на train, но заметно хуже на новых данных</button>
-<button class="match-card match-left" data-correct-right="drift" data-left-id="sym_drift" type="button">После изменения расписания изменились входные признаки</button>
-<button class="match-card match-left" data-correct-right="leak" data-left-id="sym_leak" type="button">В модель попал фактический результат будущего события</button>
-<button class="match-card match-left" data-correct-right="business_gap" data-left-id="sym_business" type="button">Метрика модели улучшилась, а бизнес-результат почти не изменился</button>
-</div>
-<div class="match-col match-right-col">
-<button class="match-card match-right" data-right-id="drift" type="button">Data drift</button>
-<button class="match-card match-right" data-right-id="business_gap" type="button">Нет ожидаемого бизнес-эффекта</button>
-<button class="match-card match-right" data-right-id="overfit" type="button">Переобучение</button>
-<button class="match-card match-right" data-right-id="leak" type="button">Утечка данных</button>
-</div>
+<div class="match-col match-left-col"><button class="match-card match-left" data-correct-right="score" data-left-id="loan" type="button">Оценить риск невозврата кредита</button><button class="match-card match-left" data-correct-right="antifraud" data-left-id="fraud" type="button">Найти подозрительную транзакцию</button><button class="match-card match-left" data-correct-right="churn_model" data-left-id="churn" type="button">Выявить клиента с высокой вероятностью ухода</button><button class="match-card match-left" data-correct-right="trade_model" data-left-id="trade" type="button">Автоматизировать формирование торгового сигнала</button></div>
+<div class="match-col match-right-col"><button class="match-card match-right" data-right-id="churn_model" type="button">Модель прогнозирования оттока</button><button class="match-card match-right" data-right-id="score" type="button">Кредитный скоринг</button><button class="match-card match-right" data-right-id="trade_model" type="button">Алгоритмическая торговая стратегия</button><button class="match-card match-right" data-right-id="antifraud" type="button">Антифрод-модель</button></div>
 </div>
 <div aria-live="polite" class="match-summary"></div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="rescue_business"><div class="task mcq" data-answer="2" data-base-title="MAE модели улучшился, но списания еды почти не уменьшились. Что это означает?" data-points="1" data-task="rescue_business">
-<h3>21. MAE модели улучшился, но списания еды почти не уменьшились. Что это означает?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Проект точно успешен: техническая метрика стала лучше.</span></button>
-<button class="option"><span class="mark">B</span><span>Нужно только увеличить размер сервера.</span></button>
-<button class="option"><span class="mark">C</span><span>Нужно проверить бизнес-метрику и весь процесс использования прогноза: хорошая модель ещё не гарантирует бизнес-эффект.</span></button>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="fintech_failure_match"><div class="task interactive-task match-task" data-base-title="Соедини проблему модели с наиболее подходящим объяснением" data-points="1" data-task="fintech_failure_match" data-type="match">
+<h3>Соедини проблему модели с наиболее подходящим объяснением</h3>
+<p class="task-hint">Выбери симптом слева и вероятную причину справа.</p>
+<div class="match-board">
+<div class="match-col match-left-col"><button class="match-card match-left" data-correct-right="fp" data-left-id="many_blocks" type="button">Слишком много нормальных операций блокируется</button><button class="match-card match-left" data-correct-right="fn" data-left-id="fraud_missed" type="button">Система пропускает много мошеннических операций</button><button class="match-card match-left" data-correct-right="drift" data-left-id="quality_drop" type="button">Качество скоринга ухудшается спустя месяцы</button><button class="match-card match-left" data-correct-right="backtest_bias" data-left-id="backtest_great_live_bad" type="button">Backtest отличный, а реальная торговля заметно хуже</button></div>
+<div class="match-col match-right-col"><button class="match-card match-right" data-right-id="drift" type="button">Изменение данных или поведения клиентов со временем</button><button class="match-card match-right" data-right-id="backtest_bias" type="button">Нереалистичный backtest, утечка будущего или неучтённые издержки</button><button class="match-card match-right" data-right-id="fp" type="button">Высокий уровень false positive</button><button class="match-card match-right" data-right-id="fn" type="button">Высокий уровень false negative</button></div>
 </div>
-</div></section><section class="lesson question-section variant-question-section" data-task-section="rescue_feedback_loop"><div class="task mcq" data-answer="0" data-base-title="Команда исправила проблему и обучила новую версию модели. Что нельзя пропускать перед повторным запуском?" data-points="1" data-task="rescue_feedback_loop">
-<h3>22. Команда исправила проблему и обучила новую версию модели. Что нельзя пропускать перед повторным запуском?</h3>
-<div class="options">
-<button class="option"><span class="mark">A</span><span>Повторную оценку на независимых данных, сравнение с текущей версией и безопасный релиз с мониторингом.</span></button>
-<button class="option"><span class="mark">B</span><span>Красивое новое название модели.</span></button>
-<button class="option"><span class="mark">C</span><span>Удаление старых метрик, чтобы версии нельзя было сравнить.</span></button>
-</div>
+<div aria-live="polite" class="match-summary"></div>
 </div></section><section class="finish-bar"><h2>Проверьте, что выполнили все задания</h2><p>До завершения работы можно вернуться к любому заданию и изменить выбранный вариант.</p><button class="action" id="finishBottom" type="button">Завершить работу</button></section>
 </main>
 </div>
@@ -1347,7 +1259,7 @@ main{margin-top:18px;}
 <div class="toast" id="toast"></div>
 <script>(() => {
   const SESSION_MINUTES = 45;
-  const SESSION_KEY = 'ai_lifecycle_exam_supabase_v1';
+  const SESSION_KEY = 'ai_fintech04_varied_structure_v3';
   const $ = (s,root=document)=>root.querySelector(s);
   const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
   const tasks = $$('.task[data-task]');
@@ -1357,7 +1269,14 @@ main{margin-top:18px;}
   let selectedInteractive=null;
   let selectedMatchLeft=null;
 
-  const VARIANT_ORDERS = {"1": ["final6", "final2", "final5", "final4", "rescue_pilot", "final1", "business_good_problem", "final7", "deploy_drift", "rescue_business", "data_more_not_better", "cycle_start", "final8", "final3", "rescue_overfit", "model_test_reason", "cycle_loop", "deploy_bad_quality", "rescue_missing", "model_overfit", "rescue_drift", "rescue_feedback_loop"], "2": ["final6", "final7", "rescue_pilot", "rescue_drift", "cycle_loop", "business_good_problem", "rescue_feedback_loop", "rescue_missing", "rescue_business", "final5", "cycle_start", "final3", "final4", "deploy_bad_quality", "model_test_reason", "data_more_not_better", "final8", "rescue_overfit", "deploy_drift", "model_overfit", "final1", "final2"], "3": ["business_good_problem", "final3", "rescue_business", "model_test_reason", "rescue_pilot", "cycle_loop", "final7", "final8", "final6", "rescue_overfit", "cycle_start", "deploy_bad_quality", "final2", "model_overfit", "rescue_missing", "final5", "rescue_feedback_loop", "data_more_not_better", "rescue_drift", "final1", "final4", "deploy_drift"], "4": ["final7", "deploy_bad_quality", "rescue_pilot", "final4", "final3", "deploy_drift", "business_good_problem", "final5", "cycle_start", "model_overfit", "rescue_drift", "final2", "final8", "rescue_missing", "cycle_loop", "rescue_overfit", "final6", "rescue_feedback_loop", "final1", "data_more_not_better", "model_test_reason", "rescue_business"], "5": ["rescue_pilot", "rescue_missing", "rescue_drift", "final2", "final3", "rescue_overfit", "final1", "final4", "rescue_business", "deploy_bad_quality", "data_more_not_better", "deploy_drift", "model_test_reason", "cycle_start", "final7", "model_overfit", "final8", "final5", "rescue_feedback_loop", "final6", "cycle_loop", "business_good_problem"], "6": ["cycle_loop", "model_overfit", "cycle_start", "final2", "final5", "rescue_pilot", "rescue_business", "final4", "rescue_overfit", "final3", "deploy_bad_quality", "data_more_not_better", "rescue_missing", "final8", "rescue_feedback_loop", "deploy_drift", "model_test_reason", "business_good_problem", "rescue_drift", "final7", "final1", "final6"], "7": ["final1", "model_test_reason", "final3", "data_more_not_better", "final2", "business_good_problem", "deploy_drift", "model_overfit", "rescue_business", "final7", "deploy_bad_quality", "rescue_pilot", "rescue_feedback_loop", "final6", "final8", "cycle_loop", "rescue_drift", "rescue_missing", "final5", "rescue_overfit", "final4", "cycle_start"], "8": ["final5", "final7", "final6", "deploy_drift", "model_overfit", "business_good_problem", "final1", "rescue_feedback_loop", "data_more_not_better", "cycle_start", "final4", "rescue_overfit", "rescue_business", "model_test_reason", "deploy_bad_quality", "cycle_loop", "rescue_missing", "final3", "final2", "rescue_pilot", "final8", "rescue_drift"], "9": ["final8", "deploy_drift", "cycle_start", "deploy_bad_quality", "model_test_reason", "rescue_business", "final6", "rescue_pilot", "rescue_feedback_loop", "final7", "cycle_loop", "data_more_not_better", "rescue_overfit", "model_overfit", "final4", "final3", "final5", "final2", "final1", "business_good_problem", "rescue_drift", "rescue_missing"], "10": ["final8", "rescue_overfit", "deploy_bad_quality", "deploy_drift", "rescue_business", "final6", "final7", "final3", "rescue_missing", "rescue_feedback_loop", "final4", "final2", "model_overfit", "cycle_start", "final5", "business_good_problem", "data_more_not_better", "final1", "rescue_drift", "cycle_loop", "model_test_reason", "rescue_pilot"], "11": ["final6", "final5", "model_overfit", "final8", "rescue_overfit", "final1", "rescue_missing", "cycle_start", "data_more_not_better", "final7", "final3", "rescue_feedback_loop", "cycle_loop", "deploy_bad_quality", "final4", "business_good_problem", "deploy_drift", "rescue_business", "final2", "model_test_reason", "rescue_pilot", "rescue_drift"], "12": ["rescue_missing", "deploy_drift", "final1", "model_test_reason", "rescue_feedback_loop", "final4", "final2", "final5", "cycle_start", "cycle_loop", "final6", "business_good_problem", "rescue_drift", "rescue_pilot", "rescue_overfit", "rescue_business", "deploy_bad_quality", "model_overfit", "data_more_not_better", "final7", "final8", "final3"], "13": ["cycle_start", "final6", "rescue_pilot", "final5", "final3", "data_more_not_better", "final1", "final2", "final8", "final4", "rescue_drift", "rescue_overfit", "deploy_drift", "rescue_feedback_loop", "rescue_missing", "cycle_loop", "rescue_business", "model_test_reason", "model_overfit", "final7", "business_good_problem", "deploy_bad_quality"], "14": ["model_overfit", "rescue_feedback_loop", "rescue_overfit", "deploy_drift", "final5", "final8", "business_good_problem", "rescue_drift", "final2", "rescue_pilot", "final4", "rescue_business", "data_more_not_better", "rescue_missing", "final7", "final6", "cycle_start", "cycle_loop", "model_test_reason", "final3", "final1", "deploy_bad_quality"], "15": ["model_overfit", "final2", "rescue_drift", "final6", "rescue_business", "deploy_drift", "final4", "final5", "business_good_problem", "final3", "cycle_loop", "model_test_reason", "data_more_not_better", "deploy_bad_quality", "final8", "final1", "rescue_pilot", "rescue_overfit", "rescue_missing", "cycle_start", "final7", "rescue_feedback_loop"], "16": ["cycle_loop", "cycle_start", "final7", "rescue_drift", "deploy_drift", "data_more_not_better", "final2", "model_test_reason", "rescue_missing", "final6", "rescue_business", "final5", "final3", "final4", "deploy_bad_quality", "model_overfit", "final1", "rescue_pilot", "rescue_feedback_loop", "final8", "business_good_problem", "rescue_overfit"], "17": ["final6", "rescue_business", "model_overfit", "deploy_drift", "cycle_loop", "rescue_overfit", "final8", "final5", "rescue_feedback_loop", "rescue_drift", "deploy_bad_quality", "final4", "data_more_not_better", "final1", "business_good_problem", "rescue_missing", "rescue_pilot", "model_test_reason", "final2", "final7", "final3", "cycle_start"], "18": ["business_good_problem", "model_overfit", "deploy_bad_quality", "final8", "final3", "final4", "final2", "model_test_reason", "rescue_business", "rescue_pilot", "cycle_loop", "deploy_drift", "rescue_drift", "final1", "cycle_start", "rescue_feedback_loop", "final6", "data_more_not_better", "rescue_missing", "final5", "final7", "rescue_overfit"], "19": ["final4", "model_overfit", "final7", "final5", "final6", "final8", "deploy_drift", "rescue_overfit", "business_good_problem", "rescue_feedback_loop", "data_more_not_better", "final3", "rescue_drift", "model_test_reason", "rescue_missing", "deploy_bad_quality", "cycle_start", "final2", "rescue_pilot", "final1", "rescue_business", "cycle_loop"], "20": ["final5", "model_overfit", "final2", "model_test_reason", "rescue_feedback_loop", "final8", "final6", "rescue_drift", "data_more_not_better", "business_good_problem", "rescue_overfit", "rescue_missing", "final1", "rescue_business", "deploy_bad_quality", "rescue_pilot", "final4", "deploy_drift", "final3", "cycle_loop", "cycle_start", "final7"], "21": ["deploy_drift", "business_good_problem", "final1", "rescue_pilot", "data_more_not_better", "model_overfit", "rescue_overfit", "cycle_start", "final7", "rescue_feedback_loop", "deploy_bad_quality", "final8", "final2", "final4", "rescue_missing", "model_test_reason", "final6", "final3", "final5", "rescue_business", "rescue_drift", "cycle_loop"], "22": ["model_overfit", "final4", "cycle_loop", "final7", "business_good_problem", "rescue_business", "rescue_feedback_loop", "final2", "model_test_reason", "cycle_start", "rescue_drift", "rescue_missing", "rescue_overfit", "deploy_drift", "deploy_bad_quality", "final6", "final1", "final3", "final5", "rescue_pilot", "final8", "data_more_not_better"], "23": ["final6", "model_overfit", "rescue_overfit", "final3", "final5", "rescue_drift", "final8", "cycle_start", "final7", "cycle_loop", "business_good_problem", "rescue_feedback_loop", "model_test_reason", "deploy_drift", "rescue_missing", "deploy_bad_quality", "final4", "rescue_pilot", "rescue_business", "final2", "data_more_not_better", "final1"], "24": ["rescue_drift", "rescue_feedback_loop", "rescue_overfit", "final1", "final4", "final6", "model_overfit", "cycle_start", "business_good_problem", "deploy_drift", "rescue_missing", "data_more_not_better", "final8", "cycle_loop", "model_test_reason", "final5", "rescue_pilot", "final2", "final3", "final7", "deploy_bad_quality", "rescue_business"], "25": ["rescue_overfit", "rescue_missing", "model_overfit", "final4", "deploy_drift", "cycle_start", "final7", "cycle_loop", "final5", "business_good_problem", "rescue_feedback_loop", "final3", "data_more_not_better", "final2", "final6", "model_test_reason", "rescue_business", "rescue_drift", "final8", "rescue_pilot", "final1", "deploy_bad_quality"], "26": ["deploy_bad_quality", "rescue_missing", "rescue_overfit", "final2", "final5", "model_test_reason", "final4", "final7", "data_more_not_better", "rescue_feedback_loop", "model_overfit", "final3", "final1", "rescue_pilot", "final8", "business_good_problem", "rescue_drift", "deploy_drift", "cycle_start", "rescue_business", "cycle_loop", "final6"], "27": ["cycle_start", "cycle_loop", "rescue_feedback_loop", "deploy_bad_quality", "rescue_drift", "final4", "final5", "deploy_drift", "final8", "final2", "final3", "rescue_overfit", "data_more_not_better", "final7", "model_test_reason", "final6", "rescue_missing", "model_overfit", "rescue_pilot", "final1", "business_good_problem", "rescue_business"], "28": ["model_overfit", "deploy_drift", "data_more_not_better", "final4", "rescue_business", "business_good_problem", "final2", "final3", "final8", "final1", "rescue_missing", "rescue_feedback_loop", "rescue_overfit", "cycle_loop", "final5", "final6", "deploy_bad_quality", "model_test_reason", "rescue_pilot", "rescue_drift", "cycle_start", "final7"], "29": ["final3", "final5", "rescue_pilot", "business_good_problem", "deploy_drift", "final7", "model_overfit", "rescue_missing", "rescue_business", "final1", "final4", "cycle_start", "final8", "final2", "rescue_overfit", "rescue_feedback_loop", "model_test_reason", "deploy_bad_quality", "data_more_not_better", "final6", "rescue_drift", "cycle_loop"], "30": ["final7", "final5", "final8", "model_overfit", "final3", "rescue_drift", "cycle_start", "cycle_loop", "model_test_reason", "rescue_pilot", "final2", "rescue_missing", "deploy_bad_quality", "business_good_problem", "data_more_not_better", "deploy_drift", "final4", "rescue_feedback_loop", "rescue_business", "final6", "rescue_overfit", "final1"]};
+  function getActiveTasks(){
+    const ids=VARIANT_ORDERS[String(Number(state.variant)||'')]||[];
+    const idSet=new Set(ids);
+    return tasks.filter(task=>idSet.has(task.dataset.task));
+  }
+
+  const VARIANT_ORDERS = {"1": ["precision_recall_fraud", "backtest_costs", "scoring_monitoring", "fintech_failure_match", "concept_drift_finance", "fintech_metrics_match", "risk_data_classify", "trading_backtest", "scoring_pipeline", "fraud_false_positive", "scoring_target", "bank_problem_solution_match", "trading_risk", "fraud_rules_ml", "fraud_false_negative", "human_in_loop", "trading_pipeline", "credit_scoring_goal", "trading_latency", "fraud_anomaly", "fintech_cases_classify", "fraud_pipeline", "fraud_realtime", "fraud_threshold"], "2": ["explainability_credit", "aml_relation", "fintech_metrics_match", "fintech_failure_match", "credit_scoring_goal", "concept_drift_finance", "trading_latency", "precision_recall_fraud", "train_test_time", "fraud_pipeline", "customer_churn", "scoring_bias", "fraud_realtime", "fraud_device", "fraud_anomaly", "fintech_cases_classify", "trading_pipeline", "scoring_features", "risk_data_classify", "human_in_loop", "fraud_false_negative", "bank_problem_solution_match", "scoring_target", "scoring_monitoring", "fraud_rules_ml"], "3": ["explainability_credit", "concept_drift_finance", "trading_pipeline", "train_test_time", "fraud_pipeline", "bank_problem_solution_match", "fraud_rules_ml", "aml_relation", "trading_backtest", "scoring_monitoring", "risk_data_classify", "fraud_false_positive", "precision_recall_fraud", "credit_scoring_goal", "fintech_metrics_match", "customer_churn", "fraud_device", "backtest_costs", "fraud_threshold", "fraud_false_negative", "scoring_target", "fraud_realtime", "fraud_anomaly", "trading_risk", "fintech_cases_classify", "scoring_bias"], "4": ["fraud_rules_ml", "train_test_time", "aml_relation", "scoring_pipeline", "trading_latency", "backtest_costs", "fraud_false_positive", "scoring_bias", "fintech_failure_match", "scoring_features", "concept_drift_finance", "explainability_credit", "scoring_target", "fintech_cases_classify", "fraud_realtime", "fraud_false_negative", "trading_pipeline", "precision_recall_fraud", "fraud_threshold", "fraud_anomaly", "risk_data_classify", "scoring_monitoring", "human_in_loop", "customer_churn", "trading_risk", "fraud_device", "fintech_metrics_match"], "5": ["fraud_pipeline", "human_in_loop", "fintech_cases_classify", "credit_scoring_goal", "trading_latency", "bank_problem_solution_match", "fraud_threshold", "explainability_credit", "fraud_false_negative", "precision_recall_fraud", "fraud_device", "fraud_anomaly", "train_test_time", "backtest_costs", "fraud_realtime", "scoring_monitoring", "trading_backtest", "scoring_target", "customer_churn", "fraud_rules_ml", "trading_pipeline", "fintech_failure_match", "trading_risk", "scoring_bias", "concept_drift_finance", "fraud_false_positive", "scoring_features", "aml_relation"], "6": ["concept_drift_finance", "scoring_pipeline", "scoring_bias", "backtest_costs", "fraud_rules_ml", "trading_risk", "fraud_false_negative", "fintech_failure_match", "human_in_loop", "risk_data_classify", "trading_backtest", "fraud_device", "bank_problem_solution_match", "fraud_anomaly", "trading_pipeline", "credit_scoring_goal", "customer_churn", "fraud_pipeline", "fintech_metrics_match", "scoring_features", "explainability_credit", "trading_latency", "precision_recall_fraud", "fintech_cases_classify"], "7": ["backtest_costs", "train_test_time", "aml_relation", "fraud_rules_ml", "credit_scoring_goal", "trading_risk", "fintech_cases_classify", "customer_churn", "fintech_metrics_match", "fraud_anomaly", "fraud_false_negative", "fraud_device", "fraud_threshold", "fraud_false_positive", "scoring_monitoring", "precision_recall_fraud", "scoring_target", "human_in_loop", "scoring_pipeline", "risk_data_classify", "concept_drift_finance", "fintech_failure_match", "explainability_credit", "bank_problem_solution_match", "fraud_pipeline"], "8": ["fraud_pipeline", "fraud_rules_ml", "trading_pipeline", "fraud_anomaly", "bank_problem_solution_match", "fraud_false_negative", "train_test_time", "backtest_costs", "fraud_false_positive", "concept_drift_finance", "aml_relation", "customer_churn", "risk_data_classify", "trading_backtest", "fintech_cases_classify", "fraud_threshold", "scoring_features", "scoring_target", "scoring_bias", "fintech_metrics_match", "fraud_realtime", "explainability_credit", "credit_scoring_goal", "precision_recall_fraud", "scoring_monitoring", "human_in_loop"], "9": ["explainability_credit", "fraud_anomaly", "scoring_target", "precision_recall_fraud", "trading_backtest", "scoring_features", "customer_churn", "scoring_bias", "scoring_pipeline", "credit_scoring_goal", "fintech_failure_match", "fraud_realtime", "scoring_monitoring", "trading_pipeline", "bank_problem_solution_match", "aml_relation", "fraud_false_positive", "fraud_rules_ml", "human_in_loop", "trading_latency", "fraud_false_negative", "fraud_threshold", "risk_data_classify", "fintech_cases_classify", "fraud_device", "backtest_costs", "train_test_time"], "10": ["explainability_credit", "trading_backtest", "train_test_time", "fraud_false_positive", "scoring_target", "fintech_metrics_match", "fraud_false_negative", "precision_recall_fraud", "concept_drift_finance", "fintech_cases_classify", "fraud_anomaly", "credit_scoring_goal", "fraud_realtime", "aml_relation", "fraud_threshold", "backtest_costs", "trading_latency", "fraud_rules_ml", "fraud_pipeline", "scoring_pipeline", "scoring_features", "fintech_failure_match", "scoring_bias", "trading_risk", "scoring_monitoring", "customer_churn", "fraud_device", "human_in_loop"], "11": ["aml_relation", "bank_problem_solution_match", "fraud_rules_ml", "backtest_costs", "fraud_anomaly", "fraud_device", "risk_data_classify", "scoring_pipeline", "scoring_bias", "fraud_pipeline", "fintech_failure_match", "fintech_cases_classify", "scoring_features", "fraud_threshold", "scoring_monitoring", "fraud_false_negative", "credit_scoring_goal", "train_test_time", "human_in_loop", "trading_latency", "trading_pipeline", "fintech_metrics_match", "trading_risk", "precision_recall_fraud"], "12": ["scoring_pipeline", "fraud_device", "fintech_metrics_match", "bank_problem_solution_match", "precision_recall_fraud", "fraud_rules_ml", "explainability_credit", "fraud_threshold", "scoring_features", "trading_latency", "scoring_monitoring", "fraud_pipeline", "customer_churn", "concept_drift_finance", "train_test_time", "fintech_failure_match", "risk_data_classify", "fintech_cases_classify", "scoring_bias", "scoring_target", "fraud_realtime", "trading_backtest", "fraud_false_positive", "credit_scoring_goal", "trading_risk"], "13": ["scoring_bias", "trading_latency", "fraud_realtime", "precision_recall_fraud", "scoring_features", "fraud_false_negative", "bank_problem_solution_match", "aml_relation", "fraud_device", "trading_risk", "customer_churn", "concept_drift_finance", "backtest_costs", "trading_pipeline", "risk_data_classify", "fraud_pipeline", "fraud_anomaly", "fintech_cases_classify", "fraud_false_positive", "fintech_metrics_match", "fraud_rules_ml", "scoring_target", "train_test_time", "human_in_loop", "credit_scoring_goal", "scoring_monitoring"], "14": ["trading_backtest", "trading_pipeline", "risk_data_classify", "precision_recall_fraud", "fraud_device", "fraud_realtime", "trading_latency", "train_test_time", "explainability_credit", "scoring_bias", "backtest_costs", "fraud_false_negative", "fraud_rules_ml", "customer_churn", "fintech_failure_match", "aml_relation", "bank_problem_solution_match", "fraud_false_positive", "fintech_cases_classify", "scoring_pipeline", "human_in_loop", "scoring_target", "credit_scoring_goal", "scoring_monitoring", "fraud_anomaly", "scoring_features", "fraud_threshold"], "15": ["scoring_target", "fraud_pipeline", "fintech_failure_match", "human_in_loop", "scoring_features", "risk_data_classify", "fraud_false_negative", "fraud_false_positive", "aml_relation", "fraud_threshold", "scoring_monitoring", "customer_churn", "trading_latency", "scoring_bias", "trading_backtest", "concept_drift_finance", "fraud_anomaly", "train_test_time", "fraud_device", "precision_recall_fraud", "trading_pipeline", "credit_scoring_goal", "explainability_credit", "bank_problem_solution_match", "fraud_realtime", "backtest_costs", "fraud_rules_ml", "trading_risk"], "16": ["trading_pipeline", "risk_data_classify", "trading_risk", "scoring_target", "trading_latency", "fraud_rules_ml", "fraud_false_positive", "customer_churn", "fraud_pipeline", "fraud_realtime", "fintech_cases_classify", "fintech_failure_match", "trading_backtest", "scoring_monitoring", "concept_drift_finance", "train_test_time", "fintech_metrics_match", "scoring_bias", "aml_relation", "scoring_pipeline", "fraud_anomaly", "bank_problem_solution_match", "fraud_false_negative", "explainability_credit"], "17": ["trading_pipeline", "trading_latency", "fraud_device", "scoring_target", "concept_drift_finance", "bank_problem_solution_match", "fraud_false_positive", "precision_recall_fraud", "train_test_time", "scoring_features", "explainability_credit", "scoring_bias", "fintech_failure_match", "fraud_false_negative", "fraud_anomaly", "customer_churn", "risk_data_classify", "scoring_monitoring", "human_in_loop", "fraud_pipeline", "fintech_cases_classify", "trading_backtest", "credit_scoring_goal", "aml_relation", "fintech_metrics_match"], "18": ["fintech_metrics_match", "aml_relation", "fraud_realtime", "fraud_false_negative", "fraud_device", "fraud_threshold", "customer_churn", "trading_backtest", "fintech_failure_match", "backtest_costs", "scoring_target", "trading_risk", "fraud_false_positive", "risk_data_classify", "trading_pipeline", "fraud_anomaly", "credit_scoring_goal", "fintech_cases_classify", "precision_recall_fraud", "fraud_rules_ml", "scoring_features", "scoring_monitoring", "scoring_pipeline", "train_test_time", "trading_latency", "concept_drift_finance"], "19": ["trading_latency", "fintech_cases_classify", "train_test_time", "fraud_false_positive", "trading_risk", "fraud_device", "fintech_metrics_match", "concept_drift_finance", "scoring_bias", "bank_problem_solution_match", "scoring_features", "precision_recall_fraud", "scoring_pipeline", "fraud_threshold", "fraud_pipeline", "backtest_costs", "fraud_false_negative", "explainability_credit", "customer_churn", "fraud_anomaly", "scoring_monitoring", "risk_data_classify", "scoring_target", "aml_relation", "human_in_loop", "fraud_realtime", "trading_backtest"], "20": ["fraud_anomaly", "fraud_pipeline", "train_test_time", "scoring_bias", "fraud_false_negative", "scoring_monitoring", "credit_scoring_goal", "fraud_false_positive", "explainability_credit", "customer_churn", "scoring_pipeline", "concept_drift_finance", "fraud_device", "fraud_realtime", "aml_relation", "trading_latency", "bank_problem_solution_match", "scoring_features", "scoring_target", "human_in_loop", "trading_risk", "precision_recall_fraud", "trading_backtest", "fintech_cases_classify", "fraud_rules_ml", "fintech_failure_match", "backtest_costs", "fraud_threshold"], "21": ["fraud_pipeline", "fraud_false_negative", "human_in_loop", "fintech_failure_match", "scoring_target", "precision_recall_fraud", "fraud_anomaly", "trading_latency", "scoring_features", "aml_relation", "explainability_credit", "fraud_rules_ml", "trading_pipeline", "fintech_cases_classify", "credit_scoring_goal", "fintech_metrics_match", "bank_problem_solution_match", "concept_drift_finance", "scoring_monitoring", "risk_data_classify", "fraud_device", "fraud_realtime", "scoring_bias", "scoring_pipeline"], "22": ["trading_backtest", "fraud_false_positive", "fraud_pipeline", "fintech_failure_match", "fraud_rules_ml", "trading_pipeline", "fraud_device", "concept_drift_finance", "trading_risk", "train_test_time", "credit_scoring_goal", "backtest_costs", "explainability_credit", "human_in_loop", "scoring_monitoring", "fraud_anomaly", "precision_recall_fraud", "fintech_metrics_match", "risk_data_classify", "scoring_target", "aml_relation", "scoring_bias", "fintech_cases_classify", "bank_problem_solution_match", "trading_latency"], "23": ["trading_pipeline", "scoring_target", "scoring_pipeline", "trading_latency", "scoring_features", "concept_drift_finance", "fintech_metrics_match", "fraud_rules_ml", "scoring_monitoring", "fraud_false_negative", "explainability_credit", "customer_churn", "train_test_time", "fraud_device", "fraud_anomaly", "fintech_cases_classify", "bank_problem_solution_match", "fraud_false_positive", "risk_data_classify", "human_in_loop", "backtest_costs", "scoring_bias", "trading_risk", "fraud_realtime", "fraud_threshold", "trading_backtest"], "24": ["trading_latency", "trading_risk", "bank_problem_solution_match", "customer_churn", "fraud_realtime", "scoring_pipeline", "trading_pipeline", "aml_relation", "explainability_credit", "fintech_metrics_match", "precision_recall_fraud", "scoring_target", "concept_drift_finance", "fintech_cases_classify", "fraud_false_negative", "backtest_costs", "scoring_monitoring", "risk_data_classify", "credit_scoring_goal", "fraud_threshold", "fraud_device", "trading_backtest", "fraud_anomaly", "scoring_bias", "fraud_rules_ml", "human_in_loop", "scoring_features"], "25": ["scoring_features", "fraud_threshold", "scoring_bias", "fraud_device", "fraud_false_positive", "train_test_time", "risk_data_classify", "precision_recall_fraud", "trading_risk", "customer_churn", "fintech_failure_match", "fraud_anomaly", "scoring_monitoring", "scoring_target", "fraud_rules_ml", "credit_scoring_goal", "aml_relation", "fraud_false_negative", "explainability_credit", "trading_backtest", "scoring_pipeline", "fintech_metrics_match", "concept_drift_finance", "fraud_pipeline", "trading_latency", "backtest_costs", "human_in_loop", "fraud_realtime"], "26": ["fintech_metrics_match", "fraud_pipeline", "scoring_features", "scoring_target", "fraud_device", "fintech_cases_classify", "trading_pipeline", "bank_problem_solution_match", "trading_backtest", "customer_churn", "fraud_false_negative", "fraud_rules_ml", "fraud_realtime", "risk_data_classify", "fraud_anomaly", "precision_recall_fraud", "train_test_time", "trading_risk", "scoring_monitoring", "fintech_failure_match", "scoring_bias", "scoring_pipeline", "backtest_costs", "credit_scoring_goal"], "27": ["concept_drift_finance", "train_test_time", "risk_data_classify", "trading_risk", "credit_scoring_goal", "fraud_pipeline", "backtest_costs", "fraud_realtime", "trading_latency", "scoring_target", "scoring_monitoring", "fraud_rules_ml", "trading_backtest", "fraud_anomaly", "fintech_metrics_match", "fintech_cases_classify", "explainability_credit", "bank_problem_solution_match", "fraud_threshold", "precision_recall_fraud", "fraud_false_negative", "scoring_bias", "trading_pipeline", "fintech_failure_match", "scoring_features"], "28": ["fintech_failure_match", "fraud_threshold", "scoring_features", "risk_data_classify", "scoring_bias", "aml_relation", "trading_backtest", "fraud_rules_ml", "scoring_target", "fraud_anomaly", "scoring_monitoring", "human_in_loop", "credit_scoring_goal", "explainability_credit", "trading_latency", "precision_recall_fraud", "fraud_false_negative", "customer_churn", "bank_problem_solution_match", "fraud_device", "scoring_pipeline", "fintech_cases_classify", "fraud_false_positive", "train_test_time", "trading_pipeline", "trading_risk"], "29": ["scoring_bias", "scoring_features", "fraud_realtime", "human_in_loop", "aml_relation", "fraud_pipeline", "credit_scoring_goal", "fraud_anomaly", "trading_risk", "risk_data_classify", "scoring_pipeline", "fintech_metrics_match", "backtest_costs", "trading_backtest", "fraud_threshold", "scoring_target", "trading_latency", "fraud_device", "fraud_rules_ml", "fraud_false_negative", "scoring_monitoring", "fintech_cases_classify", "explainability_credit", "concept_drift_finance", "fintech_failure_match", "train_test_time", "precision_recall_fraud"], "30": ["fraud_anomaly", "fintech_cases_classify", "backtest_costs", "trading_risk", "precision_recall_fraud", "fraud_threshold", "fraud_pipeline", "scoring_pipeline", "fintech_failure_match", "human_in_loop", "fintech_metrics_match", "trading_latency", "scoring_monitoring", "scoring_bias", "scoring_target", "fraud_false_positive", "concept_drift_finance", "fraud_device", "fraud_realtime", "customer_churn", "scoring_features", "trading_backtest", "fraud_rules_ml", "explainability_credit", "train_test_time", "aml_relation", "credit_scoring_goal", "fraud_false_negative"]};
+  const VARIANT_META = {"1": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "2": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "3": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "4": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "5": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "6": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "7": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "8": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "9": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "10": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "11": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "12": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "13": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "14": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "15": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "16": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "17": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "18": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "19": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "20": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "21": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "22": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "23": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "24": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "25": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "26": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "27": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "28": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "29": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "30": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}};
   const mainEl = $('main');
   const finishBarEl = $('.finish-bar');
   const sectionByTask = new Map(
@@ -1404,13 +1323,20 @@ main{margin-top:18px;}
     const order=VARIANT_ORDERS[v];
     if(!order)return false;
 
-    // 1. Фиксированный порядок 22 заданий для выбранного варианта.
+    const selectedSet=new Set(order);
+
+    // В каждом варианте свой НАБОР заданий, а не только другой порядок.
+    sectionByTask.forEach((sec,taskId)=>{
+      sec.style.display=selectedSet.has(taskId)?'':'none';
+    });
+
+    // Показываем выбранные задания в порядке конкретного варианта.
     order.forEach(taskId=>{
       const sec=sectionByTask.get(taskId);
       if(sec&&finishBarEl)mainEl.insertBefore(sec,finishBarEl);
     });
 
-    // 2. Перенумеровываем вопросы в том порядке, который увидит студент.
+    // Нумерация только видимых заданий.
     order.forEach((taskId,index)=>{
       const sec=sectionByTask.get(taskId);
       const task=sec?.querySelector('.task[data-task]');
@@ -1418,7 +1344,7 @@ main{margin-top:18px;}
       if(h3)h3.textContent=`${index+1}. ${task.dataset.baseTitle||''}`;
     });
 
-    // 3. Для каждого варианта свой, но воспроизводимый порядок A/B/C и карточек.
+    // Свой воспроизводимый порядок ответов и карточек.
     let rng=makeRng((0xA17F29C3 ^ Math.imul(Number(v),0x9E3779B1))>>>0);
 
     mcqTasks.forEach(task=>{
@@ -1442,6 +1368,7 @@ main{margin-top:18px;}
     if(vc)vc.textContent=`Вариант ${String(v).padStart(2,'0')}`;
     const fv=$('#finalVariant');
     if(fv)fv.textContent=`Вариант ${String(v).padStart(2,'0')}`;
+
     return true;
   }
 
@@ -1480,15 +1407,24 @@ main{margin-top:18px;}
     if(type==='match')return Object.keys(ans.pairs||{}).length===$$('.match-left',task).length;
     return false;
   }
-  function completedCount(){return tasks.filter(isTaskComplete).length;}
+  function completedCount(){return getActiveTasks().filter(isTaskComplete).length;}
   function updateProgress(){
-    const answered=completedCount();
+    const active=getActiveTasks();
+    const total=active.length;
+    const answered=active.filter(isTaskComplete).length;
     const answeredNow=$('#answeredNow');if(answeredNow)answeredNow.textContent=answered;
     const done=$('#done');if(done)done.textContent=answered;
-    const remaining=$('#remaining');if(remaining)remaining.textContent=Math.max(0,tasks.length-answered);
+    const remaining=$('#remaining');if(remaining)remaining.textContent=Math.max(0,total-answered);
     const statusText=$('#statusText');if(statusText)statusText.textContent='Скрыт';
-    const progressText=$('#progressText');if(progressText)progressText.textContent=answered===tasks.length?'Все задания выполнены. Можно проверить ответы и завершить работу.':`Выполнено ${answered} из ${tasks.length} заданий. Правильность скрыта.`;
-    const fill=$('#fill');if(fill)fill.style.width=(tasks.length?Math.round(answered/tasks.length*100):0)+'%';
+    const progressText=$('#progressText');
+    if(progressText){
+      progressText.textContent=total===0
+        ?'Количество заданий зависит от выбранного варианта.'
+        :(answered===total
+          ?'Все задания выполнены. Можно проверить ответы и завершить работу.'
+          :`Выполнено ${answered} из ${total} заданий. Правильность скрыта.`);
+    }
+    const fill=$('#fill');if(fill)fill.style.width=(total?Math.round(answered/total*100):0)+'%';
   }
   function persistSession(extra={}){if(!state.started)return;const payload={startAt:state.startAt,endAt:state.endAt,solo:state.solo,surname1:state.surname1,surname2:state.surname2,group:state.group,variant:state.variant,answers:state.answers,locked:state.locked,sessionId:state.sessionId,submitted:state.submitted,elapsed:state.elapsed,...extra};try{localStorage.setItem(SESSION_KEY,JSON.stringify(payload));}catch(e){}}
   function setStudentHeader(){const el=$('#studentNames');if(el)el.textContent=participantLabel()||'Работа не начата';}
@@ -1551,7 +1487,7 @@ main{margin-top:18px;}
   const SUPABASE_PUBLISHABLE_KEY="sb_publishable_piAWbORLqmiHYI5mTT2XYw_Yqo2jmVe";
   const EXAM_CODE="lifecycle-04";
   const EXAM_NUMBER=4;
-  const EXAM_TITLE="\u0416\u0438\u0437\u043d\u0435\u043d\u043d\u044b\u0439 \u0446\u0438\u043a\u043b \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u0438 \u0432\u043d\u0435\u0434\u0440\u0435\u043d\u0438\u044f \u0418\u0418-\u0440\u0435\u0448\u0435\u043d\u0438\u0439";
+  const EXAM_TITLE="Специфика применения ИИ в финтехе и банковском секторе";
 
 
   function validateCourseAccess(){
@@ -1626,7 +1562,7 @@ main{margin-top:18px;}
       percent:Number(pct),
       grade:Number(grade),
       completed:Number(completedCount()),
-      task_count:Number(tasks.length),
+      task_count:Number(getActiveTasks().length),
       elapsed_seconds:Number(elapsed),
       elapsed_text:formatTime(elapsed),
       session_id:state.sessionId
@@ -1911,7 +1847,7 @@ main{margin-top:18px;}
     if(type==='match')return $$('.match-left',task).every(left=>(ans.pairs||{})[left.dataset.leftId]===left.dataset.correctRight);
     return false;
   }
-  function calculateResult(){let score=0;tasks.forEach(task=>{if(isTaskCorrect(task))score+=Number(task.dataset.points||1);});const total=tasks.reduce((s,t)=>s+Number(t.dataset.points||1),0);const pct=total?Math.round(score/total*100):0;return {score,total,pct,grade:gradeFromPct(pct)};}
+  function calculateResult(){const active=getActiveTasks();let score=0;active.forEach(task=>{if(isTaskCorrect(task))score+=Number(task.dataset.points||1);});const total=active.reduce((s,t)=>s+Number(t.dataset.points||1),0);const pct=total?Math.round(score/total*100):0;return {score,total,pct,grade:gradeFromPct(pct)};}
   function finishSession(byTimeout=false){
     if(!state.started||state.locked)return;
     state.locked=true;
@@ -1928,7 +1864,7 @@ main{margin-top:18px;}
     $('#finalPercent').textContent=pct+'%';
     $('#finalGrade').textContent='Оценка: '+grade;
     $('#finalPoints').textContent=score+'/'+total;
-    $('#finalDone').textContent=completedCount()+'/'+tasks.length;
+    $('#finalDone').textContent=completedCount()+'/'+getActiveTasks().length;
     $('#finalTime').textContent=formatTime(elapsed);
     $('#finalOverlay')?.classList.add('show');
     applyTimerVisual(0);
@@ -1973,7 +1909,7 @@ main{margin-top:18px;}
       $('#finalPercent').textContent=(saved.pct??pct)+'%';
       $('#finalGrade').textContent='Оценка: '+(saved.grade??grade);
       $('#finalPoints').textContent=(saved.score??score)+'/'+(saved.total??total);
-      $('#finalDone').textContent=completedCount()+'/'+tasks.length;
+      $('#finalDone').textContent=completedCount()+'/'+getActiveTasks().length;
       $('#finalTime').textContent=formatTime(elapsed);
       $('#finalOverlay')?.classList.add('show');
       applyTimerVisual(0);
@@ -2068,6 +2004,9 @@ main{margin-top:18px;}
     const value=String(e.target.value||'');
     const chip=$('#variantChip');
     if(chip)chip.textContent=value?`Вариант ${String(value).padStart(2,'0')}`:'Вариант —';
+    const meta=VARIANT_META[value];
+    const start=$('#startExam');
+    if(start)start.textContent=meta?`Начать работу · 45:00 · ${meta.total} заданий`:'Начать работу · 45:00';
     $('#examError')?.classList.remove('show');
   });
 
