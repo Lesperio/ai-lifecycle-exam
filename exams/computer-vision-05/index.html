@@ -1,0 +1,1899 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Контрольная — Компьютерное зрение — ПЗ №5 — 30 вариантов</title>
+<style>
+:root{
+  --bg:#eef3fb;
+  --bg2:#f8fbff;
+  --glass:rgba(255,255,255,.42);
+  --glass-strong:rgba(255,255,255,.60);
+  --glass-soft:rgba(255,255,255,.28);
+  --line:rgba(255,255,255,.48);
+  --line-strong:rgba(255,255,255,.72);
+  --ink:#0f2347;
+  --ink-soft:#4f6485;
+  --blue:#0a84ff;
+  --blue2:#5ac8fa;
+  --indigo:#5e5ce6;
+  --green:#34c759;
+  --green-deep:#1f9a43;
+  --red:#ff3b30;
+  --red-deep:#d92d20;
+  --shadow:0 22px 60px rgba(36,56,94,.16);
+  --shadow-soft:0 10px 30px rgba(55,79,121,.10);
+  --inset:inset 0 1px 0 rgba(255,255,255,.78), inset 0 -1px 0 rgba(255,255,255,.18);
+  --radius:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:
+    radial-gradient(900px 500px at 5% -10%, rgba(90,200,250,.34), transparent 55%),
+    radial-gradient(800px 500px at 95% 0%, rgba(94,92,230,.20), transparent 52%),
+    radial-gradient(900px 600px at 50% 120%, rgba(52,199,89,.12), transparent 54%),
+    linear-gradient(180deg,#f5f8ff 0%,#edf3fb 35%,#f7fbff 100%);
+  overflow-x:hidden;
+}
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  inset:auto;
+  border-radius:50%;
+  filter:blur(36px);
+  opacity:.55;
+  pointer-events:none;
+  z-index:0;
+}
+body::before{
+  width:340px;height:340px;left:-80px;top:110px;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(90,200,250,.28) 45%, transparent 70%);
+}
+body::after{
+  width:420px;height:420px;right:-120px;top:220px;
+  background:radial-gradient(circle at 40% 30%, rgba(255,255,255,.9), rgba(94,92,230,.22) 42%, transparent 70%);
+}
+button,select{font:inherit}
+.shell{
+  position:relative;
+  z-index:1;
+  width:min(1460px,calc(100% - 30px));
+  margin:auto;
+  padding:18px 0 64px;
+}
+.top{
+  position:sticky;
+  top:12px;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.56);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.34));
+  backdrop-filter:blur(26px) saturate(170%);
+  -webkit-backdrop-filter:blur(26px) saturate(170%);
+  box-shadow:var(--inset), var(--shadow-soft);
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  color:#fff;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,.06)), linear-gradient(135deg,#1b69ff,#66d4ff);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62), 0 12px 24px rgba(10,132,255,.26);
+}
+.logo svg{width:22px}
+.brand strong{display:block;font-size:14px;letter-spacing:-.01em}
+.brand span{display:block;font-size:11px;color:var(--ink-soft);margin-top:2px}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.top button,
+.action,
+.team-card button{
+  border:1px solid rgba(255,255,255,.58);
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.34));
+  color:var(--ink);
+  border-radius:14px;
+  padding:10px 13px;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+  backdrop-filter:blur(18px) saturate(165%);
+  -webkit-backdrop-filter:blur(18px) saturate(165%);
+  box-shadow:var(--inset), 0 8px 18px rgba(47,71,112,.08);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.top button:hover,
+.action:hover,
+.option:hover,
+.pairbtn:hover,
+.spotcard:hover,
+.drag-item:hover,
+.arch-item:hover{
+  transform:translateY(-1px);
+}
+.top button:active,
+.action:active{transform:translateY(0)}
+.top button.primary,
+.action{
+  background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,.08)), linear-gradient(135deg,#0677ff,#4cc9ff 62%,#6d5efc);
+  color:#fff;
+  border-color:rgba(255,255,255,.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42), 0 14px 28px rgba(10,132,255,.24);
+}
+.hero{
+  display:grid;
+  grid-template-columns:1.16fr .84fr;
+  gap:20px;
+  margin-top:18px;
+}
+.card,
+.lesson,
+.summary{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg, rgba(255,255,255,.54), rgba(255,255,255,.28));
+  border:1px solid rgba(255,255,255,.50);
+  border-radius:32px;
+  backdrop-filter:blur(30px) saturate(160%);
+  -webkit-backdrop-filter:blur(30px) saturate(160%);
+  box-shadow:var(--inset), var(--shadow);
+}
+.card::before,
+.lesson::before,
+.summary::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.42), rgba(255,255,255,0) 20%),
+    radial-gradient(1200px 240px at 50% -20%, rgba(255,255,255,.42), transparent 65%);
+  opacity:.9;
+}
+.hero-main{
+  padding:42px;
+  min-height:430px;
+  display:block;
+  background:
+    radial-gradient(800px 260px at 20% -10%, rgba(255,255,255,.45), transparent 55%),
+    linear-gradient(180deg,rgba(255,255,255,.58),rgba(255,255,255,.26));
+}
+
+.eyebrow{
+  position:relative;
+  z-index:1;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--blue);
+  display:flex;align-items:center;gap:8px
+}
+.eyebrow:before{
+  content:"";
+  width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(180deg,#4cc9ff,#0a84ff);
+  box-shadow:0 0 0 6px rgba(10,132,255,.10);
+}
+h1{
+  position:relative;z-index:1;
+  font-size:clamp(36px,4.1vw,54px);
+  line-height:1.02;
+  letter-spacing:-.045em;
+  margin:20px 0 16px;
+  max-width:760px;
+  text-wrap:balance;
+}
+.hero p,
+.lesson-intro,
+.theory p,
+.mini p,
+.choicecard p,
+.summary p,
+.progress p,
+.arch-col>p,
+.zone span,
+.feedback,
+.result span{
+  position:relative;z-index:1;
+  color:var(--ink-soft);
+}
+.hero p{margin:0;max-width:720px;font-size:15px;line-height:1.65}
+.cover-topics{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px;position:relative;z-index:1}
+.cover-topics span,
+.nav a{
+  border:1px solid rgba(255,255,255,.52);
+  background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(255,255,255,.30));
+  border-radius:999px;
+  padding:10px 13px;
+  font-size:12px;
+  font-weight:750;
+  color:#355176;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72), 0 8px 18px rgba(56,82,119,.06);
+  backdrop-filter:blur(18px) saturate(160%);
+}
+.hero-side{padding:20px;display:flex;flex-direction:column;gap:12px}
+.progress{
+  flex:1;min-height:230px;border-radius:26px;padding:24px;
+  color:#fff;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,255,255,.28), transparent 36%),
+    linear-gradient(160deg, rgba(255,255,255,.18), rgba(255,255,255,.05)),
+    linear-gradient(135deg,#0a84ff 0%,#4cc9ff 42%,#5e5ce6 100%);
+  border:1px solid rgba(255,255,255,.26);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34), 0 20px 44px rgba(34,78,160,.22);
+}
+.progress::after{
+  content:"";
+  position:absolute;inset:-40% auto auto -10%;
+  width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,.30), transparent 68%);
+  filter:blur(8px);
+}
+.progress small{font-size:11px;font-weight:800;opacity:.82;letter-spacing:.05em}
+.bigscore{font-size:52px;font-weight:850;letter-spacing:-.05em;margin:13px 0 4px;position:relative;z-index:1}
+.track{
+  height:10px;
+  background:rgba(255,255,255,.22);
+  border-radius:999px;
+  overflow:hidden;
+  margin:18px 0 10px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+}
+.fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg, rgba(255,255,255,.98), rgba(255,255,255,.72));
+  border-radius:999px;
+  transition:.3s;
+}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{
+  padding:15px;
+  background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(255,255,255,.30));
+  border:1px solid rgba(255,255,255,.52);
+  border-radius:18px;
+  box-shadow:var(--inset), 0 10px 24px rgba(56,82,119,.06);
+  backdrop-filter:blur(18px);
+}
+.stat strong{display:block;font-size:21px}
+.stat span{font-size:10px;color:var(--ink-soft)}
+.nav{
+  display:flex;gap:8px;overflow:auto;padding:2px 2px 8px;margin-top:16px;
+}
+.nav a{
+  flex:0 0 auto;text-decoration:none;font-size:11px;font-weight:780
+}
+.lesson{margin-top:18px;padding:30px}
+.lesson-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;position:relative;z-index:1}
+.num{
+  width:40px;height:40px;flex:0 0 40px;border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.05)),linear-gradient(135deg,#0a84ff,#5e5ce6);
+  color:#fff;font-size:12px;font-weight:850;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42), 0 10px 22px rgba(10,132,255,.22);
+}
+.lesson h2{font-size:27px;line-height:1.15;letter-spacing:-.03em;margin:2px 0 5px;position:relative;z-index:1}
+.lesson-intro{font-size:16px;line-height:1.6}
+.explain{display:grid;grid-template-columns:1.04fr .96fr;gap:14px;margin-bottom:14px}
+.theory,
+.illustration,
+.mini,
+.task,
+.result,
+.stat{
+  position:relative;z-index:1;
+}
+.theory,.illustration{
+  border:2px solid rgba(176,194,225,.74);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(255,255,255,.28));
+  padding:21px;
+  box-shadow:var(--inset), 0 12px 30px rgba(47,71,112,.07), 0 0 0 1px rgba(255,255,255,.46);
+  backdrop-filter:blur(22px) saturate(160%);
+}
+.theory h3{font-size:16px;margin:0 0 10px;position:relative;z-index:1}
+.theory p{font-size:15px;line-height:1.72;margin:0 0 10px}
+.theory p:last-child{margin-bottom:0}
+.simple-note{
+  padding:14px 15px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(255,255,255,.32));
+  border:1px solid rgba(255,255,255,.62);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72);
+  font-size:15px;line-height:1.62;color:#365178;
+  backdrop-filter:blur(18px);
+}
+.illustration{
+  display:flex;align-items:center;justify-content:center;min-height:220px;
+  background:
+    radial-gradient(500px 150px at 50% -15%, rgba(255,255,255,.45), transparent 60%),
+    linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,255,255,.24));
+}
+.illustration svg{width:100%;max-width:520px;height:auto}
+.svg-label{font:700 12px Inter,Arial,sans-serif;fill:#173b76}
+.svg-small{font:600 10px Inter,Arial,sans-serif;fill:#647b9d}
+.triple{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.five{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mini{
+  border:2px solid rgba(176,194,225,.74);
+  border-radius:22px;
+  background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(255,255,255,.28));
+  padding:18px;
+  box-shadow:var(--inset), 0 12px 26px rgba(47,71,112,.07), 0 0 0 1px rgba(255,255,255,.44);
+  backdrop-filter:blur(20px) saturate(160%);
+}
+.mini .icon{
+  width:46px;height:40px;border-radius:14px;
+  background:linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,.10)), linear-gradient(135deg,#0a84ff,#5e5ce6 78%);
+  color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900;margin-bottom:12px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.44), 0 12px 22px rgba(10,132,255,.18);
+}
+.mini h3{font-size:15px;margin:0 0 7px;position:relative;z-index:1}
+.mini p{font-size:12px;line-height:1.58;margin:0}
+.task{
+  border:1px solid rgba(255,255,255,.60);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(255,255,255,.28));
+  padding:20px;
+  margin-top:13px;
+  box-shadow:var(--inset), 0 14px 28px rgba(47,71,112,.07);
+  backdrop-filter:blur(22px) saturate(165%);
+}
+.task h3{font-size:21px;line-height:1.48;margin:0 0 16px;position:relative;z-index:1}
+.options{display:grid;gap:9px}
+.option,
+.pairbtn,
+.drag-item,
+.arch-item,
+.spotcard{
+  width:100%;
+  border:2px solid rgba(168,188,222,.78);
+  background:linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,255,255,.32));
+  color:var(--ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    0 10px 20px rgba(47,71,112,.05),
+    0 0 0 1px rgba(255,255,255,.48);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  transition:transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.option{
+  display:flex;align-items:flex-start;gap:12px;text-align:left;
+  border-radius:18px;padding:16px 18px;cursor:pointer;font-size:16px;line-height:1.55;
+}
+.option:hover,
+.pairbtn:hover,
+.drag-item:hover,
+.arch-item:hover,
+.spotcard:hover{
+  border-color:rgba(10,132,255,.62);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.82),
+    0 14px 28px rgba(10,132,255,.08),
+    0 0 0 2px rgba(10,132,255,.10);
+}
+.mark{
+  width:28px;height:28px;flex:0 0 28px;border-radius:9px;
+  display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.68);
+  background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.42));
+  font-size:13px;font-weight:900;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.80);
+}
+.option.locked{cursor:default}
+.feedback{
+  display:none;
+  margin-top:11px;
+  border-radius:16px;
+  padding:13px 14px;
+  font-size:15px;
+  line-height:1.6;
+}
+.feedback.show{display:block}
+.task.task-good{
+  border:1px solid rgba(52,199,89,.55)!important;
+  background:linear-gradient(180deg,rgba(223,255,232,.72),rgba(236,255,242,.42))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 18px 34px rgba(52,199,89,.10)!important;
+}
+.task.task-bad{
+  border:1px solid rgba(255,59,48,.48)!important;
+  background:linear-gradient(180deg,rgba(255,238,239,.72),rgba(255,246,247,.42))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8), 0 18px 34px rgba(255,59,48,.08)!important;
+}
+.option.correct,
+.pairbtn.done,
+.zone.good,
+.arch-drop.good,
+.spotcard.correct{
+  background:linear-gradient(180deg,rgba(226,255,234,.84),rgba(219,249,229,.58))!important;
+  border:1px solid rgba(52,199,89,.58)!important;
+  color:#12592c!important;
+}
+.option.correct .mark{
+  background:linear-gradient(180deg,#4cd964,#30b95a)!important;
+  border-color:rgba(52,199,89,.72)!important;
+  color:#fff!important;
+}
+.option.wrong,
+.zone.bad,
+.arch-drop.bad,
+.spotcard.wrong{
+  background:linear-gradient(180deg,rgba(255,235,236,.82),rgba(255,243,244,.58))!important;
+  border:1px solid rgba(255,59,48,.46)!important;
+  color:#8b1f1c!important;
+}
+.option.wrong .mark{
+  background:linear-gradient(180deg,#ff6258,#ff3b30)!important;
+  border-color:rgba(255,59,48,.58)!important;
+  color:#fff!important;
+}
+.feedback.good{
+  background:linear-gradient(180deg,rgba(226,255,234,.84),rgba(219,249,229,.58))!important;
+  border:1px solid rgba(52,199,89,.48)!important;
+  color:#165a30!important;
+  font-weight:760;
+}
+.feedback.bad{
+  background:linear-gradient(180deg,rgba(255,235,236,.82),rgba(255,243,244,.58))!important;
+  border:1px solid rgba(255,59,48,.40)!important;
+  color:#8f2521!important;
+  font-weight:760;
+}
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.paircol{display:grid;gap:8px}
+.pairbtn{
+  text-align:left;border-radius:16px;padding:14px 16px;font-size:15px;line-height:1.5;cursor:pointer;
+}
+.pairbtn.active,
+.drag-item.selected,
+.arch-item.selected{
+  outline:none;
+  border-color:rgba(10,132,255,.46)!important;
+  background:linear-gradient(180deg,rgba(232,245,255,.88),rgba(223,241,255,.58))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78), 0 0 0 4px rgba(10,132,255,.10), 0 14px 26px rgba(10,132,255,.08)!important;
+}
+.drag-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:12px}
+.bank{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;align-content:start}
+.drag-item{
+  border-radius:16px;
+  padding:14px;
+  font-size:15px;
+  line-height:1.5;
+  font-weight:800;
+  cursor:grab;
+  user-select:none;
+}
+.drag-item::before,
+.arch-item::before{
+  content:"⋮⋮";
+  margin-right:8px;
+  opacity:.45;
+}
+.drag-item.placed,
+.arch-item.placed{opacity:.35;cursor:default}
+.zones{display:grid;gap:10px}
+.zone,
+.arch-col{
+  background:linear-gradient(180deg,rgba(255,255,255,.40),rgba(255,255,255,.18));
+  border:1px solid rgba(255,255,255,.46);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62);
+  backdrop-filter:blur(16px);
+}
+.zone{
+  min-height:108px;
+  border-radius:22px;
+  padding:15px 16px 38px;
+  border:2px dashed rgba(10,132,255,.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.70),
+    inset 0 0 0 5px rgba(10,132,255,.05),
+    0 10px 24px rgba(47,71,112,.05);
+  position:relative;
+  cursor:pointer;
+}
+.zone::after{
+  content:"↓ Перетащи сюда";
+  position:absolute;
+  left:14px;
+  bottom:12px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.02em;
+  color:rgba(10,67,145,.72);
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(10,132,255,.18);
+  background:rgba(255,255,255,.62);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78);
+}
+.zone:hover,
+.arch-drop:hover{
+  border-color:rgba(10,132,255,.66);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    inset 0 0 0 5px rgba(10,132,255,.08),
+    0 14px 28px rgba(10,132,255,.08);
+}
+.zone strong,.arch-drop strong{
+  font-size:18px;
+  display:block;
+  margin-bottom:5px;
+  position:relative;
+  z-index:1;
+}
+.zone span,.arch-drop small{
+  font-size:14px;
+  color:var(--ink-soft);
+  line-height:1.45;
+}
+.zone.good,
+.arch-drop.good{
+  border-style:solid!important;
+}
+.zone.good::after,
+.arch-drop.good::after{
+  display:none;
+}
+.drop-result{
+  font-size:14px;
+  font-weight:800;
+  margin-top:8px;
+  color:#1b5d35;
+  position:relative;
+  z-index:1;
+  padding:8px 10px;
+  border-radius:12px;
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(52,199,89,.22);
+}
+.choicegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.choicecard{
+  border:2px solid rgba(168,188,222,.82);
+  border-radius:20px;
+  background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.36));
+  padding:18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.78),
+    0 10px 20px rgba(47,71,112,.05),
+    0 0 0 1px rgba(255,255,255,.52);
+  backdrop-filter:blur(18px);
+}
+.choicecard p{font-size:18px;line-height:1.6;margin:0 0 14px}
+.choicecard select{
+  width:100%;
+  border:2px solid rgba(176,194,225,.82);
+  border-radius:16px;
+  background:linear-gradient(180deg,rgba(255,255,255,.88),rgba(255,255,255,.50));
+  padding:14px 16px;
+  color:var(--ink);
+  font-size:18px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.84),
+    0 0 0 1px rgba(255,255,255,.42);
+}
+.choicecard select.good{
+  border:1px solid rgba(52,199,89,.56)!important;
+  background:linear-gradient(180deg,rgba(226,255,234,.84),rgba(219,249,229,.58))!important;
+  color:#165a30!important;font-weight:800
+}
+.choicecard select.bad{
+  border:1px solid rgba(255,59,48,.46)!important;
+  background:linear-gradient(180deg,rgba(255,235,236,.82),rgba(255,243,244,.58))!important;
+  color:#8f2521!important;font-weight:800
+}
+.spotgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.spotcard{border-radius:20px;padding:18px;cursor:pointer}
+.spotcard h4{font-size:17px;margin:0 0 9px;position:relative;z-index:1}
+.spotcard p{font-size:14px;line-height:1.58;margin:0;color:var(--ink-soft);position:relative;z-index:1}
+.arch-board{
+  display:grid;grid-template-columns:1fr 50px 1fr 50px 1fr;gap:8px;align-items:stretch;margin-top:4px
+}
+.arch-col{
+  min-height:252px;
+  border-radius:24px;
+  padding:14px;
+}
+.arch-col h4{font-size:18px;margin:0 0 7px;position:relative;z-index:1}
+.arch-col>p{font-size:14px;line-height:1.55;margin:0 0 12px}
+.arch-drop{
+  min-height:156px;
+  border:2px dashed rgba(10,132,255,.48);
+  background:linear-gradient(180deg,rgba(255,255,255,.74),rgba(255,255,255,.30));
+  border-radius:18px;
+  padding:14px 14px 42px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.76),
+    inset 0 0 0 6px rgba(10,132,255,.05);
+  backdrop-filter:blur(16px);
+  position:relative;
+  cursor:pointer;
+}
+.arch-drop::after{
+  content:"↓ Перетащи блок сюда";
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.02em;
+  color:rgba(10,67,145,.72);
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(10,132,255,.18);
+  background:rgba(255,255,255,.62);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78);
+}
+.arch-arrow{
+  display:grid;place-items:center;font-size:27px;font-weight:900;color:#5d96e5;
+  text-shadow:0 4px 16px rgba(10,132,255,.20)
+}
+.arch-bank{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.arch-item{
+  border-radius:16px;padding:14px;font-size:15px;line-height:1.45;font-weight:850;text-align:center;cursor:grab;user-select:none
+}
+.arch-result{margin-top:8px;font-size:14px;font-weight:900;color:#166234;position:relative;z-index:1}
+
+.sequence-bank{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:14px 0 16px;
+}
+.sequence-item{
+  width:100%;
+  border:2px solid rgba(168,188,222,.78);
+  background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.34));
+  color:var(--ink);
+  border-radius:17px;
+  padding:15px 16px;
+  font-size:15px;
+  line-height:1.48;
+  font-weight:820;
+  cursor:grab;
+  user-select:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.80),0 10px 20px rgba(47,71,112,.05),0 0 0 1px rgba(255,255,255,.48);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.sequence-item::before{content:"⋮⋮";margin-right:8px;opacity:.45}
+.sequence-item:hover{transform:translateY(-1px);border-color:rgba(10,132,255,.62);box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 14px 28px rgba(10,132,255,.08),0 0 0 2px rgba(10,132,255,.10)}
+.sequence-item.selected{border-color:rgba(10,132,255,.46)!important;background:linear-gradient(180deg,rgba(232,245,255,.88),rgba(223,241,255,.58))!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 0 0 4px rgba(10,132,255,.10),0 14px 26px rgba(10,132,255,.08)!important}
+.sequence-item.placed{opacity:.34;cursor:default}
+.sequence-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.sequence-slot{
+  min-height:150px;
+  border:2px dashed rgba(10,132,255,.48);
+  border-radius:20px;
+  padding:15px 15px 44px;
+  background:linear-gradient(180deg,rgba(255,255,255,.70),rgba(255,255,255,.28));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76),inset 0 0 0 5px rgba(10,132,255,.04);
+  position:relative;
+  cursor:pointer;
+}
+.sequence-slot::after{
+  content:"↓ Поставь событие сюда";
+  position:absolute;left:13px;bottom:12px;
+  font-size:12px;font-weight:800;color:rgba(10,67,145,.72);
+  padding:6px 10px;border-radius:999px;
+  border:1px solid rgba(10,132,255,.18);background:rgba(255,255,255,.64);
+}
+.sequence-slot strong{display:block;font-size:19px;margin-bottom:6px}
+.sequence-slot span{font-size:14px;color:var(--ink-soft);line-height:1.45}
+.sequence-slot.good{border-style:solid;border-color:rgba(52,199,89,.58);background:linear-gradient(180deg,rgba(226,255,234,.84),rgba(219,249,229,.58))}
+.sequence-slot.good::after{display:none}
+.sequence-slot.bad{border-color:rgba(255,59,48,.52);background:linear-gradient(180deg,rgba(255,235,236,.82),rgba(255,243,244,.58))}
+.sequence-result{margin-top:10px;padding:10px 11px;border-radius:12px;background:rgba(255,255,255,.68);border:1px solid rgba(52,199,89,.24);font-size:14px;line-height:1.45;font-weight:850;color:#165a30}
+@media(max-width:900px){.sequence-bank,.sequence-grid{grid-template-columns:1fr}}
+
+.finish{
+  background:
+    radial-gradient(700px 220px at 20% -8%, rgba(255,255,255,.16), transparent 55%),
+    linear-gradient(145deg,rgba(9,35,86,.70),rgba(12,62,154,.62) 60%,rgba(94,92,230,.58));
+  color:#fff;
+  border-color:rgba(255,255,255,.18);
+}
+.finish::before{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0) 24%),
+    radial-gradient(1200px 240px at 50% -20%, rgba(255,255,255,.18), transparent 65%);
+}
+.finish .lesson-intro,
+.finish .theory p,
+.finish .summary p,
+.finish .option,
+.finish .choicecard p,
+.finish .spotcard p{color:#dfebff}
+.finish .task{
+  background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.07));
+  border-color:rgba(255,255,255,.16);
+}
+.finish .option,
+.finish .spotcard{
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.08));
+  border-color:rgba(255,255,255,.18);
+  color:#fff;
+}
+.finish .mark{
+  background:linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,.10));
+  border-color:rgba(255,255,255,.20);
+  color:#fff;
+}
+.finish .option.correct{
+  background:linear-gradient(180deg,rgba(52,199,89,.24),rgba(52,199,89,.14))!important;
+  border-color:rgba(130,233,156,.44)!important;color:#effff5!important
+}
+.finish .option.wrong{
+  background:linear-gradient(180deg,rgba(255,59,48,.22),rgba(255,59,48,.12))!important;
+  border-color:rgba(255,158,152,.34)!important;color:#fff2f1!important
+}
+.finish .feedback.good{
+  background:linear-gradient(180deg,rgba(52,199,89,.18),rgba(52,199,89,.10))!important;
+  border-color:rgba(130,233,156,.34)!important;color:#eafff0!important
+}
+.finish .feedback.bad{
+  background:linear-gradient(180deg,rgba(255,59,48,.18),rgba(255,59,48,.10))!important;
+  border-color:rgba(255,158,152,.28)!important;color:#ffe8e6!important
+}
+.summary{
+  margin-top:18px;
+  padding:25px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:16px;
+  align-items:center;
+}
+.summary h2{font-size:28px;margin:0 0 8px;letter-spacing:-.03em;position:relative;z-index:1}
+.result{
+  border:1px solid rgba(255,255,255,.60);
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(255,255,255,.34));
+  padding:20px;text-align:center;
+  backdrop-filter:blur(18px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.76), 0 12px 30px rgba(47,71,112,.08);
+}
+.result strong{display:block;font-size:42px;position:relative;z-index:1}
+.toast{
+  position:fixed;right:18px;bottom:18px;z-index:50;max-width:360px;
+  border-radius:18px;padding:12px 14px;
+  background:linear-gradient(180deg,rgba(12,38,82,.84),rgba(10,22,58,.76));
+  color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.14);
+  backdrop-filter:blur(22px) saturate(140%);
+  font-size:11px;opacity:0;transform:translateY(12px);pointer-events:none;transition:.2s
+}
+.toast.show{opacity:1;transform:none}
+@media(max-width:1100px){.five{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1180px){
+  .hero{grid-template-columns:1fr}
+}
+@media(max-width:1020px){
+  .explain,.summary{grid-template-columns:1fr}
+  .arch-board{grid-template-columns:1fr}
+  .arch-arrow{height:34px;transform:rotate(90deg)}
+}
+
+
+@media(max-width:860px){
+  .hero-main{grid-template-columns:1fr;grid-template-rows:auto;}
+}
+@media(max-width:730px){
+  .shell{width:calc(100% - 18px);padding-top:8px}
+  .hero-main{padding:28px 21px;min-height:auto}
+  h1{font-size:38px;line-height:1.04}
+  .lesson{padding:19px 14px;border-radius:24px}
+  .card,.summary{border-radius:26px}
+  .triple,.five,.pairs,.choicegrid,.drag-layout,.spotgrid,.arch-bank{grid-template-columns:1fr}
+  .brand span{display:none}
+  .stats{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ===== Режим контрольной работы ===== */
+.exam-started{
+  -webkit-user-select:none;
+  user-select:none;
+}
+.exam-started input,.exam-started select,.exam-started button{
+  -webkit-user-select:auto;
+  user-select:auto;
+}
+.session-overlay{
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:22px;
+  background:
+    radial-gradient(900px 520px at 8% 0%,rgba(90,200,250,.42),transparent 58%),
+    radial-gradient(820px 520px at 94% 10%,rgba(94,92,230,.30),transparent 55%),
+    linear-gradient(180deg,rgba(244,248,255,.96),rgba(235,243,252,.96));
+  backdrop-filter:blur(18px) saturate(150%);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+}
+.session-overlay.hidden{display:none}
+.session-panel{
+  width:min(760px,100%);padding:32px;border-radius:32px;
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.38));
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.90),0 28px 80px rgba(36,56,94,.22);
+  backdrop-filter:blur(30px) saturate(170%);
+  -webkit-backdrop-filter:blur(30px) saturate(170%);
+}
+.session-badge{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border-radius:999px;
+  font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#0a67d8;
+  background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.78);
+}
+.session-panel h2{font-size:clamp(30px,5vw,46px);line-height:1.04;letter-spacing:-.04em;margin:18px 0 10px}
+.session-panel>p{font-size:15px;line-height:1.65;color:var(--ink-soft);margin:0 0 22px}
+.session-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.session-field{display:grid;gap:7px}
+.session-field.full{grid-column:1/-1}
+.session-field label{font-size:12px;font-weight:850;color:#345176}
+.session-field input,
+.session-field select{
+  width:100%;padding:15px 16px;border-radius:16px;border:2px solid rgba(176,194,225,.76);
+  background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(255,255,255,.56));
+  color:var(--ink);font:inherit;font-size:16px;outline:none;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.88),0 8px 20px rgba(47,71,112,.05);
+}
+.session-field input:focus,
+.session-field select:focus{border-color:rgba(10,132,255,.64);box-shadow:0 0 0 4px rgba(10,132,255,.10)}
+.session-field.hidden{display:none}
+.mode-row{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-top:14px;padding:14px 15px;border-radius:18px;background:rgba(255,255,255,.48);border:1px solid rgba(255,255,255,.66)}
+.mode-row strong{display:block;font-size:13px}.mode-row span{display:block;font-size:11px;color:var(--ink-soft);margin-top:3px}
+.solo-toggle{
+  flex:0 0 auto;border:1px solid rgba(255,255,255,.60);border-radius:14px;padding:11px 14px;cursor:pointer;
+  background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.40));color:var(--ink);font-weight:850;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 8px 18px rgba(47,71,112,.08);
+}
+.solo-toggle.active{color:#fff;background:linear-gradient(135deg,#0677ff,#4cc9ff 62%,#6d5efc)}
+.start-exam{
+  width:100%;margin-top:16px;border:1px solid rgba(255,255,255,.38);border-radius:18px;padding:15px 18px;cursor:pointer;
+  color:#fff;font-size:15px;font-weight:900;background:linear-gradient(135deg,#0677ff,#4cc9ff 62%,#6d5efc);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.44),0 16px 30px rgba(10,132,255,.24);
+}
+.exam-note{margin-top:12px;font-size:11px;line-height:1.5;color:#607595;text-align:center}
+.exam-note b{color:#294c79}
+.exam-error{display:none;margin-top:12px;padding:11px 12px;border-radius:13px;background:rgba(255,235,236,.86);border:1px solid rgba(255,59,48,.30);color:#8f2521;font-size:12px;font-weight:800}
+.exam-error.show{display:block}
+.session-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.student-chip,.timer-chip{
+  border:1px solid rgba(255,255,255,.58);background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(255,255,255,.34));
+  border-radius:14px;padding:9px 12px;font-size:11px;font-weight:850;box-shadow:var(--inset),0 8px 18px rgba(47,71,112,.08)
+}
+.timer-chip{min-width:92px;text-align:center;font-size:15px;letter-spacing:.03em;color:#0a67d8}
+.timer-chip.warning{color:#a86400;background:linear-gradient(180deg,rgba(255,247,214,.90),rgba(255,241,190,.64));border-color:rgba(255,181,71,.46)}
+.timer-chip.danger{color:#a21b16;background:linear-gradient(180deg,rgba(255,230,231,.92),rgba(255,241,242,.68));border-color:rgba(255,59,48,.42)}
+.finish-btn{
+  border:1px solid rgba(255,255,255,.42);border-radius:14px;padding:10px 13px;cursor:pointer;color:#fff;font-size:11px;font-weight:850;
+  background:linear-gradient(135deg,#ff6b60,#ff3b30);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 22px rgba(255,59,48,.18)
+}
+.final-overlay{
+  position:fixed;inset:0;z-index:1100;display:none;place-items:center;padding:22px;background:rgba(9,25,58,.38);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)
+}
+.final-overlay.show{display:grid}
+.final-panel{
+  width:min(680px,100%);padding:30px;border-radius:30px;text-align:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(247,250,255,.82));border:1px solid rgba(255,255,255,.82);
+  box-shadow:0 30px 90px rgba(7,24,58,.30),inset 0 1px 0 #fff
+}
+.final-panel h2{font-size:34px;letter-spacing:-.035em;margin:10px 0 6px}.final-panel p{color:var(--ink-soft);line-height:1.55}
+.final-score{font-size:64px;font-weight:900;letter-spacing:-.06em;margin:18px 0 4px;color:#0a67d8}
+.final-grade{font-size:20px;font-weight:900;margin-bottom:16px}
+.final-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.final-cell{padding:14px;border-radius:16px;background:rgba(255,255,255,.64);border:1px solid rgba(176,194,225,.50)}
+.final-cell strong{display:block;font-size:18px}.final-cell span{font-size:10px;color:var(--ink-soft)}
+.final-close-btn{
+  margin-top:20px;
+  min-width:180px;
+  border:1px solid rgba(10,132,255,.28);
+  border-radius:16px;
+  padding:13px 22px;
+  cursor:pointer;
+  color:#fff;
+  font-size:14px;
+  font-weight:900;
+  background:linear-gradient(135deg,#0677ff,#4cc9ff 62%,#6d5efc);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 14px 28px rgba(10,132,255,.20);
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.final-close-btn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.42),0 18px 34px rgba(10,132,255,.24)}
+.final-close-btn:active{transform:translateY(0)}
+.final-buttons{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.final-buttons .final-close-btn{margin-top:0}
+.final-restart-btn{
+  min-width:180px;
+  border:1px solid rgba(176,194,225,.78);
+  border-radius:16px;
+  padding:13px 22px;
+  cursor:pointer;
+  color:var(--ink);
+  font-size:14px;
+  font-weight:900;
+  background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(255,255,255,.46));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.84),0 10px 24px rgba(47,71,112,.08);
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.final-restart-btn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.86),0 14px 28px rgba(47,71,112,.12)}
+.final-restart-btn:active{transform:translateY(0)}
+.session-locked .shell{pointer-events:none;filter:saturate(.8)}
+[data-task].persisted-locked{pointer-events:none;opacity:.82}
+.protection-watermark{
+  position:fixed;left:18px;bottom:14px;z-index:40;pointer-events:none;font-size:10px;font-weight:800;color:rgba(15,35,71,.34);
+  background:rgba(255,255,255,.26);padding:5px 8px;border-radius:8px;backdrop-filter:blur(8px)
+}
+@media(max-width:820px){.session-grid{grid-template-columns:1fr}.session-field.full{grid-column:auto}.session-meta{width:100%;justify-content:flex-start}.student-chip{max-width:100%;overflow:hidden;text-overflow:ellipsis}.final-grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-wrap:wrap}}
+
+
+
+/* Верхний информационный экран убран: вопросы начинаются сразу после панели с таймером. */
+main{margin-top:18px;}
+
+/* ===== Контрольный режим: только вопросы, без показа правильности ===== */
+.question-section{padding:22px 28px;margin-top:14px;background:linear-gradient(180deg,rgba(255,255,255,.54),rgba(255,255,255,.28));}
+.question-section .task{margin-top:0;margin-bottom:14px;}
+.question-section .task:last-child{margin-bottom:0;}
+.task h3{font-size:22px;line-height:1.45;margin-bottom:15px;}
+.option{font-size:17px;line-height:1.55;}
+.option.selected-answer{
+  border-color:rgba(10,132,255,.62)!important;
+  background:linear-gradient(180deg,rgba(232,245,255,.92),rgba(223,241,255,.64))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 0 0 4px rgba(10,132,255,.10),0 14px 28px rgba(10,132,255,.08)!important;
+  color:var(--ink)!important;
+}
+.option.selected-answer .mark{
+  background:linear-gradient(180deg,rgba(10,132,255,.96),rgba(60,120,240,.92))!important;
+  color:#fff!important;
+  border-color:rgba(10,132,255,.56)!important;
+}
+.task.task-good,.task.task-bad{border:1px solid rgba(255,255,255,.60)!important;background:linear-gradient(180deg,rgba(255,255,255,.66),rgba(255,255,255,.28))!important;box-shadow:var(--inset),0 14px 28px rgba(47,71,112,.07)!important;}
+.feedback{display:none!important;}
+.hero{grid-template-columns:1.08fr .92fr;}
+.hero-main{min-height:330px;}
+.hero-main p{max-width:820px;font-size:16px;}
+.finish-bar{position:relative;z-index:1;margin-top:18px;padding:25px 28px;border:1px solid rgba(255,255,255,.52);border-radius:28px;background:linear-gradient(180deg,rgba(255,255,255,.60),rgba(255,255,255,.30));box-shadow:var(--inset),var(--shadow-soft);backdrop-filter:blur(24px) saturate(160%);text-align:center;}
+.finish-bar h2{margin:0 0 8px;font-size:25px;letter-spacing:-.025em;}
+.finish-bar p{margin:0 auto 16px;max-width:760px;color:var(--ink-soft);font-size:14px;line-height:1.55;}
+.session-locked .option{pointer-events:none!important;}
+@media(max-width:730px){.question-section{padding:16px 12px}.task h3{font-size:19px}.option{font-size:15px}.hero-main{min-height:auto}}
+
+/* ===== Смешанные интерактивы контрольной ===== */
+.interactive-task{padding:20px!important;}
+.task-hint{margin:-4px 0 16px;color:var(--ink-soft);font-size:14px;line-height:1.55;}
+.exam-bank{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.exam-card,.match-card{
+  border:2px solid rgba(168,188,222,.78);background:linear-gradient(180deg,rgba(255,255,255,.76),rgba(255,255,255,.34));
+  color:var(--ink);border-radius:17px;padding:14px 15px;font-size:15px;line-height:1.48;font-weight:800;text-align:left;cursor:grab;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.80),0 10px 20px rgba(47,71,112,.05),0 0 0 1px rgba(255,255,255,.48);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,opacity .16s ease;
+}
+.exam-card:hover,.match-card:hover{transform:translateY(-1px);border-color:rgba(10,132,255,.56);}
+.exam-card.selected,.match-card.selected{border-color:rgba(10,132,255,.62)!important;background:linear-gradient(180deg,rgba(232,245,255,.92),rgba(223,241,255,.64))!important;box-shadow:0 0 0 4px rgba(10,132,255,.10)!important;}
+.exam-card.placed{opacity:.28;pointer-events:none;}
+.exam-sequence-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+.exam-sequence-slots.five-slots{grid-template-columns:repeat(5,minmax(0,1fr));}
+.exam-slot,.exam-zone{
+  min-height:120px;border:2px dashed rgba(10,132,255,.40);border-radius:19px;padding:14px;background:linear-gradient(180deg,rgba(255,255,255,.68),rgba(255,255,255,.28));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75),inset 0 0 0 5px rgba(10,132,255,.035);cursor:pointer;
+}
+.exam-slot strong,.exam-zone strong{display:block;font-size:16px;margin-bottom:5px;}.exam-slot>span,.exam-zone>span{display:block;color:var(--ink-soft);font-size:12px;line-height:1.4;}
+.slot-answer{margin-top:10px;padding:10px 11px;border-radius:13px;background:rgba(232,245,255,.86);border:1px solid rgba(10,132,255,.24);font-size:13px;line-height:1.4;font-weight:800;color:var(--ink);}
+.classify-zones{display:grid;grid-template-columns:1fr 1fr;gap:12px;}.exam-zone{min-height:190px;}.zone-items{display:grid;gap:7px;margin-top:10px;}
+.zone-pill{padding:9px 10px;border-radius:12px;background:rgba(232,245,255,.86);border:1px solid rgba(10,132,255,.20);font-size:13px;line-height:1.4;font-weight:750;cursor:pointer;}
+.match-board{display:grid;grid-template-columns:1fr 1fr;gap:14px;}.match-col{display:grid;gap:9px;align-content:start;}.match-card{cursor:pointer;min-height:64px;}
+.match-card.paired{border-color:rgba(10,132,255,.40);background:linear-gradient(180deg,rgba(242,248,255,.92),rgba(232,242,255,.66));}
+.match-summary{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}.pair-chip{padding:8px 10px;border-radius:999px;background:rgba(232,245,255,.88);border:1px solid rgba(10,132,255,.20);font-size:12px;font-weight:800;color:#31557f;}
+.session-locked .interactive-task button,.session-locked .exam-slot,.session-locked .exam-zone,.session-locked .zone-pill{pointer-events:none!important;}
+@media(max-width:1000px){.exam-sequence-slots.five-slots{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.exam-bank,.exam-sequence-slots,.exam-sequence-slots.five-slots,.classify-zones,.match-board{grid-template-columns:1fr}.exam-card,.match-card{font-size:14px}.exam-slot,.exam-zone{min-height:100px}}
+
+.variant-fixed-chip{
+  border-color:rgba(94,92,230,.28)!important;
+  background:linear-gradient(180deg,rgba(241,239,255,.88),rgba(234,240,255,.58))!important;
+  color:#3936a8!important;
+}
+.final-variant{
+  margin:-4px 0 10px!important;
+  font-size:12px!important;
+  font-weight:900!important;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:#0a84ff!important;
+}
+
+.submit-status{
+  margin:18px 0 10px;
+  padding:13px 15px;
+  border-radius:16px;
+  border:1px solid rgba(10,132,255,.20);
+  background:linear-gradient(180deg,rgba(232,245,255,.86),rgba(241,248,255,.60));
+  color:#355b85;
+  font-size:13px;
+  font-weight:850;
+  line-height:1.45;
+}
+.submit-status.sending{
+  color:#355b85;
+}
+.submit-status.success{
+  color:#166234;
+  border-color:rgba(52,199,89,.35);
+  background:linear-gradient(180deg,rgba(226,255,234,.88),rgba(239,255,244,.64));
+}
+.submit-status.error{
+  color:#8f2521;
+  border-color:rgba(255,59,48,.32);
+  background:linear-gradient(180deg,rgba(255,235,236,.86),rgba(255,246,247,.62));
+}
+.retry-submit-btn{
+  margin:0 auto 12px;
+  border:1px solid rgba(10,132,255,.28);
+  border-radius:14px;
+  padding:10px 16px;
+  cursor:pointer;
+  color:#0a63c9;
+  background:rgba(255,255,255,.78);
+  font-weight:900;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 8px 18px rgba(47,71,112,.08);
+}
+
+.access-gate{
+  position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  padding:18px;background:
+    radial-gradient(800px 480px at 15% 0%,rgba(90,200,250,.30),transparent 56%),
+    radial-gradient(700px 450px at 90% 0%,rgba(94,92,230,.18),transparent 55%),
+    #eef4fc;
+}
+.access-gate.hidden{display:none}
+.access-gate-panel{
+  width:min(440px,100%);padding:28px;border-radius:28px;text-align:center;
+  border:1px solid rgba(255,255,255,.72);background:rgba(255,255,255,.72);
+  backdrop-filter:blur(24px);box-shadow:0 25px 70px rgba(35,60,100,.18)
+}
+.access-gate-title{font-size:24px;font-weight:950;letter-spacing:-.03em;color:#10264b}
+.access-gate-text{margin-top:9px;color:#607695;font-size:13px;line-height:1.5}
+.access-gate-back{
+  display:inline-block;margin-top:17px;padding:12px 16px;border-radius:14px;
+  background:linear-gradient(135deg,#0677ff,#4cc9ff);color:white;text-decoration:none;font-weight:900
+}
+
+#accessGate{display:none!important}
+#accessGate.blocked{display:flex!important}
+</style>
+</head>
+<body>
+<div class="session-overlay" id="sessionOverlay">
+<div class="session-panel">
+<div class="session-badge">Контрольная работа · 30 вариантов · 45 минут</div>
+<h2>Перед началом работы</h2>
+<p>Укажите фамилию или две фамилии, выберите группу и вариант. В разных вариантах отличается не только порядок, но и количество и типы заданий. После старта выбранный набор фиксируется.</p>
+<div class="session-grid">
+<div class="session-field"><label for="surname1">Фамилия студента 1</label><input autocomplete="off" id="surname1" maxlength="40" placeholder="Например: Иванов"/></div>
+<div class="session-field" id="surname2Field"><label for="surname2">Фамилия студента 2</label><input autocomplete="off" id="surname2" maxlength="40" placeholder="Например: Петров"/></div>
+<div class="session-field"><label for="groupName">Группа</label><select id="groupName"><option value="">Выберите группу...</option><option value="ИИ-156">ИИ-156</option><option value="ИИ-166">ИИ-166</option><option value="ИИ-126">ИИ-126</option></select></div><div class="session-field"><label for="variantNumber">Вариант</label><select id="variantNumber"><option value="">Выберите вариант...</option><option value="1">Вариант 01</option><option value="2">Вариант 02</option><option value="3">Вариант 03</option><option value="4">Вариант 04</option><option value="5">Вариант 05</option><option value="6">Вариант 06</option><option value="7">Вариант 07</option><option value="8">Вариант 08</option><option value="9">Вариант 09</option><option value="10">Вариант 10</option><option value="11">Вариант 11</option><option value="12">Вариант 12</option><option value="13">Вариант 13</option><option value="14">Вариант 14</option><option value="15">Вариант 15</option><option value="16">Вариант 16</option><option value="17">Вариант 17</option><option value="18">Вариант 18</option><option value="19">Вариант 19</option><option value="20">Вариант 20</option><option value="21">Вариант 21</option><option value="22">Вариант 22</option><option value="23">Вариант 23</option><option value="24">Вариант 24</option><option value="25">Вариант 25</option><option value="26">Вариант 26</option><option value="27">Вариант 27</option><option value="28">Вариант 28</option><option value="29">Вариант 29</option><option value="30">Вариант 30</option></select></div>
+</div>
+<div class="mode-row">
+<div><strong>Работаешь без напарника?</strong><span>Тогда будет сохранена только одна фамилия.</span></div>
+<button class="solo-toggle" id="soloToggle" type="button">Я выполняю один</button>
+</div>
+<button class="start-exam" id="startExam" type="button">Начать работу · 45:00</button>
+<div class="exam-error" id="examError"></div>
+<div class="exam-note"><b>Вариант после старта фиксируется.</b> Обновление страницы не сбрасывает таймер. Правильность ответов во время прохождения не показывается. Копирование текста задания отключено.</div>
+</div>
+</div>
+<div class="shell">
+<header class="top">
+<div class="brand">
+<div class="logo">
+<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24">
+<path d="M12 3a9 9 0 1 0 9 9"></path><path d="M12 7v5l3 2"></path><path d="M17 3h4v4"></path><path d="M21 3l-5 5"></path>
+</svg>
+</div>
+<div><strong>Введение в технологии ИИ</strong><span>Компьютерное зрение · ПЗ №5</span></div>
+</div>
+<div class="session-meta">
+<div class="student-chip" id="studentNames">Работа не начата</div><div class="student-chip variant-fixed-chip" id="variantChip">Вариант —</div>
+<div class="timer-chip" id="timerChip">45:00</div>
+<button class="finish-btn" id="finishTop" type="button">Завершить работу</button>
+</div>
+</header>
+<main>
+<section class="lesson question-section variant-question-section" data-task-section="cv_count_track"><div class="task mcq" data-answer="1" data-base-title="Камера на въезде в парковку должна считать автомобили и не считать одну и ту же машину на каждом кадре как новую. Какой подход подходит лучше?" data-points="1" data-task="cv_count_track">
+<h3>1. Камера на въезде в парковку должна считать автомобили и не считать одну и ту же машину на каждом кадре как новую. Какой подход подходит лучше?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Только классифицировать весь кадр как «есть автомобиль / нет автомобиля».</span></button>
+<button class="option"><span class="mark">B</span><span>Обнаруживать автомобили на кадрах и отслеживать каждый объект между соседними кадрами.</span></button>
+<button class="option"><span class="mark">C</span><span>Распознавать текст на всех вывесках рядом с парковкой.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="cv_pipeline"><div class="task interactive-task sequence-task" data-base-title="Расставь этапы работы системы видеоаналитики в логичном порядке" data-points="1" data-task="cv_pipeline" data-type="sequence">
+<h3>2. Расставь этапы работы системы видеоаналитики в логичном порядке</h3>
+<p class="task-hint">Перетащи карточки в шаги 1–6. Правильность во время работы не показывается.</p>
+<div class="exam-bank sequence-bank" data-bank="cv_pipeline"><button class="exam-card sequence-card" data-card-id="camera" draggable="true" type="button">Получить видеопоток с камеры</button>
+<button class="exam-card sequence-card" data-card-id="frames" draggable="true" type="button">Подготовить кадры для обработки</button>
+<button class="exam-card sequence-card" data-card-id="detect" draggable="true" type="button">Обнаружить нужные объекты</button>
+<button class="exam-card sequence-card" data-card-id="track" draggable="true" type="button">Связать один и тот же объект между кадрами</button>
+<button class="exam-card sequence-card" data-card-id="event" draggable="true" type="button">Рассчитать событие или метрику</button>
+<button class="exam-card sequence-card" data-card-id="action" draggable="true" type="button">Передать результат в интерфейс, отчёт или систему оповещения</button></div>
+<div class="exam-sequence-slots"><div class="exam-slot" data-accept="camera" data-slot-id="1"><strong>Шаг 1</strong><span>Источник данных</span></div>
+<div class="exam-slot" data-accept="frames" data-slot-id="2"><strong>Шаг 2</strong><span>Подготовка</span></div>
+<div class="exam-slot" data-accept="detect" data-slot-id="3"><strong>Шаг 3</strong><span>Поиск объектов</span></div>
+<div class="exam-slot" data-accept="track" data-slot-id="4"><strong>Шаг 4</strong><span>Отслеживание</span></div>
+<div class="exam-slot" data-accept="event" data-slot-id="5"><strong>Шаг 5</strong><span>Аналитика</span></div>
+<div class="exam-slot" data-accept="action" data-slot-id="6"><strong>Шаг 6</strong><span>Использование результата</span></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="detection_vs_classification"><div class="task mcq" data-answer="2" data-base-title="Чем детекция объектов отличается от обычной классификации изображения?" data-points="1" data-task="detection_vs_classification">
+<h3>3. Чем детекция объектов отличается от обычной классификации изображения?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Детекция работает только с чёрно-белыми изображениями.</span></button>
+<button class="option"><span class="mark">B</span><span>Классификация всегда определяет точные координаты каждого объекта.</span></button>
+<button class="option"><span class="mark">C</span><span>Детекция определяет, какие объекты есть на изображении, и указывает их расположение.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="queue_privacy"><div class="task interactive-task classify-task" data-base-title="Система должна оценивать длину очереди в магазине. Распредели данные по категориям" data-points="1" data-task="queue_privacy" data-type="classify">
+<h3>4. Система должна оценивать длину очереди в магазине. Распредели данные по категориям</h3>
+<p class="task-hint">Для задачи нужно понимать количество людей в зоне очереди, а не устанавливать их личности.</p>
+<div class="exam-bank classify-bank" data-bank="queue_privacy"><button class="exam-card classify-card" data-card-id="person_boxes" data-correct-zone="need" draggable="true" type="button">Координаты обнаруженных людей</button>
+<button class="exam-card classify-card" data-card-id="queue_zone" data-correct-zone="need" draggable="true" type="button">Границы зоны очереди</button>
+<button class="exam-card classify-card" data-card-id="timestamp" data-correct-zone="need" draggable="true" type="button">Время измерения очереди</button>
+<button class="exam-card classify-card" data-card-id="full_name" data-correct-zone="extra" draggable="true" type="button">Фамилия и имя каждого покупателя</button>
+<button class="exam-card classify-card" data-card-id="face_template" data-correct-zone="extra" draggable="true" type="button">Биометрический шаблон лица покупателя</button>
+<button class="exam-card classify-card" data-card-id="conversation" data-correct-zone="extra" draggable="true" type="button">Запись разговоров покупателей</button></div>
+<div class="classify-zones"><div class="exam-zone" data-zone-id="need"><strong>Нужно для задачи</strong><span>Помогает оценить очередь без установления личности</span><div class="zone-items"></div></div>
+<div class="exam-zone" data-zone-id="extra"><strong>Избыточно для задачи</strong><span>Не требуется для подсчёта очереди и увеличивает риски для приватности</span><div class="zone-items"></div></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="tracking_reason"><div class="task mcq" data-answer="0" data-base-title="Для чего в видеоаналитике нужен tracking после детекции?" data-points="1" data-task="tracking_reason">
+<h3>5. Для чего в видеоаналитике нужен tracking после детекции?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Чтобы понимать траекторию объекта и отличать один объект от нового появления на следующем кадре.</span></button>
+<button class="option"><span class="mark">B</span><span>Чтобы автоматически повысить разрешение любой камеры до 8K.</span></button>
+<button class="option"><span class="mark">C</span><span>Чтобы преобразовать видеопоток в аудиозапись.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="face_detection_recognition"><div class="task mcq" data-answer="1" data-base-title="Камера нашла лицо на кадре. Что означает именно распознавание лица?" data-points="1" data-task="face_detection_recognition">
+<h3>6. Камера нашла лицо на кадре. Что означает именно распознавание лица?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Определить только прямоугольник, внутри которого находится лицо.</span></button>
+<button class="option"><span class="mark">B</span><span>Сопоставить найденное лицо с известным шаблоном или базой и оценить совпадение.</span></button>
+<button class="option"><span class="mark">C</span><span>Посчитать общее количество пикселей на изображении.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="false_positive_face"><div class="task mcq" data-answer="2" data-base-title="Что будет false positive для системы доступа по лицу?" data-points="1" data-task="false_positive_face">
+<h3>7. Что будет false positive для системы доступа по лицу?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Камера не увидела лицо из-за того, что человек отвернулся.</span></button>
+<button class="option"><span class="mark">B</span><span>Система отказала сотруднику, который действительно имеет доступ.</span></button>
+<button class="option"><span class="mark">C</span><span>Система ошибочно признала постороннего человека разрешённым пользователем.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="night_weather"><div class="task mcq" data-answer="0" data-base-title="Модель хорошо распознаёт машины днём, но резко хуже работает ночью и в дождь. Что делать правильнее?" data-points="1" data-task="night_weather">
+<h3>8. Модель хорошо распознаёт машины днём, но резко хуже работает ночью и в дождь. Что делать правильнее?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Добавить и проверить данные с ночными сценами, дождём и разным освещением, затем переоценить модель по этим условиям.</span></button>
+<button class="option"><span class="mark">B</span><span>Оставить только дневные тесты, чтобы итоговая точность была выше.</span></button>
+<button class="option"><span class="mark">C</span><span>Увеличить размер логотипа приложения.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="retail_queue"><div class="task mcq" data-answer="1" data-base-title="Какой результат наиболее полезен для автоматического контроля очередей в торговом зале?" data-points="1" data-task="retail_queue">
+<h3>9. Какой результат наиболее полезен для автоматического контроля очередей в торговом зале?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Имена всех людей, которые прошли мимо кассы.</span></button>
+<button class="option"><span class="mark">B</span><span>Количество людей в заданной зоне и длительность нахождения очереди выше допустимого уровня.</span></button>
+<button class="option"><span class="mark">C</span><span>Цвет одежды каждого покупателя.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="shelf_stock"><div class="task mcq" data-answer="2" data-base-title="Система должна замечать пустые места на полке и сообщать сотруднику о необходимости пополнения. Что ей важно определять?" data-points="1" data-task="shelf_stock">
+<h3>10. Система должна замечать пустые места на полке и сообщать сотруднику о необходимости пополнения. Что ей важно определять?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Только общую яркость помещения.</span></button>
+<button class="option"><span class="mark">B</span><span>Номера автомобилей на парковке.</span></button>
+<button class="option"><span class="mark">C</span><span>Наличие товара и свободных участков в заданных областях полки.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="city_traffic"><div class="task mcq" data-answer="0" data-base-title="Какие данные полезнее для адаптивного управления светофором на перекрёстке?" data-points="1" data-task="city_traffic">
+<h3>11. Какие данные полезнее для адаптивного управления светофором на перекрёстке?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Количество и поток транспорта по направлениям, длина очередей и занятость полос.</span></button>
+<button class="option"><span class="mark">B</span><span>Фамилии водителей, ожидающих зелёного сигнала.</span></button>
+<button class="option"><span class="mark">C</span><span>Количество рекламных вывесок возле дороги.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="edge_processing"><div class="task mcq" data-answer="1" data-base-title="Когда обработка видео прямо на устройстве возле камеры (edge) особенно полезна?" data-points="1" data-task="edge_processing">
+<h3>12. Когда обработка видео прямо на устройстве возле камеры (edge) особенно полезна?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Когда нужно обязательно передавать на сервер каждый исходный кадр без исключения.</span></button>
+<button class="option"><span class="mark">B</span><span>Когда важны малая задержка, экономия канала и возможность не отправлять всё исходное видео в облако.</span></button>
+<button class="option"><span class="mark">C</span><span>Когда у системы вообще нет камеры.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="cv_methods_match"><div class="task interactive-task match-task" data-base-title="Соедини задачу компьютерного зрения с наиболее подходящим методом" data-points="1" data-task="cv_methods_match" data-type="match">
+<h3>13. Соедини задачу компьютерного зрения с наиболее подходящим методом</h3>
+<p class="task-hint">Выбери задачу слева, затем подходящий метод справа. Правильность связей скрыта.</p>
+<div class="match-board">
+<div class="match-col match-left-col"><button class="match-card match-left" data-correct-right="detect_track" data-left-id="cars" type="button">Посчитать уникальные автомобили, проехавшие через перекрёсток</button>
+<button class="match-card match-left" data-correct-right="segment" data-left-id="road" type="button">Выделить каждый пиксель дорожного полотна и тротуара</button>
+<button class="match-card match-left" data-correct-right="classify" data-left-id="frame" type="button">Определить, содержит ли кадр дым</button>
+<button class="match-card match-left" data-correct-right="verify" data-left-id="access" type="button">Сравнить лицо пользователя с его эталонным шаблоном</button></div>
+<div class="match-col match-right-col"><button class="match-card match-right" data-right-id="segment" type="button">Сегментация</button>
+<button class="match-card match-right" data-right-id="verify" type="button">Верификация лица</button>
+<button class="match-card match-right" data-right-id="detect_track" type="button">Детекция + tracking</button>
+<button class="match-card match-right" data-right-id="classify" type="button">Классификация</button></div>
+</div>
+<div aria-live="polite" class="match-summary"></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="precision_false_alarms"><div class="task mcq" data-answer="2" data-base-title="Система безопасности магазина создаёт очень много ложных тревог. Какая проблема наиболее вероятна?" data-points="1" data-task="precision_false_alarms">
+<h3>14. Система безопасности магазина создаёт очень много ложных тревог. Какая проблема наиболее вероятна?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>У системы слишком высокая точность времени на сервере.</span></button>
+<button class="option"><span class="mark">B</span><span>Все объекты обязательно стали меньше.</span></button>
+<button class="option"><span class="mark">C</span><span>Слишком много false positive: среди срабатываний велика доля ошибочных тревог.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="face_threshold"><div class="task mcq" data-answer="0" data-base-title="Что обычно произойдёт, если слишком сильно снизить порог совпадения в системе распознавания лиц?" data-points="1" data-task="face_threshold">
+<h3>15. Что обычно произойдёт, если слишком сильно снизить порог совпадения в системе распознавания лиц?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Система начнёт легче принимать слабые совпадения, поэтому может вырасти число ошибочных допусков.</span></button>
+<button class="option"><span class="mark">B</span><span>Камера физически изменит своё фокусное расстояние.</span></button>
+<button class="option"><span class="mark">C</span><span>Все изображения автоматически станут анонимными.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="cv_deploy_sequence"><div class="task interactive-task sequence-task" data-base-title="Восстанови порядок безопасного внедрения видеоаналитики в торговом зале" data-points="1" data-task="cv_deploy_sequence" data-type="sequence">
+<h3>16. Восстанови порядок безопасного внедрения видеоаналитики в торговом зале</h3>
+<p class="task-hint">Поставь действия от постановки задачи до эксплуатации.</p>
+<div class="exam-bank sequence-bank" data-bank="cv_deploy_sequence"><button class="exam-card sequence-card" data-card-id="goal" draggable="true" type="button">Определить конкретную бизнес-задачу и зоны наблюдения</button>
+<button class="exam-card sequence-card" data-card-id="data" draggable="true" type="button">Собрать репрезентативные данные с разных камер и условий</button>
+<button class="exam-card sequence-card" data-card-id="eval" draggable="true" type="button">Оценить качество, false positive и false negative на независимых данных</button>
+<button class="exam-card sequence-card" data-card-id="pilot" draggable="true" type="button">Запустить ограниченный пилот с понятными правилами использования результата</button>
+<button class="exam-card sequence-card" data-card-id="monitor" draggable="true" type="button">Следить за качеством, изменениями камер и реальным эффектом после запуска</button></div>
+<div class="exam-sequence-slots five-slots"><div class="exam-slot" data-accept="goal" data-slot-id="1"><strong>Шаг 1</strong><span>Задача</span></div>
+<div class="exam-slot" data-accept="data" data-slot-id="2"><strong>Шаг 2</strong><span>Данные</span></div>
+<div class="exam-slot" data-accept="eval" data-slot-id="3"><strong>Шаг 3</strong><span>Проверка</span></div>
+<div class="exam-slot" data-accept="pilot" data-slot-id="4"><strong>Шаг 4</strong><span>Пилот</span></div>
+<div class="exam-slot" data-accept="monitor" data-slot-id="5"><strong>Шаг 5</strong><span>Эксплуатация</span></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="camera_domain_shift"><div class="task mcq" data-answer="1" data-base-title="Модель обучили на одной камере с высоким разрешением. После установки на других камерах качество упало. Что вероятнее всего произошло?" data-points="1" data-task="camera_domain_shift">
+<h3>17. Модель обучили на одной камере с высоким разрешением. После установки на других камерах качество упало. Что вероятнее всего произошло?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Алгоритм стал ошибаться только из-за названия файла модели.</span></button>
+<button class="option"><span class="mark">B</span><span>Условия новых камер отличаются по разрешению, углу, цвету или оптике — данные в эксплуатации не похожи на обучающие.</span></button>
+<button class="option"><span class="mark">C</span><span>Это доказывает, что тестирование модели больше не требуется.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="privacy_retention"><div class="task mcq" data-answer="2" data-base-title="Какой подход к хранению видеоданных лучше соответствует принципу минимизации данных?" data-points="1" data-task="privacy_retention">
+<h3>18. Какой подход к хранению видеоданных лучше соответствует принципу минимизации данных?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Хранить всё исходное видео бессрочно, даже если оно больше не нужно.</span></button>
+<button class="option"><span class="mark">B</span><span>Давать доступ к архиву всем сотрудникам без разграничения прав.</span></button>
+<button class="option"><span class="mark">C</span><span>Хранить только необходимые данные ограниченное время, ограничивать доступ и использовать агрегирование или обезличивание, когда это возможно.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="checkout_tracking"><div class="task mcq" data-answer="0" data-base-title="В автоматизированной кассе один товар несколько секунд виден на многих кадрах. Что помогает не добавить его в чек несколько раз?" data-points="1" data-task="checkout_tracking">
+<h3>19. В автоматизированной кассе один товар несколько секунд виден на многих кадрах. Что помогает не добавить его в чек несколько раз?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Связать обнаружения товара между кадрами и вести состояние уже учтённого объекта.</span></button>
+<button class="option"><span class="mark">B</span><span>На каждом кадре считать все найденные товары новыми.</span></button>
+<button class="option"><span class="mark">C</span><span>Каждые пять секунд случайно очищать список товаров.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="symptom_match"><div class="task interactive-task match-task" data-base-title="Соедини симптом системы видеоаналитики с наиболее вероятной причиной" data-points="1" data-task="symptom_match" data-type="match">
+<h3>20. Соедини симптом системы видеоаналитики с наиболее вероятной причиной</h3>
+<p class="task-hint">Выбери симптом слева и причину справа.</p>
+<div class="match-board">
+<div class="match-col match-left-col"><button class="match-card match-left" data-correct-right="tracking" data-left-id="repeat_count" type="button">Один пешеход засчитывается несколько раз подряд</button>
+<button class="match-card match-left" data-correct-right="conditions" data-left-id="night_fail" type="button">Ночью качество резко ниже, чем днём</button>
+<button class="match-card match-left" data-correct-right="threshold" data-left-id="false_alarm" type="button">Большая часть тревог оказывается ложной</button>
+<button class="match-card match-left" data-correct-right="camera_shift" data-left-id="camera_moved" type="button">После изменения положения камеры качество упало</button></div>
+<div class="match-col match-right-col"><button class="match-card match-right" data-right-id="conditions" type="button">В данных недостаточно нужных условий освещения</button>
+<button class="match-card match-right" data-right-id="camera_shift" type="button">Изменились ракурс и область изображения</button>
+<button class="match-card match-right" data-right-id="tracking" type="button">Проблема отслеживания объектов между кадрами</button>
+<button class="match-card match-right" data-right-id="threshold" type="button">Порог или модель дают слишком много false positive</button></div>
+</div>
+<div aria-live="polite" class="match-summary"></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="heatmap_limits"><div class="task mcq" data-answer="1" data-base-title="Тепловая карта показывает, что посетители часто задерживаются у определённой витрины. Какой вывод корректнее?" data-points="1" data-task="heatmap_limits">
+<h3>21. Тепловая карта показывает, что посетители часто задерживаются у определённой витрины. Какой вывод корректнее?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Она доказывает, что каждый задержавшийся посетитель обязательно купил товар.</span></button>
+<button class="option"><span class="mark">B</span><span>Она показывает агрегированную активность в зоне, но сама по себе не объясняет намерения каждого человека.</span></button>
+<button class="option"><span class="mark">C</span><span>Она автоматически устанавливает личности всех посетителей.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="cv_monitoring"><div class="task mcq" data-answer="2" data-base-title="Что важно мониторить после запуска системы компьютерного зрения?" data-points="1" data-task="cv_monitoring">
+<h3>22. Что важно мониторить после запуска системы компьютерного зрения?</h3>
+<div class="options"><button class="option"><span class="mark">A</span><span>Только наличие зелёного индикатора питания у сервера.</span></button>
+<button class="option"><span class="mark">B</span><span>Только название текущей версии модели.</span></button>
+<button class="option"><span class="mark">C</span><span>Качество распознавания и ложные срабатывания, изменения входных данных и камер, задержку обработки и бизнес-метрику, ради которой система внедрялась.</span></button></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="plate_ocr"><div class="task mcq" data-answer="1" data-base-title="Система парковки должна автоматически прочитать государственный номер автомобиля. Какой конвейер подходит лучше?" data-points="1" data-task="plate_ocr">
+<h3>Система парковки должна автоматически прочитать государственный номер автомобиля. Какой конвейер подходит лучше?</h3>
+<div class="options">
+<button class="option"><span class="mark">A</span><span>Только определить средний цвет автомобиля.</span></button><button class="option"><span class="mark">B</span><span>Найти область номерного знака и применить распознавание текста (OCR).</span></button><button class="option"><span class="mark">C</span><span>Определить количество пешеходов вокруг машины.</span></button>
+</div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="occlusion_people"><div class="task mcq" data-answer="2" data-base-title="В торговом центре люди часто частично перекрывают друг друга. Что поможет сделать систему подсчёта устойчивее?" data-points="1" data-task="occlusion_people">
+<h3>В торговом центре люди часто частично перекрывают друг друга. Что поможет сделать систему подсчёта устойчивее?</h3>
+<div class="options">
+<button class="option"><span class="mark">A</span><span>Удалить из тестов все кадры, где люди перекрываются.</span></button><button class="option"><span class="mark">B</span><span>Считать каждого человека новым при любом кратком исчезновении.</span></button><button class="option"><span class="mark">C</span><span>Использовать данные с перекрытиями и tracking, способный сохранять идентичность объекта при кратковременной окклюзии.</span></button>
+</div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="segmentation_zone"><div class="task mcq" data-answer="0" data-base-title="Системе нужно определить точную область проезжей части на каждом пикселе изображения. Какая задача компьютерного зрения подходит?" data-points="1" data-task="segmentation_zone">
+<h3>Системе нужно определить точную область проезжей части на каждом пикселе изображения. Какая задача компьютерного зрения подходит?</h3>
+<div class="options">
+<button class="option"><span class="mark">A</span><span>Сегментация изображения.</span></button><button class="option"><span class="mark">B</span><span>Распознавание речи.</span></button><button class="option"><span class="mark">C</span><span>Только классификация всего кадра как «день» или «ночь».</span></button>
+</div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="camera_reposition"><div class="task mcq" data-answer="0" data-base-title="Камеру на перекрёстке физически повернули, а виртуальная линия подсчёта осталась на старом месте. Что нужно сделать?" data-points="1" data-task="camera_reposition">
+<h3>Камеру на перекрёстке физически повернули, а виртуальная линия подсчёта осталась на старом месте. Что нужно сделать?</h3>
+<div class="options">
+<button class="option"><span class="mark">A</span><span>Заново настроить зоны и линии аналитики под новый ракурс камеры и проверить качество.</span></button><button class="option"><span class="mark">B</span><span>Оставить координаты прежними: модель сама физически повернёт камеру.</span></button><button class="option"><span class="mark">C</span><span>Удалить все метрики из системы.</span></button>
+</div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="video_data_leakage"><div class="task mcq" data-answer="1" data-base-title="В обучающую выборку попали кадры 10:00:01–10:00:10, а в тестовую — соседние кадры 10:00:11–10:00:20 того же видео. В чём риск?" data-points="1" data-task="video_data_leakage">
+<h3>В обучающую выборку попали кадры 10:00:01–10:00:10, а в тестовую — соседние кадры 10:00:11–10:00:20 того же видео. В чём риск?</h3>
+<div class="options">
+<button class="option"><span class="mark">A</span><span>Тест станет обязательно сложнее реальной эксплуатации.</span></button><button class="option"><span class="mark">B</span><span>Возникает утечка данных: соседние кадры слишком похожи, поэтому оценка качества может быть завышена.</span></button><button class="option"><span class="mark">C</span><span>Камера автоматически изменит разрешение.</span></button>
+</div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="human_review_face"><div class="task mcq" data-answer="2" data-base-title="Система доступа по лицу получила пограничное совпадение в ситуации с высокой ценой ошибки. Что безопаснее?" data-points="1" data-task="human_review_face">
+<h3>Система доступа по лицу получила пограничное совпадение в ситуации с высокой ценой ошибки. Что безопаснее?</h3>
+<div class="options">
+<button class="option"><span class="mark">A</span><span>Всегда автоматически разрешать доступ при любом ненулевом совпадении.</span></button><button class="option"><span class="mark">B</span><span>Случайно выбрать решение.</span></button><button class="option"><span class="mark">C</span><span>Использовать порог и, для неопределённых случаев, дополнительную проверку или другой фактор доступа.</span></button>
+</div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="abandoned_object_sequence"><div class="task interactive-task sequence-task" data-base-title="Расставь этапы обнаружения оставленного предмета в общественном месте" data-points="1" data-task="abandoned_object_sequence" data-type="sequence">
+<h3>Расставь этапы обнаружения оставленного предмета в общественном месте</h3>
+<p class="task-hint">Перетащи действия от получения объектов до формирования тревоги.</p>
+<div class="exam-bank sequence-bank" data-bank="abandoned_object_sequence"><button class="exam-card sequence-card" data-card-id="detect_obj" draggable="true" type="button">Обнаружить предметы и людей на кадрах</button><button class="exam-card sequence-card" data-card-id="track_obj" draggable="true" type="button">Отслеживать предмет и ближайшего человека между кадрами</button><button class="exam-card sequence-card" data-card-id="separate" draggable="true" type="button">Определить, что человек удалился от предмета</button><button class="exam-card sequence-card" data-card-id="dwell" draggable="true" type="button">Проверить, что предмет остаётся без владельца заданное время</button><button class="exam-card sequence-card" data-card-id="alert" draggable="true" type="button">Сформировать событие для оператора</button></div>
+<div class="exam-sequence-slots five-slots"><div class="exam-slot" data-accept="detect_obj" data-slot-id="1"><strong>Шаг 1</strong><span>Детекция</span></div><div class="exam-slot" data-accept="track_obj" data-slot-id="2"><strong>Шаг 2</strong><span>Tracking</span></div><div class="exam-slot" data-accept="separate" data-slot-id="3"><strong>Шаг 3</strong><span>Разделение траекторий</span></div><div class="exam-slot" data-accept="dwell" data-slot-id="4"><strong>Шаг 4</strong><span>Временное условие</span></div><div class="exam-slot" data-accept="alert" data-slot-id="5"><strong>Шаг 5</strong><span>Тревога</span></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="retail_privacy_classify"><div class="task interactive-task classify-task" data-base-title="Распредели данные магазина: что относится к агрегированной аналитике, а что сильнее затрагивает личность человека" data-points="1" data-task="retail_privacy_classify" data-type="classify">
+<h3>Распредели данные магазина: что относится к агрегированной аналитике, а что сильнее затрагивает личность человека</h3>
+<p class="task-hint">Перетащи карточки в подходящие категории.</p>
+<div class="exam-bank classify-bank" data-bank="retail_privacy_classify"><button class="exam-card classify-card" data-card-id="visitor_count" data-correct-zone="aggregate" draggable="true" type="button">Количество посетителей за час</button><button class="exam-card classify-card" data-card-id="zone_time" data-correct-zone="aggregate" draggable="true" type="button">Среднее время нахождения людей в зоне</button><button class="exam-card classify-card" data-card-id="queue_length" data-correct-zone="aggregate" draggable="true" type="button">Средняя длина очереди</button><button class="exam-card classify-card" data-card-id="face_template2" data-correct-zone="personal" draggable="true" type="button">Биометрический шаблон лица конкретного человека</button><button class="exam-card classify-card" data-card-id="full_identity" data-correct-zone="personal" draggable="true" type="button">ФИО, связанное с изображением лица</button><button class="exam-card classify-card" data-card-id="individual_route" data-correct-zone="personal" draggable="true" type="button">Долговременная история перемещений конкретного идентифицированного посетителя</button></div>
+<div class="classify-zones"><div class="exam-zone" data-zone-id="aggregate"><strong>Агрегированная аналитика</strong><span>Описывает поток или зону без необходимости устанавливать личность</span><div class="zone-items"></div></div><div class="exam-zone" data-zone-id="personal"><strong>Персональные/биометрические данные</strong><span>Позволяют связать информацию с конкретным человеком</span><div class="zone-items"></div></div></div>
+</div></section><section class="lesson question-section variant-question-section" data-task-section="metrics_match"><div class="task interactive-task match-task" data-base-title="Соедини метрику системы компьютерного зрения с тем, что она показывает" data-points="1" data-task="metrics_match" data-type="match">
+<h3>Соедини метрику системы компьютерного зрения с тем, что она показывает</h3>
+<p class="task-hint">Выбери метрику слева, затем её смысл справа.</p>
+<div class="match-board">
+<div class="match-col match-left-col"><button class="match-card match-left" data-correct-right="few_false_alarms" data-left-id="precision" type="button">Precision</button><button class="match-card match-left" data-correct-right="few_misses" data-left-id="recall" type="button">Recall</button><button class="match-card match-left" data-correct-right="response_time" data-left-id="latency" type="button">Задержка обработки</button><button class="match-card match-left" data-correct-right="throughput" data-left-id="fps" type="button">FPS обработки</button></div>
+<div class="match-col match-right-col"><button class="match-card match-right" data-right-id="throughput" type="button">Сколько кадров система успевает обработать за секунду</button><button class="match-card match-right" data-right-id="few_misses" type="button">Насколько полно система находит реальные целевые события</button><button class="match-card match-right" data-right-id="response_time" type="button">Сколько времени проходит от получения данных до результата</button><button class="match-card match-right" data-right-id="few_false_alarms" type="button">Какая доля срабатываний действительно относится к целевому классу</button></div>
+</div>
+<div aria-live="polite" class="match-summary"></div>
+</div></section><section class="finish-bar"><h2>Проверьте, что выполнили все задания</h2><p>До завершения работы можно вернуться к любому заданию и изменить выбранный вариант.</p><button class="action" id="finishBottom" type="button">Завершить работу</button></section>
+</main>
+</div>
+<div class="final-overlay" id="finalOverlay">
+<div class="final-panel">
+<div class="session-badge" id="finalStatus">Работа завершена</div>
+<h2>Работа завершена</h2>
+<p id="finalStudents">—</p><p class="final-variant" id="finalVariant">Вариант —</p>
+<div class="final-score" id="finalPercent">0%</div>
+<div class="final-grade" id="finalGrade">Оценка: 2</div>
+<div class="final-grid">
+<div class="final-cell"><strong id="finalPoints">0/0</strong><span>баллы</span></div>
+<div class="final-cell"><strong id="finalDone">0/0</strong><span>выполнено заданий</span></div>
+<div class="final-cell"><strong id="finalTime">00:00</strong><span>время работы</span></div>
+</div>
+<p style="margin-top:18px;font-size:12px">Показывается только общий результат. Правильные ответы по отдельным заданиям не раскрываются.</p>
+<div class="submit-status" id="submitStatus">Результат ещё не отправлен преподавателю.</div><button class="retry-submit-btn" id="retrySubmit" style="display:none" type="button">Повторить отправку</button><div class="final-buttons">
+<button class="final-close-btn" id="closeFinal" type="button">Закрыть</button>
+<button class="final-restart-btn" id="restartFinal" type="button">Начать заново</button>
+<button class="final-restart-btn" id="backToTopics" type="button">К темам</button></div>
+</div>
+</div>
+<div class="protection-watermark" id="protectionWatermark">Защищённый режим · копирование отключено</div>
+<div class="toast" id="toast"></div>
+<script>(() => {
+  const SESSION_MINUTES = 45;
+  const SESSION_KEY = 'ai_cv05_varied_structure_v2';
+  const $ = (s,root=document)=>root.querySelector(s);
+  const $$ = (s,root=document)=>[...root.querySelectorAll(s)];
+  const tasks = $$('.task[data-task]');
+  const mcqTasks = $$('.task.mcq[data-task]');
+  const state = {answers:{}, started:false, locked:false, startAt:null, endAt:null, solo:false, surname1:'', surname2:'', group:'', variant:'', sessionId:'', submitted:false, elapsed:0};
+  let timerHandle=null;
+  let selectedInteractive=null;
+  let selectedMatchLeft=null;
+
+  function getActiveTasks(){
+    const ids=VARIANT_ORDERS[String(Number(state.variant)||'')]||[];
+    const idSet=new Set(ids);
+    return tasks.filter(task=>idSet.has(task.dataset.task));
+  }
+
+  const VARIANT_ORDERS = {"1": ["queue_privacy", "privacy_retention", "face_detection_recognition", "metrics_match", "city_traffic", "video_data_leakage", "detection_vs_classification", "cv_methods_match", "camera_domain_shift", "camera_reposition", "retail_privacy_classify", "symptom_match", "cv_pipeline", "occlusion_people", "human_review_face", "cv_count_track", "cv_deploy_sequence", "segmentation_zone", "face_threshold", "precision_false_alarms", "tracking_reason", "abandoned_object_sequence", "cv_monitoring", "shelf_stock"], "2": ["cv_count_track", "checkout_tracking", "symptom_match", "video_data_leakage", "retail_queue", "camera_domain_shift", "segmentation_zone", "cv_pipeline", "false_positive_face", "cv_monitoring", "shelf_stock", "cv_deploy_sequence", "precision_false_alarms", "city_traffic", "detection_vs_classification", "tracking_reason", "occlusion_people", "face_detection_recognition", "privacy_retention", "queue_privacy", "plate_ocr", "metrics_match", "retail_privacy_classify", "night_weather", "cv_methods_match"], "3": ["shelf_stock", "human_review_face", "detection_vs_classification", "heatmap_limits", "face_threshold", "video_data_leakage", "camera_domain_shift", "face_detection_recognition", "precision_false_alarms", "city_traffic", "abandoned_object_sequence", "tracking_reason", "camera_reposition", "retail_queue", "cv_pipeline", "false_positive_face", "symptom_match", "edge_processing", "checkout_tracking", "cv_monitoring", "occlusion_people", "queue_privacy", "segmentation_zone", "metrics_match", "retail_privacy_classify", "cv_count_track"], "4": ["cv_monitoring", "heatmap_limits", "cv_deploy_sequence", "precision_false_alarms", "segmentation_zone", "abandoned_object_sequence", "occlusion_people", "human_review_face", "city_traffic", "edge_processing", "night_weather", "tracking_reason", "symptom_match", "camera_reposition", "queue_privacy", "retail_queue", "detection_vs_classification", "shelf_stock", "plate_ocr", "camera_domain_shift", "cv_count_track", "face_threshold", "retail_privacy_classify", "video_data_leakage", "privacy_retention", "false_positive_face", "cv_methods_match"], "5": ["shelf_stock", "segmentation_zone", "symptom_match", "camera_reposition", "metrics_match", "heatmap_limits", "face_threshold", "privacy_retention", "night_weather", "occlusion_people", "retail_privacy_classify", "camera_domain_shift", "false_positive_face", "city_traffic", "checkout_tracking", "face_detection_recognition", "tracking_reason", "precision_false_alarms", "retail_queue", "video_data_leakage", "edge_processing", "cv_pipeline", "detection_vs_classification", "cv_count_track", "plate_ocr", "cv_monitoring", "abandoned_object_sequence", "human_review_face"], "6": ["face_threshold", "cv_pipeline", "city_traffic", "abandoned_object_sequence", "cv_deploy_sequence", "night_weather", "human_review_face", "cv_monitoring", "queue_privacy", "metrics_match", "cv_count_track", "occlusion_people", "face_detection_recognition", "shelf_stock", "video_data_leakage", "edge_processing", "symptom_match", "cv_methods_match", "false_positive_face", "segmentation_zone", "plate_ocr", "retail_queue", "retail_privacy_classify", "tracking_reason"], "7": ["checkout_tracking", "retail_queue", "camera_domain_shift", "precision_false_alarms", "detection_vs_classification", "occlusion_people", "video_data_leakage", "cv_monitoring", "cv_methods_match", "retail_privacy_classify", "tracking_reason", "cv_deploy_sequence", "false_positive_face", "heatmap_limits", "face_detection_recognition", "metrics_match", "city_traffic", "face_threshold", "symptom_match", "plate_ocr", "night_weather", "cv_count_track", "queue_privacy", "segmentation_zone", "cv_pipeline"], "8": ["segmentation_zone", "queue_privacy", "tracking_reason", "shelf_stock", "edge_processing", "abandoned_object_sequence", "camera_reposition", "symptom_match", "plate_ocr", "face_threshold", "checkout_tracking", "occlusion_people", "false_positive_face", "night_weather", "retail_privacy_classify", "cv_count_track", "face_detection_recognition", "cv_pipeline", "precision_false_alarms", "city_traffic", "cv_monitoring", "cv_methods_match", "detection_vs_classification", "video_data_leakage", "human_review_face", "camera_domain_shift"], "9": ["camera_reposition", "metrics_match", "retail_privacy_classify", "camera_domain_shift", "video_data_leakage", "cv_pipeline", "segmentation_zone", "face_detection_recognition", "false_positive_face", "precision_false_alarms", "queue_privacy", "night_weather", "retail_queue", "face_threshold", "occlusion_people", "edge_processing", "cv_count_track", "abandoned_object_sequence", "heatmap_limits", "human_review_face", "cv_monitoring", "city_traffic", "cv_methods_match", "privacy_retention", "checkout_tracking", "tracking_reason", "plate_ocr"], "10": ["privacy_retention", "camera_domain_shift", "night_weather", "symptom_match", "cv_count_track", "face_detection_recognition", "queue_privacy", "metrics_match", "cv_pipeline", "tracking_reason", "video_data_leakage", "occlusion_people", "detection_vs_classification", "city_traffic", "segmentation_zone", "abandoned_object_sequence", "precision_false_alarms", "false_positive_face", "checkout_tracking", "plate_ocr", "human_review_face", "retail_queue", "cv_monitoring", "shelf_stock", "heatmap_limits", "camera_reposition", "edge_processing", "face_threshold"], "11": ["checkout_tracking", "cv_pipeline", "queue_privacy", "precision_false_alarms", "cv_deploy_sequence", "metrics_match", "human_review_face", "symptom_match", "segmentation_zone", "false_positive_face", "camera_domain_shift", "cv_monitoring", "occlusion_people", "privacy_retention", "retail_privacy_classify", "cv_methods_match", "heatmap_limits", "cv_count_track", "detection_vs_classification", "video_data_leakage", "tracking_reason", "plate_ocr", "face_threshold", "abandoned_object_sequence"], "12": ["retail_queue", "cv_count_track", "checkout_tracking", "false_positive_face", "plate_ocr", "heatmap_limits", "night_weather", "city_traffic", "cv_pipeline", "metrics_match", "symptom_match", "segmentation_zone", "cv_monitoring", "face_threshold", "cv_deploy_sequence", "occlusion_people", "retail_privacy_classify", "tracking_reason", "camera_reposition", "video_data_leakage", "face_detection_recognition", "privacy_retention", "queue_privacy", "cv_methods_match", "precision_false_alarms"], "13": ["heatmap_limits", "shelf_stock", "false_positive_face", "plate_ocr", "camera_reposition", "edge_processing", "retail_queue", "cv_monitoring", "detection_vs_classification", "human_review_face", "checkout_tracking", "cv_count_track", "abandoned_object_sequence", "segmentation_zone", "night_weather", "face_detection_recognition", "retail_privacy_classify", "city_traffic", "video_data_leakage", "queue_privacy", "cv_deploy_sequence", "occlusion_people", "cv_methods_match", "precision_false_alarms", "symptom_match", "tracking_reason"], "14": ["retail_queue", "queue_privacy", "edge_processing", "video_data_leakage", "privacy_retention", "city_traffic", "abandoned_object_sequence", "cv_count_track", "camera_domain_shift", "tracking_reason", "human_review_face", "retail_privacy_classify", "face_detection_recognition", "false_positive_face", "heatmap_limits", "cv_methods_match", "checkout_tracking", "detection_vs_classification", "cv_pipeline", "segmentation_zone", "camera_reposition", "plate_ocr", "occlusion_people", "night_weather", "symptom_match", "shelf_stock", "cv_monitoring"], "15": ["segmentation_zone", "tracking_reason", "abandoned_object_sequence", "city_traffic", "video_data_leakage", "precision_false_alarms", "shelf_stock", "occlusion_people", "face_detection_recognition", "cv_methods_match", "checkout_tracking", "heatmap_limits", "night_weather", "symptom_match", "face_threshold", "privacy_retention", "cv_deploy_sequence", "edge_processing", "queue_privacy", "cv_monitoring", "retail_queue", "camera_domain_shift", "plate_ocr", "human_review_face", "detection_vs_classification", "cv_count_track", "camera_reposition", "false_positive_face"], "16": ["abandoned_object_sequence", "precision_false_alarms", "cv_pipeline", "false_positive_face", "segmentation_zone", "tracking_reason", "cv_methods_match", "city_traffic", "face_threshold", "symptom_match", "plate_ocr", "camera_domain_shift", "cv_monitoring", "edge_processing", "cv_deploy_sequence", "heatmap_limits", "queue_privacy", "metrics_match", "privacy_retention", "shelf_stock", "retail_privacy_classify", "camera_reposition", "face_detection_recognition", "human_review_face"], "17": ["face_detection_recognition", "queue_privacy", "face_threshold", "cv_monitoring", "false_positive_face", "symptom_match", "tracking_reason", "privacy_retention", "camera_reposition", "camera_domain_shift", "night_weather", "cv_pipeline", "city_traffic", "retail_privacy_classify", "cv_methods_match", "heatmap_limits", "segmentation_zone", "edge_processing", "retail_queue", "occlusion_people", "metrics_match", "human_review_face", "checkout_tracking", "cv_deploy_sequence", "shelf_stock"], "18": ["queue_privacy", "cv_methods_match", "face_detection_recognition", "camera_domain_shift", "false_positive_face", "retail_privacy_classify", "human_review_face", "shelf_stock", "checkout_tracking", "camera_reposition", "tracking_reason", "abandoned_object_sequence", "detection_vs_classification", "cv_monitoring", "plate_ocr", "segmentation_zone", "cv_deploy_sequence", "night_weather", "city_traffic", "face_threshold", "edge_processing", "retail_queue", "occlusion_people", "cv_count_track", "symptom_match", "precision_false_alarms"], "19": ["heatmap_limits", "face_threshold", "shelf_stock", "cv_monitoring", "false_positive_face", "queue_privacy", "human_review_face", "edge_processing", "cv_count_track", "metrics_match", "detection_vs_classification", "cv_pipeline", "face_detection_recognition", "retail_queue", "occlusion_people", "symptom_match", "night_weather", "camera_domain_shift", "cv_deploy_sequence", "retail_privacy_classify", "privacy_retention", "city_traffic", "segmentation_zone", "checkout_tracking", "camera_reposition", "video_data_leakage", "plate_ocr"], "20": ["privacy_retention", "detection_vs_classification", "face_detection_recognition", "precision_false_alarms", "abandoned_object_sequence", "cv_deploy_sequence", "occlusion_people", "heatmap_limits", "cv_monitoring", "metrics_match", "false_positive_face", "segmentation_zone", "cv_methods_match", "tracking_reason", "retail_queue", "queue_privacy", "shelf_stock", "camera_reposition", "plate_ocr", "night_weather", "city_traffic", "edge_processing", "cv_count_track", "checkout_tracking", "camera_domain_shift", "human_review_face", "face_threshold", "video_data_leakage"], "21": ["abandoned_object_sequence", "city_traffic", "metrics_match", "heatmap_limits", "cv_deploy_sequence", "face_threshold", "cv_methods_match", "symptom_match", "cv_monitoring", "checkout_tracking", "retail_queue", "plate_ocr", "segmentation_zone", "precision_false_alarms", "tracking_reason", "camera_reposition", "queue_privacy", "night_weather", "cv_pipeline", "human_review_face", "face_detection_recognition", "cv_count_track", "retail_privacy_classify", "video_data_leakage"], "22": ["symptom_match", "retail_queue", "cv_pipeline", "city_traffic", "video_data_leakage", "tracking_reason", "edge_processing", "precision_false_alarms", "occlusion_people", "segmentation_zone", "plate_ocr", "privacy_retention", "retail_privacy_classify", "cv_count_track", "detection_vs_classification", "cv_methods_match", "metrics_match", "face_detection_recognition", "cv_monitoring", "queue_privacy", "human_review_face", "cv_deploy_sequence", "camera_reposition", "checkout_tracking", "night_weather"], "23": ["retail_queue", "queue_privacy", "face_detection_recognition", "night_weather", "cv_pipeline", "human_review_face", "checkout_tracking", "cv_count_track", "retail_privacy_classify", "camera_reposition", "heatmap_limits", "camera_domain_shift", "video_data_leakage", "face_threshold", "shelf_stock", "precision_false_alarms", "cv_methods_match", "abandoned_object_sequence", "plate_ocr", "symptom_match", "detection_vs_classification", "cv_monitoring", "segmentation_zone", "tracking_reason", "privacy_retention", "edge_processing"], "24": ["face_detection_recognition", "retail_queue", "shelf_stock", "retail_privacy_classify", "occlusion_people", "video_data_leakage", "cv_monitoring", "camera_reposition", "face_threshold", "cv_count_track", "detection_vs_classification", "false_positive_face", "plate_ocr", "metrics_match", "night_weather", "abandoned_object_sequence", "symptom_match", "camera_domain_shift", "human_review_face", "cv_pipeline", "precision_false_alarms", "tracking_reason", "privacy_retention", "edge_processing", "queue_privacy", "heatmap_limits", "city_traffic"], "25": ["tracking_reason", "detection_vs_classification", "symptom_match", "night_weather", "cv_count_track", "retail_privacy_classify", "retail_queue", "camera_domain_shift", "video_data_leakage", "occlusion_people", "false_positive_face", "cv_monitoring", "camera_reposition", "plate_ocr", "abandoned_object_sequence", "privacy_retention", "edge_processing", "cv_methods_match", "heatmap_limits", "city_traffic", "cv_pipeline", "face_threshold", "human_review_face", "shelf_stock", "checkout_tracking", "precision_false_alarms", "face_detection_recognition", "segmentation_zone"], "26": ["plate_ocr", "tracking_reason", "human_review_face", "camera_domain_shift", "false_positive_face", "cv_monitoring", "night_weather", "cv_count_track", "video_data_leakage", "retail_queue", "cv_pipeline", "face_threshold", "cv_methods_match", "retail_privacy_classify", "city_traffic", "cv_deploy_sequence", "metrics_match", "symptom_match", "shelf_stock", "abandoned_object_sequence", "face_detection_recognition", "privacy_retention", "queue_privacy", "segmentation_zone"], "27": ["metrics_match", "false_positive_face", "tracking_reason", "cv_methods_match", "camera_reposition", "cv_monitoring", "night_weather", "symptom_match", "cv_deploy_sequence", "human_review_face", "checkout_tracking", "precision_false_alarms", "shelf_stock", "face_detection_recognition", "camera_domain_shift", "face_threshold", "cv_pipeline", "retail_privacy_classify", "queue_privacy", "privacy_retention", "occlusion_people", "retail_queue", "heatmap_limits", "segmentation_zone", "cv_count_track"], "28": ["cv_count_track", "heatmap_limits", "cv_methods_match", "occlusion_people", "face_detection_recognition", "retail_queue", "symptom_match", "retail_privacy_classify", "video_data_leakage", "false_positive_face", "cv_deploy_sequence", "queue_privacy", "shelf_stock", "privacy_retention", "night_weather", "camera_reposition", "edge_processing", "city_traffic", "plate_ocr", "cv_pipeline", "precision_false_alarms", "cv_monitoring", "tracking_reason", "detection_vs_classification", "face_threshold", "segmentation_zone"], "29": ["camera_domain_shift", "metrics_match", "cv_monitoring", "detection_vs_classification", "precision_false_alarms", "false_positive_face", "plate_ocr", "video_data_leakage", "shelf_stock", "checkout_tracking", "face_threshold", "cv_deploy_sequence", "queue_privacy", "segmentation_zone", "privacy_retention", "edge_processing", "retail_privacy_classify", "symptom_match", "tracking_reason", "cv_count_track", "occlusion_people", "city_traffic", "heatmap_limits", "human_review_face", "face_detection_recognition", "cv_pipeline", "retail_queue"], "30": ["edge_processing", "camera_reposition", "heatmap_limits", "face_threshold", "segmentation_zone", "video_data_leakage", "face_detection_recognition", "precision_false_alarms", "abandoned_object_sequence", "checkout_tracking", "camera_domain_shift", "retail_queue", "cv_monitoring", "city_traffic", "night_weather", "occlusion_people", "cv_deploy_sequence", "shelf_stock", "symptom_match", "cv_methods_match", "plate_ocr", "cv_count_track", "false_positive_face", "detection_vs_classification", "queue_privacy", "tracking_reason", "human_review_face", "privacy_retention"]};
+  const VARIANT_META = {"1": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "2": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "3": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "4": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "5": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "6": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "7": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "8": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "9": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "10": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "11": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "12": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "13": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "14": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "15": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "16": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "17": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "18": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "19": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "20": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "21": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "22": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "23": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "24": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "25": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}, "26": {"total": 24, "mcq": 16, "sequence": 3, "classify": 2, "match": 3}, "27": {"total": 25, "mcq": 18, "sequence": 2, "classify": 2, "match": 3}, "28": {"total": 26, "mcq": 20, "sequence": 2, "classify": 2, "match": 2}, "29": {"total": 27, "mcq": 21, "sequence": 2, "classify": 2, "match": 2}, "30": {"total": 28, "mcq": 23, "sequence": 2, "classify": 1, "match": 2}};
+  const mainEl = $('main');
+  const finishBarEl = $('.finish-bar');
+  const sectionByTask = new Map(
+    $$('.variant-question-section').map(sec=>[sec.dataset.taskSection,sec])
+  );
+  const baseOptionOrder = new Map(
+    mcqTasks.map(task=>[task.dataset.task,$$('.option',task)])
+  );
+  const baseBankOrder = new Map(
+    $$('.exam-bank').map((root,i)=>[root,$$(':scope > *',root)])
+  );
+  const baseMatchRightOrder = new Map(
+    $$('.match-right-col').map(root=>[root,$$(':scope > *',root)])
+  );
+
+  function hashString(str){
+    let h=2166136261>>>0;
+    for(let i=0;i<str.length;i++){
+      h^=str.charCodeAt(i);
+      h=Math.imul(h,16777619);
+    }
+    return h>>>0;
+  }
+  function makeRng(seed){
+    let a=seed>>>0;
+    return function(){
+      a=(a+0x6D2B79F5)>>>0;
+      let t=a;
+      t=Math.imul(t^(t>>>15),t|1);
+      t^=t+Math.imul(t^(t>>>7),t|61);
+      return ((t^(t>>>14))>>>0)/4294967296;
+    };
+  }
+  function seededShuffle(items,rng){
+    const arr=[...items];
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(rng()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+  function prepareVariant(variant){
+    const v=String(Number(variant)||'');
+    const order=VARIANT_ORDERS[v];
+    if(!order)return false;
+
+    const selectedSet=new Set(order);
+
+    // В каждом варианте свой НАБОР заданий, а не только другой порядок.
+    sectionByTask.forEach((sec,taskId)=>{
+      sec.style.display=selectedSet.has(taskId)?'':'none';
+    });
+
+    // Показываем выбранные задания в порядке конкретного варианта.
+    order.forEach(taskId=>{
+      const sec=sectionByTask.get(taskId);
+      if(sec&&finishBarEl)mainEl.insertBefore(sec,finishBarEl);
+    });
+
+    // Нумерация только видимых заданий.
+    order.forEach((taskId,index)=>{
+      const sec=sectionByTask.get(taskId);
+      const task=sec?.querySelector('.task[data-task]');
+      const h3=task?.querySelector('h3');
+      if(h3)h3.textContent=`${index+1}. ${task.dataset.baseTitle||''}`;
+    });
+
+    // Свой воспроизводимый порядок ответов и карточек.
+    let rng=makeRng((0xA17F29C3 ^ Math.imul(Number(v),0x9E3779B1))>>>0);
+
+    mcqTasks.forEach(task=>{
+      const root=$('.options',task);
+      const base=baseOptionOrder.get(task.dataset.task)||[];
+      seededShuffle(base,rng).forEach(x=>root?.appendChild(x));
+      $$('.option',task).forEach((btn,i)=>{
+        const mark=$('.mark',btn);
+        if(mark)mark.textContent=String.fromCharCode(65+i);
+      });
+    });
+
+    baseBankOrder.forEach((base,root)=>{
+      seededShuffle(base,rng).forEach(x=>root.appendChild(x));
+    });
+    baseMatchRightOrder.forEach((base,root)=>{
+      seededShuffle(base,rng).forEach(x=>root.appendChild(x));
+    });
+
+    const vc=$('#variantChip');
+    if(vc)vc.textContent=`Вариант ${String(v).padStart(2,'0')}`;
+    const fv=$('#finalVariant');
+    if(fv)fv.textContent=`Вариант ${String(v).padStart(2,'0')}`;
+
+    return true;
+  }
+
+  mcqTasks.forEach(task=>{
+    const original=$$('.option',task);
+    const answer=Number(task.dataset.answer);
+    original.forEach((btn,i)=>{
+      btn.dataset.optionId=String(i);
+      btn.dataset.correct=(i===answer?'true':'false');
+    });
+  });
+
+  function shuffleAnswers(){
+    if(state.variant)prepareVariant(state.variant);
+  }
+
+  function cleanSurname(value){return String(value||'').trim().replace(/\s+/g,' ');}
+  function participantLabel(){const names=[state.surname1,state.solo?'':state.surname2].filter(Boolean).join(' + ');const base=state.group?`${names} · ${state.group}`:names;return state.variant?`${base} · Вариант ${String(state.variant).padStart(2,'0')}`:base;}
+  function formatTime(seconds){seconds=Math.max(0,Math.floor(seconds));const m=Math.floor(seconds/60),s=seconds%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+  function gradeFromPct(pct){if(pct>=85)return 5;if(pct>=70)return 4;if(pct>=50)return 3;return 2;}
+  function toast(message){const el=$('#toast');if(!el)return;el.textContent=message;el.style.background='#061f52';el.classList.add('show');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>el.classList.remove('show'),1500);}
+
+  function isTaskComplete(task){
+    const id=task.dataset.task, ans=state.answers[id];
+    if(!ans)return false;
+    const type=task.dataset.type||'mcq';
+    if(type==='mcq'||task.classList.contains('mcq'))return typeof ans==='string';
+    if(type==='sequence')return Object.keys(ans.slots||{}).length===$$('.exam-slot',task).length;
+    if(type==='classify')return Object.keys(ans.placements||{}).length===$$('.classify-card',task).length;
+    if(type==='match')return Object.keys(ans.pairs||{}).length===$$('.match-left',task).length;
+    return false;
+  }
+  function completedCount(){return getActiveTasks().filter(isTaskComplete).length;}
+  function updateProgress(){
+    const active=getActiveTasks();
+    const total=active.length;
+    const answered=active.filter(isTaskComplete).length;
+    const answeredNow=$('#answeredNow');if(answeredNow)answeredNow.textContent=answered;
+    const done=$('#done');if(done)done.textContent=answered;
+    const remaining=$('#remaining');if(remaining)remaining.textContent=Math.max(0,total-answered);
+    const statusText=$('#statusText');if(statusText)statusText.textContent='Скрыт';
+    const progressText=$('#progressText');
+    if(progressText){
+      progressText.textContent=total===0
+        ?'Количество заданий зависит от выбранного варианта.'
+        :(answered===total
+          ?'Все задания выполнены. Можно проверить ответы и завершить работу.'
+          :`Выполнено ${answered} из ${total} заданий. Правильность скрыта.`);
+    }
+    const fill=$('#fill');if(fill)fill.style.width=(total?Math.round(answered/total*100):0)+'%';
+  }
+  function persistSession(extra={}){if(!state.started)return;const payload={startAt:state.startAt,endAt:state.endAt,solo:state.solo,surname1:state.surname1,surname2:state.surname2,group:state.group,variant:state.variant,answers:state.answers,locked:state.locked,sessionId:state.sessionId,submitted:state.submitted,elapsed:state.elapsed,...extra};try{localStorage.setItem(SESSION_KEY,JSON.stringify(payload));}catch(e){}}
+  function setStudentHeader(){const el=$('#studentNames');if(el)el.textContent=participantLabel()||'Работа не начата';}
+  function applyTimerVisual(left){const chip=$('#timerChip');if(!chip)return;chip.textContent=formatTime(left);chip.classList.toggle('warning',left<=600&&left>180);chip.classList.toggle('danger',left<=180);}
+  function tickTimer(){if(!state.started||state.locked)return;const left=Math.ceil((state.endAt-Date.now())/1000);applyTimerVisual(left);if(left<=0)finishSession(true);}
+  function startTimer(){clearInterval(timerHandle);tickTimer();timerHandle=setInterval(tickTimer,1000);}
+  function showStartError(msg){const el=$('#examError');if(el){el.textContent=msg;el.classList.add('show');}}
+
+  function ensureAnswer(task,type){
+    const id=task.dataset.task;
+    if(!state.answers[id])state.answers[id]=type==='sequence'?{type,slots:{}}:type==='classify'?{type,placements:{}}:type==='match'?{type,pairs:{}}:{};
+    return state.answers[id];
+  }
+
+  function clearInteractiveVisuals(){
+    $$('.exam-card').forEach(x=>x.classList.remove('selected','placed'));
+    $$('.slot-answer,.zone-pill,.pair-chip').forEach(x=>x.remove());
+    $$('.match-card').forEach(x=>x.classList.remove('selected','paired'));
+    selectedInteractive=null;selectedMatchLeft=null;
+  }
+
+  function renderSequence(task){
+    const ans=state.answers[task.dataset.task]||{slots:{}};
+    $$('.sequence-card',task).forEach(card=>card.classList.remove('placed','selected'));
+    $$('.exam-slot',task).forEach(slot=>$$('.slot-answer',slot).forEach(x=>x.remove()));
+    Object.entries(ans.slots||{}).forEach(([slotId,cardId])=>{
+      const slot=$(`.exam-slot[data-slot-id="${slotId}"]`,task), card=$(`.sequence-card[data-card-id="${cardId}"]`,task);
+      if(slot&&card){const d=document.createElement('div');d.className='slot-answer';d.textContent=card.textContent;d.dataset.cardId=cardId;slot.appendChild(d);card.classList.add('placed');}
+    });
+  }
+  function renderClassify(task){
+    const ans=state.answers[task.dataset.task]||{placements:{}};
+    $$('.classify-card',task).forEach(card=>card.classList.remove('placed','selected'));
+    $$('.zone-items',task).forEach(z=>z.innerHTML='');
+    Object.entries(ans.placements||{}).forEach(([cardId,zoneId])=>{
+      const card=$(`.classify-card[data-card-id="${cardId}"]`,task), zone=$(`.exam-zone[data-zone-id="${zoneId}"] .zone-items`,task);
+      if(card&&zone){const p=document.createElement('div');p.className='zone-pill';p.textContent=card.textContent;p.dataset.cardId=cardId;p.title='Нажмите, чтобы вернуть карточку';zone.appendChild(p);card.classList.add('placed');}
+    });
+  }
+  function renderMatch(task){
+    const ans=state.answers[task.dataset.task]||{pairs:{}};
+    $$('.match-card',task).forEach(x=>x.classList.remove('selected','paired'));
+    const sum=$('.match-summary',task);if(sum)sum.innerHTML='';
+    Object.entries(ans.pairs||{}).forEach(([leftId,rightId])=>{
+      const l=$(`.match-left[data-left-id="${leftId}"]`,task),r=$(`.match-right[data-right-id="${rightId}"]`,task);
+      if(l)l.classList.add('paired');if(r)r.classList.add('paired');
+      if(sum&&l&&r){const c=document.createElement('div');c.className='pair-chip';c.textContent=`${l.textContent} → ${r.textContent}`;sum.appendChild(c);}
+    });
+  }
+  function restoreAnswers(){
+    mcqTasks.forEach(task=>{const chosen=state.answers[task.dataset.task];$$('.option',task).forEach(btn=>btn.classList.toggle('selected-answer',btn.dataset.optionId===chosen));});
+    $$('.sequence-task').forEach(renderSequence);$$('.classify-task').forEach(renderClassify);$$('.match-task').forEach(renderMatch);updateProgress();
+  }
+
+
+  const SUPABASE_URL="https://pcszxhhbokpmllocwqeu.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY="sb_publishable_piAWbORLqmiHYI5mTT2XYw_Yqo2jmVe";
+  const EXAM_CODE="computer-vision-05";
+  const EXAM_NUMBER=5;
+  const EXAM_TITLE="Технологии компьютерного зрения в городской инфраструктуре и ритейле";
+
+
+  function validateCourseAccess(){
+    const params=new URLSearchParams(location.search);
+    const token=String(params.get('access')||'');
+    const accessKey=`ai_course_access_${EXAM_CODE}`;
+
+    let saved=null;
+    try{
+      saved=JSON.parse(localStorage.getItem(accessKey)||'null');
+    }catch(e){}
+
+    const valid=
+      token.length>10 &&
+      saved &&
+      saved.examCode===EXAM_CODE &&
+      saved.token===token;
+
+    if(valid){
+      $('#accessGate')?.classList.remove('blocked');
+
+      // fresh=1 бывает только при новом входе после правильного кода.
+      // Тогда удаляем старую попытку один раз.
+      if(params.get('fresh')==='1'){
+        try{localStorage.removeItem(SESSION_KEY)}catch(e){}
+
+        // Убираем fresh из адреса, но оставляем access.
+        params.delete('fresh');
+        const qs=params.toString();
+        history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
+      }
+
+      return true;
+    }
+
+    denyCourseAccess('Сначала вернитесь к списку тем и введите код преподавателя.');
+    return false;
+  }
+
+  function denyCourseAccess(message){
+    const text=$('#accessGateText');
+    const back=$('#accessGateBack');
+    const title=document.querySelector('.access-gate-title');
+    if(title)title.textContent='Тема заблокирована';
+    if(text)text.textContent=message;
+    if(back)back.style.display='inline-block';
+    $('#accessGate')?.classList.add('blocked');
+  }
+
+  function makeSessionId(){
+    try{
+      if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
+    }catch(e){}
+    return 'exam-'+Date.now()+'-'+Math.random().toString(36).slice(2,12);
+  }
+
+  function setSubmitStatus(message,type=''){
+    const el=$('#submitStatus');
+    if(!el)return;
+    el.textContent=message;
+    el.classList.remove('sending','success','error');
+    if(type)el.classList.add(type);
+  }
+
+  function buildSupabasePayload(){
+    const {score,total,pct,grade}=calculateResult();
+    const elapsed=state.elapsed || Math.min(
+      SESSION_MINUTES*60,
+      Math.max(0,Math.round((Date.now()-state.startAt)/1000))
+    );
+
+    return {
+      exam_code:EXAM_CODE,
+      exam_number:EXAM_NUMBER,
+      exam_title:EXAM_TITLE,
+      surname1:state.surname1,
+      surname2:state.solo?'':state.surname2,
+      solo:!!state.solo,
+      student_group:state.group,
+      variant:String(state.variant).padStart(2,'0'),
+      score:Number(score),
+      total:Number(total),
+      percent:Number(pct),
+      grade:Number(grade),
+      completed:Number(completedCount()),
+      task_count:Number(getActiveTasks().length),
+      elapsed_seconds:Number(elapsed),
+      elapsed_text:formatTime(elapsed),
+      session_id:state.sessionId
+    };
+  }
+
+  async function submitResultToSupabase(){
+    if(!state.started||!state.locked)return;
+
+    const retry=$('#retrySubmit');
+    if(retry)retry.style.display='none';
+    setSubmitStatus('Отправляем результат преподавателю…','sending');
+
+    try{
+      const response=await fetch(`${SUPABASE_URL}/rest/v1/exam_results`,{
+        method:'POST',
+        headers:{
+          'apikey':SUPABASE_PUBLISHABLE_KEY,
+          'Content-Type':'application/json',
+          'Prefer':'return=minimal'
+        },
+        body:JSON.stringify(buildSupabasePayload())
+      });
+
+      // 409 означает, что session_id уже есть: предыдущая отправка дошла,
+      // а браузер попытался повторить её. Для студента это успех.
+      if(response.ok || response.status===409){
+        state.submitted=true;
+        persistSession({submitted:true});
+        setSubmitStatus('✓ Результат отправлен преподавателю.','success');
+        if(retry)retry.style.display='none';
+        return true;
+      }
+
+      let detail='';
+      try{detail=(await response.text()).slice(0,240);}catch(e){}
+      throw new Error(`HTTP ${response.status}${detail?' · '+detail:''}`);
+    }catch(err){
+      state.submitted=false;
+      persistSession({submitted:false});
+      setSubmitStatus('Не удалось отправить результат. Проверьте интернет и нажмите «Повторить отправку».','error');
+      if(retry)retry.style.display='inline-block';
+      return false;
+    }
+  }
+
+  function startSession(){
+    const s1=cleanSurname($('#surname1').value),
+          s2=cleanSurname($('#surname2').value),
+          group=cleanSurname($('#groupName').value),
+          variant=String($('#variantNumber')?.value||'');
+    if(s1.length<2)return showStartError('Введите фамилию первого студента.');
+    if(!state.solo&&s2.length<2)return showStartError('Введите фамилию второго студента или нажмите «Я выполняю один».');
+    if(!group)return showStartError('Выберите группу.');
+    if(!variant||!VARIANT_ORDERS[variant])return showStartError('Выберите вариант от 01 до 30.');
+
+    $('#examError')?.classList.remove('show');
+    state.started=true;
+    state.locked=false;
+    state.surname1=s1;
+    state.surname2=state.solo?'':s2;
+    state.group=group;
+    state.variant=variant;
+    state.startAt=Date.now();
+    state.endAt=state.startAt+SESSION_MINUTES*60*1000;
+    state.sessionId=makeSessionId();
+    state.submitted=false;
+    state.elapsed=0;
+
+    prepareVariant(state.variant);
+    document.body.classList.add('exam-started');
+    $('#sessionOverlay')?.classList.add('hidden');
+    setStudentHeader();
+    persistSession({finished:false});
+    startTimer();
+    toast(`Работа началась · Вариант ${String(state.variant).padStart(2,'0')}. Правильность заданий скрыта.`);
+  }
+
+  function isTaskCorrect(task){
+    const id=task.dataset.task,ans=state.answers[id],type=task.dataset.type||'mcq';if(!ans)return false;
+    if(task.classList.contains('mcq')){const btn=$$('.option',task).find(x=>x.dataset.optionId===ans);return btn?.dataset.correct==='true';}
+    if(type==='sequence')return $$('.exam-slot',task).every(slot=>(ans.slots||{})[slot.dataset.slotId]===slot.dataset.accept);
+    if(type==='classify')return $$('.classify-card',task).every(card=>(ans.placements||{})[card.dataset.cardId]===card.dataset.correctZone);
+    if(type==='match')return $$('.match-left',task).every(left=>(ans.pairs||{})[left.dataset.leftId]===left.dataset.correctRight);
+    return false;
+  }
+  function calculateResult(){const active=getActiveTasks();let score=0;active.forEach(task=>{if(isTaskCorrect(task))score+=Number(task.dataset.points||1);});const total=active.reduce((s,t)=>s+Number(t.dataset.points||1),0);const pct=total?Math.round(score/total*100):0;return {score,total,pct,grade:gradeFromPct(pct)};}
+  function finishSession(byTimeout=false){
+    if(!state.started||state.locked)return;
+    state.locked=true;
+    clearInterval(timerHandle);
+    document.body.classList.add('session-locked');
+
+    const {score,total,pct,grade}=calculateResult();
+    const elapsed=Math.min(SESSION_MINUTES*60,Math.max(0,Math.round((Date.now()-state.startAt)/1000)));
+    state.elapsed=elapsed;
+    state.submitted=false;
+
+    $('#finalStatus').textContent=byTimeout?`Время истекло · Вариант ${String(state.variant).padStart(2,'0')}`:`Работа завершена · Вариант ${String(state.variant).padStart(2,'0')}`;
+    $('#finalStudents').textContent=participantLabel();
+    $('#finalPercent').textContent=pct+'%';
+    $('#finalGrade').textContent='Оценка: '+grade;
+    $('#finalPoints').textContent=score+'/'+total;
+    $('#finalDone').textContent=completedCount()+'/'+getActiveTasks().length;
+    $('#finalTime').textContent=formatTime(elapsed);
+    $('#finalOverlay')?.classList.add('show');
+    applyTimerVisual(0);
+
+    persistSession({finished:true,finishedAt:Date.now(),score,total,pct,grade,elapsed,submitted:false});
+    submitResultToSupabase();
+  }
+  function resumeSession(saved){
+    state.started=true;
+    state.locked=false;
+    state.startAt=Number(saved.startAt);
+    state.endAt=Number(saved.endAt);
+    state.solo=!!saved.solo;
+    state.surname1=saved.surname1||'';
+    state.surname2=saved.surname2||'';
+    state.group=saved.group||'';
+    state.variant=String(saved.variant||'');
+    state.answers={...(saved.answers||{})};
+    state.sessionId=saved.sessionId||makeSessionId();
+    state.submitted=!!saved.submitted;
+    state.elapsed=Number(saved.elapsed||0);
+
+    if(!VARIANT_ORDERS[state.variant]){
+      try{localStorage.removeItem(SESSION_KEY);}catch(e){}
+      return;
+    }
+
+    prepareVariant(state.variant);
+    document.body.classList.add('exam-started');
+    $('#sessionOverlay')?.classList.add('hidden');
+    setStudentHeader();
+    restoreAnswers();
+
+    if(saved.finished){
+      const {score,total,pct,grade}=calculateResult();
+      const elapsed=Number(saved.elapsed||0);
+      state.locked=true;
+      document.body.classList.add('session-locked');
+      $('#finalStatus').textContent=`Работа завершена · Вариант ${String(state.variant).padStart(2,'0')}`;
+      $('#finalStudents').textContent=participantLabel();
+      $('#finalVariant').textContent=`Вариант ${String(state.variant).padStart(2,'0')}`;
+      $('#finalPercent').textContent=(saved.pct??pct)+'%';
+      $('#finalGrade').textContent='Оценка: '+(saved.grade??grade);
+      $('#finalPoints').textContent=(saved.score??score)+'/'+(saved.total??total);
+      $('#finalDone').textContent=completedCount()+'/'+getActiveTasks().length;
+      $('#finalTime').textContent=formatTime(elapsed);
+      $('#finalOverlay')?.classList.add('show');
+      applyTimerVisual(0);
+      if(state.submitted){
+        setSubmitStatus('✓ Результат уже был отправлен преподавателю.','success');
+      }else{
+        setSubmitStatus('Результат ещё не отправлен преподавателю.');
+        setTimeout(submitResultToSupabase,300);
+      }
+      return;
+    }
+    if(Date.now()>=state.endAt){finishSession(true);return;}
+    startTimer();
+    toast(`Сессия восстановлена · Вариант ${String(state.variant).padStart(2,'0')}.`);
+  }
+
+  // MCQ
+  mcqTasks.forEach(task=>$$('.option',task).forEach(btn=>btn.addEventListener('click',()=>{if(!state.started||state.locked)return;$$('.option',task).forEach(x=>x.classList.remove('selected-answer'));btn.classList.add('selected-answer');state.answers[task.dataset.task]=btn.dataset.optionId;persistSession();updateProgress();})));
+
+  // Последовательности: drag + click
+  $$('.sequence-task').forEach(task=>{
+    $$('.sequence-card',task).forEach(card=>{
+      card.addEventListener('click',()=>{if(!state.started||state.locked||card.classList.contains('placed'))return;$$('.sequence-card',task).forEach(x=>x.classList.remove('selected'));selectedInteractive={task,card,type:'sequence'};card.classList.add('selected');toast('Теперь выбери нужный шаг.');});
+      card.addEventListener('dragstart',e=>{if(!state.started||state.locked||card.classList.contains('placed')){e.preventDefault();return;}selectedInteractive={task,card,type:'sequence'};e.dataTransfer.setData('text/plain',card.dataset.cardId);});
+    });
+    $$('.exam-slot',task).forEach(slot=>{
+      slot.addEventListener('dragover',e=>e.preventDefault());slot.addEventListener('drop',e=>{e.preventDefault();placeSequence(task,selectedInteractive?.card,slot);});slot.addEventListener('click',()=>placeSequence(task,selectedInteractive?.task===task?selectedInteractive.card:null,slot));
+    });
+  });
+  function placeSequence(task,card,slot){
+    if(!state.started||state.locked||!card||card.closest('.task')!==task)return;const ans=ensureAnswer(task,'sequence');const slots=ans.slots;
+    for(const [sid,cid] of Object.entries(slots)){if(cid===card.dataset.cardId)delete slots[sid];}
+    slots[slot.dataset.slotId]=card.dataset.cardId;selectedInteractive=null;renderSequence(task);persistSession();updateProgress();
+  }
+
+  // Классификация
+  $$('.classify-task').forEach(task=>{
+    $$('.classify-card',task).forEach(card=>{
+      card.addEventListener('click',()=>{if(!state.started||state.locked||card.classList.contains('placed'))return;$$('.classify-card',task).forEach(x=>x.classList.remove('selected'));selectedInteractive={task,card,type:'classify'};card.classList.add('selected');toast('Теперь выбери категорию.');});
+      card.addEventListener('dragstart',e=>{if(!state.started||state.locked||card.classList.contains('placed')){e.preventDefault();return;}selectedInteractive={task,card,type:'classify'};e.dataTransfer.setData('text/plain',card.dataset.cardId);});
+    });
+    $$('.exam-zone',task).forEach(zone=>{zone.addEventListener('dragover',e=>e.preventDefault());zone.addEventListener('drop',e=>{e.preventDefault();placeClassify(task,selectedInteractive?.card,zone);});zone.addEventListener('click',e=>{if(e.target.closest('.zone-pill'))return;placeClassify(task,selectedInteractive?.task===task?selectedInteractive.card:null,zone);});});
+    task.addEventListener('click',e=>{const pill=e.target.closest('.zone-pill');if(!pill||state.locked)return;const ans=ensureAnswer(task,'classify');delete ans.placements[pill.dataset.cardId];renderClassify(task);persistSession();updateProgress();});
+  });
+  function placeClassify(task,card,zone){if(!state.started||state.locked||!card||card.closest('.task')!==task)return;const ans=ensureAnswer(task,'classify');ans.placements[card.dataset.cardId]=zone.dataset.zoneId;selectedInteractive=null;renderClassify(task);persistSession();updateProgress();}
+
+  // Соответствия
+  $$('.match-task').forEach(task=>{
+    $$('.match-left',task).forEach(left=>left.addEventListener('click',()=>{if(!state.started||state.locked)return;$$('.match-left',task).forEach(x=>x.classList.remove('selected'));selectedMatchLeft={task,left};left.classList.add('selected');toast('Теперь выбери соответствие справа.');}));
+    $$('.match-right',task).forEach(right=>right.addEventListener('click',()=>{if(!state.started||state.locked||selectedMatchLeft?.task!==task)return;const left=selectedMatchLeft.left;const ans=ensureAnswer(task,'match');for(const [lid,rid] of Object.entries(ans.pairs)){if(rid===right.dataset.rightId)delete ans.pairs[lid];}ans.pairs[left.dataset.leftId]=right.dataset.rightId;selectedMatchLeft=null;renderMatch(task);persistSession();updateProgress();}));
+  });
+
+  $('#retrySubmit')?.addEventListener('click',()=>submitResultToSupabase());
+  $('#backToTopics')?.addEventListener('click',()=>{
+    try{localStorage.removeItem(SESSION_KEY);}catch(e){}
+    location.href='../../';
+  });
+  $('#closeFinal')?.addEventListener('click',()=>$('#finalOverlay')?.classList.remove('show'));
+  $('#restartFinal')?.addEventListener('click',()=>{
+    clearInterval(timerHandle);try{localStorage.removeItem(SESSION_KEY);}catch(e){}state.started=false;state.locked=false;state.startAt=null;state.endAt=null;state.solo=false;state.surname1='';state.surname2='';state.group='';state.variant='';state.answers={};state.sessionId='';state.submitted=false;state.elapsed=0;document.body.classList.remove('exam-started','session-locked');$('#finalOverlay')?.classList.remove('show');$('#sessionOverlay')?.classList.remove('hidden');
+    const s1=$('#surname1'),s2=$('#surname2'),group=$('#groupName'),variant=$('#variantNumber');if(s1)s1.value='';if(s2)s2.value='';if(group)group.value='';if(variant)variant.value='';$('#surname2Field')?.classList.remove('hidden');const soloBtn=$('#soloToggle');if(soloBtn){soloBtn.classList.remove('active');soloBtn.textContent='Я выполняю один';}
+    $$('.option').forEach(btn=>btn.classList.remove('selected-answer'));clearInteractiveVisuals();const studentNames=$('#studentNames');if(studentNames)studentNames.textContent='Работа не начата';const variantChip=$('#variantChip');if(variantChip)variantChip.textContent='Вариант —';const finalVariant=$('#finalVariant');if(finalVariant)finalVariant.textContent='Вариант —';applyTimerVisual(SESSION_MINUTES*60);updateProgress();window.scrollTo({top:0,behavior:'smooth'});toast('Предыдущая попытка сброшена. Можно начать новую работу.');
+  });
+
+  $('#variantNumber')?.addEventListener('change',e=>{
+    const value=String(e.target.value||'');
+    const chip=$('#variantChip');
+    if(chip)chip.textContent=value?`Вариант ${String(value).padStart(2,'0')}`:'Вариант —';
+    const meta=VARIANT_META[value];
+    const start=$('#startExam');
+    if(start)start.textContent=meta?`Начать работу · 45:00 · ${meta.total} заданий`:'Начать работу · 45:00';
+    $('#examError')?.classList.remove('show');
+  });
+
+  $('#soloToggle')?.addEventListener('click',()=>{state.solo=!state.solo;$('#soloToggle').classList.toggle('active',state.solo);$('#soloToggle').textContent=state.solo?'✓ Выполняю один':'Я выполняю один';$('#surname2Field')?.classList.toggle('hidden',state.solo);if(state.solo)$('#surname2').value='';});
+  $('#startExam')?.addEventListener('click',startSession);$('#finishTop')?.addEventListener('click',()=>finishSession(false));$('#finishBottom')?.addEventListener('click',()=>finishSession(false));
+
+  const editable=el=>el&&(el.matches?.('input,textarea,select')||el.isContentEditable);
+  document.addEventListener('copy',e=>{if(!state.locked&&!editable(e.target)){e.preventDefault();toast('Копирование текста задания отключено.');}});document.addEventListener('cut',e=>{if(!state.locked&&!editable(e.target))e.preventDefault();});document.addEventListener('contextmenu',e=>{if(!state.locked&&!editable(e.target)){e.preventDefault();toast('Контекстное меню отключено.');}});
+  document.addEventListener('keydown',e=>{if(state.locked||editable(e.target))return;const key=String(e.key||'').toLowerCase(),mod=e.ctrlKey||e.metaKey;if((mod&&['c','x','a','s','p','u'].includes(key))||e.key==='F12'||(mod&&e.shiftKey&&['i','j','c'].includes(key))){e.preventDefault();toast('Это действие отключено во время работы.');}});window.addEventListener('beforeunload',e=>{if(state.started&&!state.locked){e.preventDefault();e.returnValue='';}});
+
+  const accessOk=validateCourseAccess();
+
+  if(accessOk){
+    try{
+      const params=new URLSearchParams(location.search);
+      const isFresh=params.get('fresh')==='1';
+      const saved=JSON.parse(localStorage.getItem(SESSION_KEY)||'null');
+
+      // После нового ввода кода старая попытка уже удалена validateCourseAccess().
+      // При обычном F5 текущая попытка восстанавливается.
+      if(!isFresh && saved && saved.startAt && saved.endAt){
+        resumeSession(saved);
+      }
+    }catch(e){}
+  }
+
+  updateProgress();
+})();</script>
+<div class="access-gate" id="accessGate"><div class="access-gate-panel"><div class="access-gate-title">Проверяем доступ…</div><div class="access-gate-text" id="accessGateText">Подтверждаем код практического занятия.</div><a class="access-gate-back" href="../../" id="accessGateBack" style="display:none">Вернуться к темам</a></div></div></body>
+</html>
