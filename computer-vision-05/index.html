@@ -1564,35 +1564,24 @@ main{margin-top:18px;}
 
 
   function validateCourseAccess(){
-    const params=new URLSearchParams(location.search);
-    const token=String(params.get('access')||'');
-    const accessKey=`ai_course_access_${EXAM_CODE}`;
-
+    const key=`ai_exam_access_${EXAM_CODE}`;
     let saved=null;
+
     try{
-      saved=JSON.parse(localStorage.getItem(accessKey)||'null');
+      saved=JSON.parse(sessionStorage.getItem(key)||'null');
     }catch(e){}
 
+    const unlockedAt=Number(saved?.unlockedAt||0);
     const valid=
-      token.length>10 &&
       saved &&
       saved.examCode===EXAM_CODE &&
-      saved.token===token;
+      String(saved.token||'').length>0 &&
+      unlockedAt>0 &&
+      (Date.now()-unlockedAt)<(3*60*60*1000);
 
     if(valid){
       $('#accessGate')?.classList.remove('blocked');
-
-      // fresh=1 бывает только при новом входе после правильного кода.
-      // Тогда удаляем старую попытку один раз.
-      if(params.get('fresh')==='1'){
-        try{localStorage.removeItem(SESSION_KEY)}catch(e){}
-
-        // Убираем fresh из адреса, но оставляем access.
-        params.delete('fresh');
-        const qs=params.toString();
-        history.replaceState(null,'',location.pathname+(qs?'?'+qs:''));
-      }
-
+      $('#accessGate')?.classList.add('hidden');
       return true;
     }
 
@@ -1797,59 +1786,89 @@ main{margin-top:18px;}
   }
 
   async function submitResultToSupabase(){
-    if(!state.started||!state.locked)return;
+    if(!state.started||!state.locked)return false;
 
     const retry=$('#retrySubmit');
     if(retry)retry.style.display='none';
     setSubmitStatus('Отправляем результат преподавателю…','sending');
 
-    try{
-      const response=await fetch(`${SUPABASE_URL}/rest/v1/exam_results`,{
-        method:'POST',
-        headers:{
-          'apikey':SUPABASE_PUBLISHABLE_KEY,
-          'Content-Type':'application/json',
-          'Prefer':'return=minimal'
-        },
-        body:JSON.stringify(buildSupabasePayload())
-      });
+    const {score,total}=calculateResult();
+    const elapsed=state.elapsed || Math.min(
+      SESSION_MINUTES*60,
+      Math.max(0,Math.round((Date.now()-state.startAt)/1000))
+    );
 
-      // 409 означает, что session_id уже есть: предыдущая отправка дошла,
-      // а браузер попытался повторить её. Для студента это успех.
-      if(response.ok || response.status===409){
-        state.submitted=true;
-        persistSession({submitted:true});
+    const body={
+      p_session_id:state.sessionId,
+      p_exam_code:EXAM_CODE,
+      p_exam_number:EXAM_NUMBER,
+      p_exam_title:EXAM_TITLE,
+      p_surname1:state.surname1,
+      p_surname2:state.solo?'':state.surname2,
+      p_solo:!!state.solo,
+      p_student_group:state.group,
+      p_variant:String(state.variant).padStart(2,'0'),
+      p_score:Number(score),
+      p_total:Number(total),
+      p_completed:Number(completedCount()),
+      p_task_count:Number(
+        (typeof getActiveTasks==='function') ? getActiveTasks().length : tasks.length
+      ),
+      p_elapsed_seconds:Number(elapsed),
+      p_elapsed_text:formatTime(elapsed),
+      p_answers:buildAnswerDetailRows()
+    };
 
-        // Главный результат уже сохранён. Подробный разбор отправляем отдельно,
-        // но его временная ошибка больше не помечает всю работу как несданную.
-        let detailsOk=true;
-        try{
-          await submitAnswerDetailsToSupabase();
-        }catch(detailsErr){
-          detailsOk=false;
-          console.warn('Подробный разбор не отправлен:',detailsErr);
+    let lastError='';
+
+    for(let attempt=1;attempt<=2;attempt++){
+      try{
+        const response=await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_exam_work`,{
+          method:'POST',
+          headers:{
+            'apikey':SUPABASE_PUBLISHABLE_KEY,
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify(body)
+        });
+
+        const raw=await response.text();
+        let data=null;
+        try{data=JSON.parse(raw)}catch(e){}
+
+        if(response.ok && data?.ok===true){
+          state.submitted=true;
+          persistSession({submitted:true});
+          setSubmitStatus(
+            `✓ Результат отправлен: ${data.score}/${data.total}, ${data.percent}%, оценка ${data.grade}.`,
+            'success'
+          );
+          if(retry)retry.style.display='none';
+          return true;
         }
 
-        if(detailsOk){
-          setSubmitStatus('✓ Результат и подробный разбор отправлены преподавателю.','success');
-        }else{
-          setSubmitStatus('✓ Оценка отправлена. Подробный разбор ошибок временно не отправился.','success');
-        }
+        lastError=`HTTP ${response.status}${raw?' · '+raw.slice(0,220):''}`;
 
-        if(retry)retry.style.display='none';
-        return true;
+        // Повторяем только временные серверные ошибки.
+        if(response.status<500 || attempt===2)break;
+      }catch(err){
+        lastError=String(err?.message||err||'Ошибка сети');
+        if(attempt===2)break;
       }
 
-      let detail='';
-      try{detail=(await response.text()).slice(0,240);}catch(e){}
-      throw new Error(`HTTP ${response.status}${detail?' · '+detail:''}`);
-    }catch(err){
-      state.submitted=false;
-      persistSession({submitted:false});
-      setSubmitStatus('Не удалось отправить результат. Проверьте интернет и нажмите «Повторить отправку».','error');
-      if(retry)retry.style.display='inline-block';
-      return false;
+      await new Promise(resolve=>setTimeout(resolve,900));
     }
+
+    state.submitted=false;
+    persistSession({submitted:false});
+
+    setSubmitStatus(
+      `Не удалось отправить результат. ${lastError ? 'Диагностика: '+lastError : 'Проверьте интернет.'}`,
+      'error'
+    );
+
+    if(retry)retry.style.display='inline-block';
+    return false;
   }
 
   function startSession(){
@@ -2010,7 +2029,7 @@ main{margin-top:18px;}
   $('#retrySubmit')?.addEventListener('click',()=>submitResultToSupabase());
   $('#backToTopics')?.addEventListener('click',()=>{
     try{localStorage.removeItem(SESSION_KEY);}catch(e){}
-    location.href='../../';
+    location.href='/ai-lifecycle-exam/';
   });
   $('#closeFinal')?.addEventListener('click',()=>$('#finalOverlay')?.classList.remove('show'));
   $('#restartFinal')?.addEventListener('click',()=>{
@@ -2054,5 +2073,5 @@ main{margin-top:18px;}
 
   updateProgress();
 })();</script>
-<div class="access-gate" id="accessGate"><div class="access-gate-panel"><div class="access-gate-title">Проверяем доступ…</div><div class="access-gate-text" id="accessGateText">Подтверждаем код практического занятия.</div><a class="access-gate-back" href="../../" id="accessGateBack" style="display:none">Вернуться к темам</a></div></div></body>
+<div class="access-gate" id="accessGate"><div class="access-gate-panel"><div class="access-gate-title">Проверяем доступ…</div><div class="access-gate-text" id="accessGateText">Подтверждаем код практического занятия.</div><a class="access-gate-back" href="/ai-lifecycle-exam/" id="accessGateBack" style="display:none">Вернуться к темам</a></div></div></body>
 </html>
